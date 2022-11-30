@@ -63,7 +63,11 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer.begin();
         batch.begin();
         batch.draw(background, 0, 0);
-        batch.draw(player.getTexture(), player.getX() - player.getWidth() / 2, player.getY() - player.getHeight() / 2);
+        batch.draw(
+                player.getTexture(),
+                player.getX() - (float) player.getWidth() / 2,
+                player.getY() - (float) player.getHeight() / 2
+        );
         batch.end();
         sceneFrameBuffer.end();
 
