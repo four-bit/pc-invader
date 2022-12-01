@@ -23,15 +23,14 @@ public class PcInvader extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        background = new Texture("background.png");
+        background = new Texture("levels/level-boss.bg.png");
         player = new Player(
                 GAME_WIDTH / 2,
                 GAME_HEIGHT / 2,
-                500,
+                20,
                 8,
                 3,
-                true,
-                "player/lvl3-default.png"
+                true
         );
 
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
@@ -44,20 +43,7 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void render() {
-        int playerMovement = (int) (player.getSpeed() * Gdx.graphics.getDeltaTime());
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
-            player.setX(player.getX() - playerMovement);
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-            player.setX(player.getX() + playerMovement);
-        if (Gdx.input.isKeyPressed(Input.Keys.W))
-            player.setY(player.getY() + playerMovement);
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
-            player.setY(player.getY() - playerMovement);
-
-        if ((player.getX() - player.getWidth() / 2) < 0) player.setX(player.getWidth() / 2);
-        if ((player.getX() + player.getWidth() / 2) > GAME_WIDTH) player.setX(GAME_WIDTH - player.getWidth() / 2);
-        if ((player.getY() - player.getHeight() / 2) < 0) player.setY(player.getHeight() / 2);
-        if ((player.getY() + player.getHeight() / 2) > GAME_HEIGHT) player.setY(GAME_HEIGHT - player.getHeight() / 2);
+        player.update();
 
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -70,6 +56,7 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer.begin();
         batch.begin();
         batch.draw(background, 0, 0);
+        player.getExhaustEffect().draw(batch, Gdx.graphics.getDeltaTime());
         batch.draw(
                 player.getTexture(),
                 player.getX() - (float) player.getWidth() / 2,
