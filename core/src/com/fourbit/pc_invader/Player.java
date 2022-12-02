@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sun.tools.javac.main.Option;
@@ -14,6 +15,7 @@ import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 public class Player {
     private int x, y, speed, healthPoints, shieldPoints;
     private boolean hasShield;
+    private float angle;
     private Texture texture;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
@@ -26,18 +28,16 @@ public class Player {
         this.healthPoints = 0;
         this.shieldPoints = -1;
         this.hasShield = false;
-        this.exhaustTextureAtlas = new TextureAtlas();
-        this.exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("player/exhaust_particle.png")));
-        this.exhaustEffect = new ParticleEffect();
-        this.exhaustEffect.load(Gdx.files.internal("player/exhaust.p"), exhaustTextureAtlas);
-        this.exhaustEffect.start();
+        this.angle = 0.0f;
+        this.initGraphics();
     }
 
     Player(
             int x, int y,
             int speed,
             int maxHealth,
-            int maxShield, boolean hasShield
+            int maxShield, boolean hasShield,
+            float angle
     ) {
         this.x = x;
         this.y = y;
@@ -45,6 +45,11 @@ public class Player {
         this.healthPoints = maxHealth;
         this.shieldPoints = maxShield;
         this.hasShield = hasShield;
+        this.angle = angle;
+        this.initGraphics();
+    }
+
+    public void initGraphics() {
         this.texture = new Texture("player/lvl3-default.png");
         this.exhaustTextureAtlas = new TextureAtlas();
         this.exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("player/exhaust_particle.png")));
@@ -58,10 +63,12 @@ public class Player {
     public int getSpeed() { return this.speed; }
     public int getHealthPoints() { return this.healthPoints; }
     public int getShieldPoints() { return this.hasShield ? this.shieldPoints : -1; }
+    public float getAngle() { return this.angle; }
     public Texture getTexture() { return this.texture; }
     public ParticleEffect getExhaustEffect() { return exhaustEffect; }
     public int getWidth() { return this.texture.getWidth(); }
     public int getHeight() { return this.texture.getHeight(); }
+
 
     public void setX(int val) { this.x = val; }
     public void setY(int val) { this.y = val; }
@@ -83,6 +90,7 @@ public class Player {
             throw new Option.InvalidValueException("val cannot be negative.");
         }
     }
+    public void setAngle(float val) { this.angle = val; }
 
     public void disableShield() {
         this.hasShield = false;
@@ -90,6 +98,8 @@ public class Player {
     }
 
     public void update() {
+        // TODO: implement aiming base on cursor position
+
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             this.x -= this.speed;
         if (Gdx.input.isKeyPressed(Input.Keys.D))
@@ -105,6 +115,9 @@ public class Player {
         if ((this.y + texture.getHeight() / 2) > GAME_HEIGHT) this.y = GAME_HEIGHT - texture.getHeight() / 2;
 
         exhaustEffect.setPosition(this.x, this.y);
+        ParticleEmitter emitter = exhaustEffect.getEmitters().first();
+        emitter.getAngle().setHigh(this.angle - 180.0f);
+        emitter.getAngle().setLow(this.angle - 180.0f);
     }
 
     public void dispose() {

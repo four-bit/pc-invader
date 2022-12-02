@@ -133,7 +133,7 @@ timeline4: 1.0
 - Options - 
 attached: false
 continuous: true
-aligned: false
+aligned: true
 additive: true
 behind: false
 premultipliedAlpha: false
