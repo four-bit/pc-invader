@@ -2,7 +2,6 @@ package com.fourbit.pc_invader;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -19,6 +18,8 @@ public class PcInvader extends ApplicationAdapter {
     public static final int GAME_WIDTH = 1920;
     public static final int GAME_HEIGHT = 1080;
 
+    public static float rot = 0.0f;
+
 
     @Override
     public void create() {
@@ -30,7 +31,8 @@ public class PcInvader extends ApplicationAdapter {
                 20,
                 8,
                 3,
-                true
+                true,
+                0.0f
         );
 
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
@@ -44,6 +46,9 @@ public class PcInvader extends ApplicationAdapter {
     @Override
     public void render() {
         player.update();
+        player.setAngle(rot);
+
+        PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
 
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -60,7 +65,20 @@ public class PcInvader extends ApplicationAdapter {
         batch.draw(
                 player.getTexture(),
                 player.getX() - (float) player.getWidth() / 2,
-                player.getY() - (float) player.getHeight() / 2
+                player.getY() - (float) player.getHeight() / 2,
+                (float) player.getWidth() / 2,
+                (float) player.getHeight() / 2,
+                player.getWidth(),
+                player.getHeight(),
+                1.0f,
+                1.0f,
+                player.getAngle(),
+                0,
+                0,
+                player.getWidth(),
+                player.getHeight(),
+                false,
+                false
         );
         batch.end();
         sceneFrameBuffer.end();
