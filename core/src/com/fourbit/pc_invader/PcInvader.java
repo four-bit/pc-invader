@@ -10,6 +10,7 @@ import com.fourbit.pc_invader.ui.GameHUD;
 
 
 public class PcInvader extends ApplicationAdapter {
+    private boolean debug;
     private SpriteBatch batch;
     private Texture background;
     private OrthographicCamera viewportCamera;
@@ -25,6 +26,8 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void create() {
+        debug = true;  // TODO: Change this to false for production
+
         batch = new SpriteBatch();
         background = new Texture("levels/level-boss.bg.png");
         player = new Player(
@@ -40,7 +43,7 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        gameHud = new GameHUD();
+        gameHud = new GameHUD(this, player);
 
         viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
         viewportCamera.position.set(0.5f * viewportCamera.viewportWidth, 0.5f * viewportCamera.viewportHeight, 0.0f);
@@ -92,8 +95,9 @@ public class PcInvader extends ApplicationAdapter {
         batch.begin();
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         batch.draw(sceneFrameBuffer.getColorBufferTexture(), 0, GAME_HEIGHT, GAME_WIDTH, -GAME_HEIGHT);
-        gameHud.draw();
         batch.end();
+
+        gameHud.draw();
     }
 
     @Override
@@ -104,4 +108,6 @@ public class PcInvader extends ApplicationAdapter {
         player.dispose();
         gameHud.dispose();
     }
+
+    public boolean isDebug() { return debug; }
 }
