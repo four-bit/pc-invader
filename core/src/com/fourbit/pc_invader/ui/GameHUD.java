@@ -13,4 +13,18 @@ public class GameHUD {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         stage = new Stage(new ScreenViewport());
     }
+
+
+    public void update() {
+
+    }
+
+    public void draw() {
+
+    }
+
+    public void dispose() {
+        skin.dispose();
+        stage.dispose();
+    }
 }

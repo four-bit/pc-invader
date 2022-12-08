@@ -54,6 +54,8 @@ public class PcInvader extends ApplicationAdapter {
 
         PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
 
+        gameHud.update();
+
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
         Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST); // re-enabled each frame because UI changes GL state
@@ -90,6 +92,7 @@ public class PcInvader extends ApplicationAdapter {
         batch.begin();
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         batch.draw(sceneFrameBuffer.getColorBufferTexture(), 0, GAME_HEIGHT, GAME_WIDTH, -GAME_HEIGHT);
+        gameHud.draw();
         batch.end();
     }
 
@@ -99,5 +102,6 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer.dispose();
         background.dispose();
         player.dispose();
+        gameHud.dispose();
     }
 }
