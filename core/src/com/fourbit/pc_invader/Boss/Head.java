@@ -3,10 +3,16 @@ package com.fourbit.pc_invader.Boss;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.sun.tools.javac.main.Option;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.FileHandler;
+import java.util.Scanner;
 import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
 import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 import static java.lang.Math.toRadians;
@@ -16,11 +22,12 @@ public class Head {
     private int x, y;
     private Texture texture;
     private float speed, angle;
-    public enum State {GOINGUP,GOINGDOWN,UNDERGROUND,SNED};
+    public enum State {GOINGDOWN,GOINGDOWNLEFT,GOINGLEFT,GOINGUPLEFT,GOINGUP,GOINGUPRIGHT,GOINGRIGHT,GOINGDOWNRIGHT,STAND};
     public State state=State.GOINGUP;
-
+    private FileHandle handle = Gdx.files.internal("boss/location.txt");
+    private String[] text;
     public int currentHeight = 800;
-
+    private ArrayList<HashMap<String,Integer>> location = new ArrayList<>();
 
 
     public Head(int x, int y, int speed) {
@@ -28,10 +35,27 @@ public class Head {
         this.y = y;
         this.speed = speed;
         this.initGraphics();
+        text = handle.readString().split("\n");
+        for (String string : text) {
+            System.out.println(string);
+        }
+        String[] header = text[0].split(",");
+
+        for (int i = 1; i<text.length; i++) {
+            String[] line = text[i].split(",");
+            HashMap<String, Integer> row = new HashMap<>();
+            for (int n = 0; n < 2; n++) {
+                row.put(header[n], Integer.parseInt(line[n]));
+            }
+            location.add(row);
+        }
+        for (HashMap<String,Integer> row : location){
+            System.out.println(row.get("x"));
+        }
     }
 
     public void initGraphics() {
-        this.texture = new Texture("boss/Boss-head3.png");
+        this.texture = new Texture("boss/wormhead.png");
     }
 
     public int getX() {
@@ -66,27 +90,120 @@ public class Head {
         this.texture = texture;
     }
 
+    public ArrayList<HashMap<String, Integer>> getLocation() {
+        return location;
+    }
 
-    public void update() {
-//        switch (state) {
-//            case GOINGUP:
-//                this.x += this.speed*2;
-////                this.y += this.speed;
-//                if (this.x > currentHeight) {
-//                    state = State.GOINGDOWN;
-//                    currentHeight = 800;
-//                }
-//            break;
-//            case GOINGDOWN:
-//                this.x -= this.speed*2;
-////                this.y -= this.speed;
-//                    if(this.x < currentHeight){
-//                    currentHeight  = 1000;
-//                    state = State.GOINGUP;
-//                }
-//                break;
+    public void setLocation(ArrayList<HashMap<String, Integer>> location) {
+        this.location = location;
+    }
+
+    public void checkDirection(int x, int y){
+        if (this.x > x && this.y > y) {
+            this.state =  State.GOINGDOWNLEFT;
+        }
+        if (this.x > x && this.y == y){
+            this.state = State.GOINGLEFT;
+        }
+        if (this.x > x && this.y < y){
+            this.state = State.GOINGUPLEFT;
+        }
+        if (this.x == x && this.y < y){
+            this.state = State.GOINGUP;
+        }
+        if (this.x < x && this.y < y){
+            this.state = State.GOINGUPRIGHT;
+        }
+        if (this.x < x && this.y == y ){
+            this.state = State.GOINGRIGHT;
+        }
+        if (this.x == x && this.y > y){
+            this.state =  State.GOINGDOWNRIGHT;
+        }
+        if(this.x==x && this.y == y){
+            this.state = State.STAND;
+        }
+    }
+    public void update(int x, int y) {
+        switch (state) {
+            case GOINGDOWN:
+                this.y -= this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGDOWNLEFT:
+                this.x -= this.speed;
+                this.y -= this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGLEFT:
+                this.x -= this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGUPLEFT:
+                this.x -= this.speed;
+                this.y += this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGUP:
+                this.y += this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGUPRIGHT:
+                this.x += this.speed;
+                this.y += this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGRIGHT:
+                this.x += this.speed;
+                checkDirection(x,y);
+                break;
+            case GOINGDOWNRIGHT:
+                this.x += this.speed;
+                this.y -= this.speed;
+                checkDirection(x,y);
+                break;
+            case STAND:
+                this.x +=0;
+                this.y +=0;
+                checkDirection(x,y);
+                break;
+        }
+//        //GO DOWN
+//        if (this.x == x && this.y > y){
+//            this.y -= this.speed;
 //        }
-    this.x -= this.speed;
+//        //GO DOWN-LEFT
+//        if (this.x > x && this.y > y){
+//            this.x -= this.speed;
+//            this.y -= this.speed;
+//        }
+//        //GO LEFT
+//        if (this.x > x && this.y == y){
+//            this.x -= this.speed;
+//        }
+//        //GO UP-LEFT
+//        if (this.x > x && this.y < y){
+//            this.x -= this.speed;
+//            this.y += this.speed;
+//        }
+//        //GO UP
+//        if (this.x == x && this.y < y){
+//            this.y += this.speed;
+//        }
+//        //GO UP-RIGHT
+//        if (this.x < x && this.y < y){
+//            this.x += this.speed;
+//            this.y += this.speed;
+//        }
+//        //GO RIGHT
+//        if (this.x < x && this.y == y ){
+//            this.x += this.speed;
+//        }
+//        //GO DOWN-RIGHT
+//        if (this.x < x && this.y > y){
+//            this.x += this.speed;
+//            this.y -= this.speed;
+//        }
     }
 }
 

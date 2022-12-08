@@ -21,7 +21,7 @@ public class Body {
     }
 
     public void initGraphics() {
-        this.texture = new Texture("boss/Boss-body3.png");
+        this.texture = new Texture("boss/wormbody.png");
     }
 
 
