@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.fourbit.pc_invader.ui.GameHUD;
 
 
 public class PcInvader extends ApplicationAdapter {
@@ -14,6 +15,7 @@ public class PcInvader extends ApplicationAdapter {
     private OrthographicCamera viewportCamera;
     private FrameBuffer sceneFrameBuffer;
     private Player player;
+    private GameHUD gameHud;
 
     public static final int GAME_WIDTH = 1920;
     public static final int GAME_HEIGHT = 1080;
@@ -37,6 +39,8 @@ public class PcInvader extends ApplicationAdapter {
 
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        gameHud = new GameHUD();
 
         viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
         viewportCamera.position.set(0.5f * viewportCamera.viewportWidth, 0.5f * viewportCamera.viewportHeight, 0.0f);
