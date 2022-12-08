@@ -90,7 +90,14 @@ public class PcInvader extends ApplicationAdapter {
 //            bodies.get(0).update(head.getX() -head.getTexture().getWidth());
 //        }
 
-        boss.update(i);
+        if(i < boss.getHead().getLocation().size()-1){
+            boss.update(i);
+            i+=Gdx.graphics.getDeltaTime()*100;
+        }
+        else {
+            i=0;
+        }
+        System.out.println();
         player.setAngle(rot);
         PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
 
@@ -158,13 +165,7 @@ public class PcInvader extends ApplicationAdapter {
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         batch.draw(sceneFrameBuffer.getColorBufferTexture(), 0, GAME_HEIGHT, GAME_WIDTH, -GAME_HEIGHT);
         batch.end();
-        if(i < boss.getHead().getLocation().size()-1){
-            i++;
-            boss.update(i);
-        }
-        else {
-            i=0;
-        }
+
 
     }
         @Override
