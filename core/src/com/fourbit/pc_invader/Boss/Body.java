@@ -6,13 +6,17 @@ public class Body {
     private int x, y, speed;
     private Texture texture;
     private float angle;
-    public enum State {GOINGUP,GOINGDOWN,UNDERGROUND,SNED};
-    public State state= State.GOINGUP;
+
+    public enum State {GOINGUP, GOINGDOWN, UNDERGROUND, SNED}
+
+    ;
+    public State state = State.GOINGUP;
     public int currentHeight = 800;
 
-    public Body(int x, int y, int speed){
+    public Body(int x, int y, int speed) {
         this.x = x;
         this.y = y;
+        this.speed = speed;
         this.initGraphics();
     }
 
@@ -61,9 +65,15 @@ public class Body {
         this.angle = angle;
     }
 
-    public void update(int x, int y){
-            this.x = x;
-            this.y = y;
+    public void update() {
+////        if (this.x >x) {
+//            this.x -= this.speed;
+////        }
+////        if (this.x < x){
+//            this.x += this.speed;
+        this.x -=speed;
         }
+    }
 
-}
+
+

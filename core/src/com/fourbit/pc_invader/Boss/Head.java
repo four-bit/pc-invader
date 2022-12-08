@@ -68,23 +68,25 @@ public class Head {
 
 
     public void update() {
-        switch (state) {
-            case GOINGUP:
-                this.x += this.speed*2;
-                this.y += this.speed;
-                if (this.x > currentHeight) {
-                    state = State.GOINGDOWN;
-                    currentHeight = 800;
-                }
-            break;
-            case GOINGDOWN:
-                this.x -= this.speed*2;
-                this.y -= this.speed;
-                    if(this.x < currentHeight){
-                    currentHeight  = 1000;
-                    state = State.GOINGUP;
-                }
-                break;
-        }
+//        switch (state) {
+//            case GOINGUP:
+//                this.x += this.speed*2;
+////                this.y += this.speed;
+//                if (this.x > currentHeight) {
+//                    state = State.GOINGDOWN;
+//                    currentHeight = 800;
+//                }
+//            break;
+//            case GOINGDOWN:
+//                this.x -= this.speed*2;
+////                this.y -= this.speed;
+//                    if(this.x < currentHeight){
+//                    currentHeight  = 1000;
+//                    state = State.GOINGUP;
+//                }
+//                break;
+//        }
+    this.x -= this.speed;
     }
 }
+

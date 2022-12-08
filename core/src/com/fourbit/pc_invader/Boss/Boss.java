@@ -1,6 +1,7 @@
 package com.fourbit.pc_invader.Boss;
 
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,24 +16,15 @@ public class Boss {
     private int x, y, speed;
     private Head head;
 
-    private Array<Body> bodies = new Array<>();
     private float angle;
     private SpriteBatch batch;
-
+    private Sprite sprite;
     public Boss(int x, int y, int speed) {
         this.x = x;
         this.y = y;
         this.speed = speed;
-        this.angle = angle;
-        for (int i = 0; i < bodies.size; i++) {
-            bodies.add(new Body(x,y, speed));
-        }
-        head = new Head(x,y,speed);
     }
 
-    public float getAngle() {
-        return angle;
-    }
 
     public int getX() {
         return x;
@@ -41,11 +33,9 @@ public class Boss {
     public int getY() {
         return y;
     }
-
     public int getSpeed() {
         return speed;
     }
-
 
 
     public void setY(int y) {
@@ -65,16 +55,12 @@ public class Boss {
         this.angle = angle;
     }
 
-    public void renderGame(){
-        batch.draw(
-                head.getTexture(),
-                this.getX() -(float)head.getTexture().getWidth(),
-                this.getY() - (float) head.getTexture().getHeight() ,
-                head.getTexture().getWidth() * 5,
-                head.getTexture().getHeight() * 5
-        );
+    public void update(){
+        head.update();
+
 
     }
-}
+   }
+
 
 

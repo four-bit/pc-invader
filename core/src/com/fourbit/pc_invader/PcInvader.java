@@ -19,14 +19,13 @@ public class PcInvader extends ApplicationAdapter {
     private FrameBuffer sceneFrameBuffer;
     private Player player;
     private Head head;
-    private Body body;
     private Array<Body> bodies = new Array<>();
     public static final int GAME_WIDTH = 1920;
     public static final int GAME_HEIGHT = 1080;
 
     public static float rot = 0.0f;
-
-
+    private float timeSecond = 0;
+    private float locateX, locateY;
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -45,11 +44,6 @@ public class PcInvader extends ApplicationAdapter {
                 GAME_HEIGHT / 2,
                 2
         );
-//        body = new Body(
-//                GAME_WIDTH / 2,
-//                GAME_HEIGHT / 2,
-//                50
-//        );
 
         for (int i = 0; i < 7; i++) {
             bodies.add(new Body(
@@ -58,6 +52,13 @@ public class PcInvader extends ApplicationAdapter {
                     2
             ));
         }
+//        for (int i = 0; i < 7; i++) {
+//            bodies.add(new Body(
+//                    GAME_WIDTH / 2,
+//                    GAME_HEIGHT / 2,
+//                    2
+//            ));
+//        }
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -69,7 +70,25 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void render() {
+        timeSecond += Gdx.graphics.getDeltaTime();
         player.update();
+
+        for (int i = 1; i < 7; i++) {
+            if(bodies.get(i).getX() - bodies.get(i-1).getX() > bodies.get(i-1).getTexture().getWidth()/6) {
+                bodies.get(i).update();
+            }
+//            if(-(bodies.get(i-1).getX() - bodies.get(i).getX()) > bodies.get(i-1).getTexture().getWidth()/6) {
+//                bodies.get(i).update(bodies.get(i-1).getX());
+//            }
+        }
+//        if (bodies.get(0).getX()-(head.getX() -(float)head.getTexture().getWidth()) > head.getTexture().getWidth()/6){
+//            bodies.get(0).update(head.getX() -head.getTexture().getWidth());
+//        }
+//        if ((head.getX() -(float)head.getTexture().getWidth()) -bodies.get(0).getX() > head.getTexture().getWidth()/6){
+//            bodies.get(0).update(head.getX() -head.getTexture().getWidth());
+//        }
+
+
         head.update();
         player.setAngle(rot);
         PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
@@ -112,25 +131,24 @@ public class PcInvader extends ApplicationAdapter {
                 head.getTexture().getWidth() * 5,
                 head.getTexture().getHeight() * 5
         );
-        batch.draw(
-                bodies.get(0).getTexture(),
-                bodies.get(0).getX(),
-                bodies.get(0).getY(),
-                bodies.get(0).getTexture().getWidth() * 5,
-                bodies.get(0).getTexture().getHeight() * 5
-        );
-        bodies.get(0).update(head.getX(), head.getY());
-        for (int i = 1; i < 7; i++) {
+
+                batch.draw(
+                        bodies.get(0).getTexture(),
+                        head.getX() - (float) bodies.get(0).getTexture().getWidth() + (float) bodies.get(0).getTexture().getWidth() / 2,
+                        head.getY() - (float) bodies.get(0).getTexture().getHeight(),
+                        bodies.get(0).getTexture().getWidth() * 5,
+                        bodies.get(0).getTexture().getHeight() * 5
+                );
+                bodies.get(0).setX(head.getX() - bodies.get(0).getTexture().getWidth() + bodies.get(0).getTexture().getWidth() / 2);
+        for (int i =1; i < 7; i++) {
             batch.draw(
                     bodies.get(i).getTexture(),
-                    bodies.get(i).getX(),
-                    bodies.get(i).getY(),
+                    bodies.get(i).getX() ,
+                    bodies.get(i).getY() ,
                     bodies.get(i).getTexture().getWidth() * 5,
                     bodies.get(i).getTexture().getHeight() * 5
             );
-            bodies.get(i).update(bodies.get(i-1).getX(),bodies.get(i-1).getY());
         }
-
 
         batch.end();
         sceneFrameBuffer.end();
