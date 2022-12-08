@@ -43,7 +43,7 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        gameHud = new GameHUD(this, player);
+        gameHud = new GameHUD(this);
 
         viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
         viewportCamera.position.set(0.5f * viewportCamera.viewportWidth, 0.5f * viewportCamera.viewportHeight, 0.0f);
@@ -57,7 +57,7 @@ public class PcInvader extends ApplicationAdapter {
 
         PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
 
-        gameHud.update();
+        gameHud.updateFrom(player);
 
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
