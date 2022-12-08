@@ -2,11 +2,14 @@ package com.fourbit.pc_invader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.sun.tools.javac.main.Option;
 import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
 import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
@@ -19,6 +22,11 @@ public class Player {
     private Texture texture;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
+
+    private Vector2 Heading = new Vector2();
+    private final Vector2 mouseInWorld2D = new Vector2();
+    private final Vector3 mouseInWorld3D = new Vector3();
+    private final OrthographicCamera cam  = new OrthographicCamera();
 
     Player() {
         this.texture = null;
@@ -118,6 +126,14 @@ public class Player {
         ParticleEmitter emitter = exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(this.angle - 180.0f);
         emitter.getAngle().setLow(this.angle - 180.0f);
+
+        mouseInWorld3D.x = Gdx.input.getX(); // Get mouse location
+        mouseInWorld3D.y = Gdx.input.getY();
+        mouseInWorld3D.z = 0;
+        cam.unproject(mouseInWorld3D); // return x,y coordinate on the screen (read method documentation)
+        mouseInWorld2D.x = mouseInWorld3D.x;
+        mouseInWorld2D.y = mouseInWorld3D.y;
+        this.angle = mouseInWorld2D.angleDeg(); // Set player angle to angle of vector
     }
 
     public void dispose() {
