@@ -55,7 +55,7 @@ public class PcInvader extends ApplicationAdapter {
         player.update();
         player.setAngle(rot);
 
-        PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
+        rot = player.getAngle() > 360 ? 0 : (rot + player.getSpeed() * 15 * Gdx.graphics.getDeltaTime());
 
         gameHud.updateFrom(player);
 
