@@ -58,6 +58,9 @@ public class PcInvader extends ApplicationAdapter {
     @Override
     public void render() {
         player.update();
+//        player.setAngle(190); //TODO: Mouse position input here, edit the setAngle create method to set angle
+
+//        PcInvader.rot = 90;
         boss.update();
 
 
@@ -82,9 +85,6 @@ public class PcInvader extends ApplicationAdapter {
 //        }
 //        System.out.println();
 
-
-        player.setAngle(rot);
-        PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
 
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
