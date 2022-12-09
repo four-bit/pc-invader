@@ -2,20 +2,12 @@ package com.fourbit.pc_invader.Boss;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.sun.tools.javac.main.Option;
-import com.badlogic.gdx.utils.Array;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.FileHandler;
-import java.util.Scanner;
-import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
-import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
-import static java.lang.Math.toRadians;
+
 
 public class Head {
 
@@ -26,10 +18,8 @@ public class Head {
     public State state=State.GOINGUP;
     private FileHandle handle = Gdx.files.internal("boss/location.txt");
     private String[] text;
-    public int currentHeight = 800;
     private ArrayList<HashMap<String,Integer>> location = new ArrayList<>();
-    private int delta;
-    private int i;
+    private int locationNum;
 
 
     public Head(int x, int y, int speed) {
@@ -135,90 +125,53 @@ public class Head {
         switch (state) {
             case GOINGDOWN:
                 this.y -= this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGDOWNLEFT:
                 this.x -= this.speed;
                 this.y -= this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGLEFT:
                 this.x -= this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGUPLEFT:
                 this.x -= this.speed;
                 this.y += this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGUP:
                 this.y += this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGUPRIGHT:
                 this.x += this.speed;
                 this.y += this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGRIGHT:
                 this.x += this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case GOINGDOWNRIGHT:
                 this.x += this.speed;
                 this.y -= this.speed;
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
                 break;
             case STAND:
-                if (i < this.location.size()-1) {
-                    this.i++;
+                if (locationNum < this.location.size()-1) {
+                    this.locationNum++;
                 }else {
-                    i=0;
+                    locationNum=0;
                 }
-                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+                checkDirection(location.get(locationNum).get("x"),location.get(locationNum).get("y"));
 
-                System.out.println(i);
+                System.out.println(locationNum);
 
-                System.out.println(location.get(i).get("x"));
+                System.out.println(location.get(locationNum).get("x"));
                 break;
         }
-
-        // GO DOWN
-//        if (this.x == x && this.y > y){
-//            this.y -= this.speed;
-//        }
-//        //GO DOWN-LEFT
-//        if (this.x > x && this.y > y){
-//            this.x -= this.speed;
-//            this.y -= this.speed;
-//        }
-//        //GO LEFT
-//        if (this.x > x && this.y == y){
-//            this.x -= this.speed;
-//        }
-//        //GO UP-LEFT
-//        if (this.x > x && this.y < y){
-//            this.x -= this.speed;
-//            this.y += this.speed;
-//        }
-//        //GO UP
-//        if (this.x == x && this.y < y){
-//            this.y += this.speed;
-//        }
-//        //GO UP-RIGHT
-//        if (this.x < x && this.y < y){
-//            this.x += this.speed;
-//            this.y += this.speed;
-//        }
-//        //GO RIGHT
-//        if (this.x < x && this.y == y ){
-//            this.x += this.speed;
-//        }
-//        //GO DOWN-RIGHT
-//        if (this.x < x && this.y > y){
-//            this.x += this.speed;
-//            this.y -= this.speed;
-//        }
     }
 }
 

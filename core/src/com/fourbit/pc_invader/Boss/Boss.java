@@ -1,33 +1,18 @@
 package com.fourbit.pc_invader.Boss;
 
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.sun.tools.javac.main.Option;
+
 import com.badlogic.gdx.utils.Array;
-import  com.badlogic.gdx.utils.Timer;
 
-import java.util.TimerTask;
 
-import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
-import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
 
 public class Boss {
     private int x, y, speed;
     private Head head;
-    private Timer timer;
-    private TimerTask timerTask;
-    public int delta;
-
     private Array<Body> bodies = new Array<>();
     private float angle;
-    private SpriteBatch batch;
-    private Sprite sprite;
-    private int i;
+
     public Boss(int x, int y, int speed) {
         this.x = x;
         this.y = y;
@@ -105,22 +90,6 @@ public class Boss {
 
     public void update() {
         head.update();
-
-//        head.update(head.getLocation().get(i).get("x"), head.getLocation().get(i).get("y"));
-//
-//        delta += Gdx.graphics.getDeltaTime()*100;
-//        System.out.println(delta);
-//        if (delta ==60){
-//            if (i < this.location.size()-1) {
-//                i++;
-//                delta = 0;
-//                System.out.println(i);
-//            }else {
-//                i=0;
-//                delta = 0;
-//                System.out.println(i);
-//            }
-//        }//
     }
 }
 

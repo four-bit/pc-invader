@@ -10,8 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.Boss.Body;
 import com.fourbit.pc_invader.Boss.Boss;
 import com.fourbit.pc_invader.Boss.Head;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class PcInvader extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -25,9 +24,6 @@ public class PcInvader extends ApplicationAdapter {
     public static final int GAME_HEIGHT = 1080;
     private Boss boss;
     public static float rot = 0.0f;
-    private float timeSecond = 0;
-    private float locateX, locateY;
-    public int i;
 
 
     @Override
