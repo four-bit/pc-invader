@@ -77,7 +77,7 @@ public class Player {
         emitter.getAngle().setLow(this.angle - 180.0f);
 
 
-        this.angle = PcInvader.getMouseCoords().sub(this.getBearing()).angleDeg();
+        this.angle = 180 - this.getAngleVector().angleDeg();
     }
 
     public void dispose() {
@@ -101,6 +101,10 @@ public class Player {
         bearing2D.y = bearing3D.y;
 
         return bearing2D;
+    }
+
+    public Vector2 getAngleVector() {
+        return this.getBearing().sub(PcInvader.getMouseCoords());
     }
 
     public void initGraphics() {

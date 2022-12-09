@@ -49,8 +49,11 @@ public class GameHUD {
             debugInfoLabels.put("playerShield", new Label("playerShield", skin));
             debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
             debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
+            debugInfoLabels.put("playerBearing", new Label("playerBearing", skin));
             debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
+            debugInfoLabels.put("playerAngleVector", new Label("playerAngleVector", skin));
             debugInfoLabels.put("mousePosition", new Label("mousePosition", skin));
+            debugInfoLabels.put("mouseVector", new Label("mouseVector", skin));
 
             for (Label label : debugInfoLabels.values()) {
                 debugRoot.add(label);
@@ -65,15 +68,20 @@ public class GameHUD {
 
 
     public void updateFrom(Player player) {
-        Vector2 mousePosition =  PcInvader.getMouseCoords();
+        Vector2 mouseVector = PcInvader.getMouseCoords();
+        Vector2 playerBearing = player.getBearing();
+        Vector2 playerAngleVector = player.getAngleVector();
 
         if (debugMode) {
             debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + player.getHealthPoints());
             debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + player.getShieldPoints() + (player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
             debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + player.getSpeed());
             debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + player.getX() + " []Y:[YELLOW]" + player.getY());
+            debugInfoLabels.get("playerBearing").setText("[]Player bearing: X:[YELLOW]" + playerBearing.x + " []Y:[YELLOW]" + playerBearing.y);
             debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngle());
-            debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + mousePosition.x + " []Y:[YELLOW]" + mousePosition.y);
+            debugInfoLabels.get("playerAngleVector").setText("[]Player angle vector: X:[YELLOW]" + playerAngleVector.x + " []Y:[YELLOW]" + playerAngleVector.y);
+            debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + Gdx.input.getX() + " []Y:[YELLOW]" + Gdx.input.getY());
+            debugInfoLabels.get("mouseVector").setText("[]Mouse vector: X:[YELLOW]" + mouseVector.x + " []Y:[YELLOW]" + mouseVector.y);
         }
     }
 

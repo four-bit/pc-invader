@@ -7,12 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.ui.GameHUD;
-import com.fourbit.pc_invader.boss.Body;
 import com.fourbit.pc_invader.boss.Boss;
-import com.fourbit.pc_invader.boss.Head;
 
 
 
@@ -36,7 +33,7 @@ public class PcInvader extends ApplicationAdapter {
         batch = new SpriteBatch();
         background = new Texture("levels/level-boss.bg.png");
         player = new Player(
-                GAME_WIDTH / 2,
+                GAME_WIDTH / 4,
                 GAME_HEIGHT / 2,
                 20,
                 8,
@@ -82,7 +79,17 @@ public class PcInvader extends ApplicationAdapter {
 
         sceneFrameBuffer.begin();
         batch.begin();
+
         batch.draw(background, 0, 0);
+
+        batch.draw(
+                boss.getHead().getTexture(),
+                boss.getHead().getX(),
+                boss.getHead().getY() ,
+                boss.getHead().getTexture().getWidth() ,
+                boss.getHead().getTexture().getHeight()
+        );
+
         player.getExhaustEffect().draw(batch, Gdx.graphics.getDeltaTime());
         batch.draw(
                 player.getTexture(),
@@ -101,14 +108,6 @@ public class PcInvader extends ApplicationAdapter {
                 player.getHeight(),
                 false,
                 false
-        );
-
-        batch.draw(
-                boss.getHead().getTexture(),
-                boss.getHead().getX(),
-                boss.getHead().getY() ,
-                boss.getHead().getTexture().getWidth() ,
-                boss.getHead().getTexture().getHeight()
         );
 
         batch.end();
@@ -140,7 +139,7 @@ public class PcInvader extends ApplicationAdapter {
         OrthographicCamera cam = new OrthographicCamera();
 
         mouseCoords3D.x = Gdx.input.getX();
-        mouseCoords3D.y = Gdx.input.getY();
+        mouseCoords3D.y = GAME_HEIGHT - Gdx.input.getY();
         mouseCoords3D.z = 0;
         cam.unproject(mouseCoords3D);
         mouseCoords2D.x = mouseCoords3D.x;
