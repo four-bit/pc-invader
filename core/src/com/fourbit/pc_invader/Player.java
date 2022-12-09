@@ -24,7 +24,6 @@ public class Player {
     private ParticleEffect exhaustEffect;
 
 
-
     Player() {
         this.texture = null;
         this.x = 0;
@@ -75,7 +74,6 @@ public class Player {
         ParticleEmitter emitter = exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(this.angle - 180.0f);
         emitter.getAngle().setLow(this.angle - 180.0f);
-
 
         this.angle = 180 - this.getAngleVector().angleDeg();
     }
