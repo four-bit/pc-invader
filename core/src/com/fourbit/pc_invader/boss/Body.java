@@ -9,7 +9,6 @@ public class Body {
 
     public enum State {GOINGUP, GOINGDOWN, UNDERGROUND, SNED}
 
-    ;
     public State state = State.GOINGUP;
     public int currentHeight = 800;
 
@@ -66,14 +65,13 @@ public class Body {
     }
 
     public void update() {
-////        if (this.x >x) {
-//            this.x -= this.speed;
-////        }
-////        if (this.x < x){
-//            this.x += this.speed;
-        this.x -=speed;
-        }
+        this.x -= speed;
     }
+
+    public void dispose() {
+        texture.dispose();
+    }
+}
 
 
 

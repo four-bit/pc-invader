@@ -171,5 +171,9 @@ public class Head {
                 break;
         }
     }
+
+    public void dispose() {
+        texture.dispose();
+    }
 }
 
