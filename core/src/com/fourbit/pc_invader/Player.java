@@ -23,10 +23,6 @@ public class Player {
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
 
-    private Vector2 Heading = new Vector2();
-    private final Vector2 mouseInWorld2D = new Vector2();
-    private final Vector3 mouseInWorld3D = new Vector3();
-    private final OrthographicCamera cam  = new OrthographicCamera();
 
     Player() {
         this.texture = null;
@@ -57,6 +53,58 @@ public class Player {
         this.initGraphics();
     }
 
+
+    // Player logic
+    public void update() {
+        if (Gdx.input.isKeyPressed(Input.Keys.A))
+            this.x -= this.speed;
+        if (Gdx.input.isKeyPressed(Input.Keys.D))
+            this.x += this.speed;
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+            this.y += this.speed;
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
+            this.y -= this.speed;
+
+        if ((this.x - texture.getWidth() / 2) < 0) this.x = texture.getWidth() / 2;
+        if ((this.x + texture.getWidth() / 2) > GAME_WIDTH) this.x = GAME_WIDTH - texture.getWidth() / 2;
+        if ((this.y - texture.getHeight() / 2) < 0) this.y = texture.getHeight() / 2;
+        if ((this.y + texture.getHeight() / 2) > GAME_HEIGHT) this.y = GAME_HEIGHT - texture.getHeight() / 2;
+
+        exhaustEffect.setPosition(this.x, this.y);
+        ParticleEmitter emitter = exhaustEffect.getEmitters().first();
+        emitter.getAngle().setHigh(this.angle - 180.0f);
+        emitter.getAngle().setLow(this.angle - 180.0f);
+
+        this.angle = 180 - this.getAngleVector().angleDeg();
+    }
+
+    public void dispose() {
+        this.texture.dispose();
+        this.exhaustEffect.dispose();
+        this.exhaustTextureAtlas.dispose();
+    }
+
+
+    // Utilities
+    public Vector2 getBearing() {
+        Vector2 bearing2D = new Vector2();
+        Vector3 bearing3D = new Vector3();
+        OrthographicCamera cam = new OrthographicCamera();
+
+        bearing3D.x = this.x;
+        bearing3D.y = this.y;
+        bearing3D.z = 0;
+        cam.unproject(bearing3D);
+        bearing2D.x = bearing3D.x;
+        bearing2D.y = bearing3D.y;
+
+        return bearing2D;
+    }
+
+    public Vector2 getAngleVector() {
+        return this.getBearing().sub(PcInvader.getMouseCoords());
+    }
+
     public void initGraphics() {
         this.texture = new Texture("player/lvl3-default.png");
         this.exhaustTextureAtlas = new TextureAtlas();
@@ -66,6 +114,8 @@ public class Player {
         this.exhaustEffect.start();
     }
 
+
+    // Getter and setters
     public int getX() { return x; }
     public int getY() { return y; }
     public int getSpeed() { return this.speed; }
@@ -77,7 +127,6 @@ public class Player {
     public ParticleEffect getExhaustEffect() { return exhaustEffect; }
     public int getWidth() { return this.texture.getWidth(); }
     public int getHeight() { return this.texture.getHeight(); }
-
 
     public void setX(int val) { this.x = val; }
     public void setY(int val) { this.y = val; }
@@ -100,46 +149,8 @@ public class Player {
         }
     }
     public void setAngle(float val) { this.angle = val; }
-
     public void disableShield() {
         this.hasShield = false;
         this.shieldPoints = -1;
-    }
-
-    public void update() {
-        // TODO: implement aiming base on cursor position
-
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
-            this.x -= this.speed;
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-            this.x += this.speed;
-        if (Gdx.input.isKeyPressed(Input.Keys.W))
-            this.y += this.speed;
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
-            this.y -= this.speed;
-
-        if ((this.x - texture.getWidth() / 2) < 0) this.x = texture.getWidth() / 2;
-        if ((this.x + texture.getWidth() / 2) > GAME_WIDTH) this.x = GAME_WIDTH - texture.getWidth() / 2;
-        if ((this.y - texture.getHeight() / 2) < 0) this.y = texture.getHeight() / 2;
-        if ((this.y + texture.getHeight() / 2) > GAME_HEIGHT) this.y = GAME_HEIGHT - texture.getHeight() / 2;
-
-        exhaustEffect.setPosition(this.x, this.y);
-        ParticleEmitter emitter = exhaustEffect.getEmitters().first();
-        emitter.getAngle().setHigh(this.angle - 180.0f);
-        emitter.getAngle().setLow(this.angle - 180.0f);
-
-        mouseInWorld3D.x = Gdx.input.getX(); // Get mouse location
-        mouseInWorld3D.y = Gdx.input.getY();
-        mouseInWorld3D.z = 0;
-        cam.unproject(mouseInWorld3D); // return x,y coordinate on the screen (read method documentation)
-        mouseInWorld2D.x = mouseInWorld3D.x;
-        mouseInWorld2D.y = mouseInWorld3D.y;
-        this.angle = mouseInWorld2D.angleDeg(); // Set player angle to angle of vector
-    }
-
-    public void dispose() {
-        this.texture.dispose();
-        this.exhaustEffect.dispose();
-        this.exhaustTextureAtlas.dispose();
     }
 }

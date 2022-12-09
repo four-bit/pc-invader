@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader.Boss;
+package com.fourbit.pc_invader.boss;
 
 
 
@@ -24,13 +24,6 @@ public class Boss {
                 2
         );
 
-//        for (int i = 0; i < 7; i++) {
-//            bodies.add(new Body(
-//                    head.getX() -head.getTexture().getWidth() +head.getTexture().getWidth()/2,
-//                    head.getY() -head.getTexture().getHeight()- 75 *i,
-//                    2
-//            ));
-//        }
         for (int i = 0; i < 7; i++) {
             bodies.add(new Body(
                     this.x,
@@ -90,6 +83,13 @@ public class Boss {
 
     public void update() {
         head.update();
+    }
+
+    public void dispose() {
+        head.dispose();
+        for (int i = 0; i < bodies.size; i++) {
+            bodies.get(i).dispose();
+        }
     }
 }
 

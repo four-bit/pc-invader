@@ -5,12 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.ui.GameHUD;
-import com.fourbit.pc_invader.Boss.Body;
-import com.fourbit.pc_invader.Boss.Boss;
-import com.fourbit.pc_invader.Boss.Head;
+import com.fourbit.pc_invader.boss.Boss;
 
 
 
@@ -22,12 +21,9 @@ public class PcInvader extends ApplicationAdapter {
     private FrameBuffer sceneFrameBuffer;
     private Player player;
     private GameHUD gameHud;
-    private Head head;
-    private Array<Body> bodies = new Array<>();
     public static final int GAME_WIDTH = 1920;
     public static final int GAME_HEIGHT = 1080;
     private Boss boss;
-    public static float rot = 0.0f;
 
 
     @Override
@@ -37,7 +33,7 @@ public class PcInvader extends ApplicationAdapter {
         batch = new SpriteBatch();
         background = new Texture("levels/level-boss.bg.png");
         player = new Player(
-                GAME_WIDTH / 2,
+                GAME_WIDTH / 4,
                 GAME_HEIGHT / 2,
                 20,
                 8,
@@ -65,38 +61,14 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void render() {
+        // Update game state
         player.update();
-//        player.setAngle(190); //TODO: Mouse position input here, edit the setAngle create method to set angle
-
-//        PcInvader.rot = 90;
         boss.update();
-
-
-
-//            if(-(bodies.get(i-1).getX() - bodies.get(i).getX()) > bodies.get(i-1).getTexture().getWidth()/6) {
-//                bodies.get(i).update(bodies.get(i-1).getX());
-//            }
-
-//        if (bodies.get(0).getX()-(head.getX() -(float)head.getTexture().getWidth()) > head.getTexture().getWidth()/6){
-//            bodies.get(0).update(head.getX() -head.getTexture().getWidth());
-//        }
-//        if ((head.getX() -(float)head.getTexture().getWidth()) -bodies.get(0).getX() > head.getTexture().getWidth()/6){
-//            bodies.get(0).update(head.getX() -head.getTexture().getWidth());
-//        }
-
-//        if(i < boss.getHead().getLocation().size()-1){
-//            boss.update(i);
-//            i+=Gdx.graphics.getDeltaTime()*100;
-//        }
-//        else {
-//            i=0;
-//        }
-//        System.out.println();
-
         
-
         gameHud.updateFrom(player);
 
+
+        // Render graphics
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
         Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST); // re-enabled each frame because UI changes GL state
@@ -107,7 +79,17 @@ public class PcInvader extends ApplicationAdapter {
 
         sceneFrameBuffer.begin();
         batch.begin();
+
         batch.draw(background, 0, 0);
+
+        batch.draw(
+                boss.getHead().getTexture(),
+                boss.getHead().getX(),
+                boss.getHead().getY() ,
+                boss.getHead().getTexture().getWidth() ,
+                boss.getHead().getTexture().getHeight()
+        );
+
         player.getExhaustEffect().draw(batch, Gdx.graphics.getDeltaTime());
         batch.draw(
                 player.getTexture(),
@@ -128,33 +110,6 @@ public class PcInvader extends ApplicationAdapter {
                 false
         );
 
-        batch.draw(
-                boss.getHead().getTexture(),
-                boss.getHead().getX(),
-                boss.getHead().getY() ,
-                boss.getHead().getTexture().getWidth() ,
-                boss.getHead().getTexture().getHeight()
-        );
-        System.out.println("x :"+boss.getHead().getX());
-
-//                batch.draw(
-//                        boss.getBodies().get(0).getTexture(),
-//                        boss.getBodies().get(0).getX() - (float) boss.getBodies().get(0).getTexture().getWidth() + (float) boss.getBodies().get(0).getTexture().getWidth() / 2,
-//                        boss.getBodies().get(0).getY() - (float) boss.getBodies().get(0).getTexture().getHeight(),
-//                        boss.getBodies().get(0).getTexture().getWidth() * 5,
-//                        boss.getBodies().get(0).getTexture().getHeight() * 5
-//                );
-//        boss.getBodies().get(0).setX(head.getX() - bodies.get(0).getTexture().getWidth() + bodies.get(0).getTexture().getWidth() / 2);
-//        for (int i =1; i < 7; i++) {
-//            batch.draw(
-//                    bodies.get(i).getTexture(),
-//                    bodies.get(i).getX() ,
-//                    bodies.get(i).getY() ,
-//                    bodies.get(i).getTexture().getWidth() * 5,
-//                    bodies.get(i).getTexture().getHeight() * 5
-//            );
-//        }
-
         batch.end();
         sceneFrameBuffer.end();
 
@@ -172,8 +127,24 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer.dispose();
         background.dispose();
         player.dispose();
+        boss.dispose();
         gameHud.dispose();
     }
 
     public boolean isDebug() { return debug; }
+
+    public static Vector2 getMouseCoords() {
+        Vector2 mouseCoords2D = new Vector2();
+        Vector3 mouseCoords3D = new Vector3();
+        OrthographicCamera cam = new OrthographicCamera();
+
+        mouseCoords3D.x = Gdx.input.getX();
+        mouseCoords3D.y = GAME_HEIGHT - Gdx.input.getY();
+        mouseCoords3D.z = 0;
+        cam.unproject(mouseCoords3D);
+        mouseCoords2D.x = mouseCoords3D.x;
+        mouseCoords2D.y = mouseCoords3D.y;
+
+        return mouseCoords2D;
+    }
 }

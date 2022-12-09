@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader.Boss;
+package com.fourbit.pc_invader.boss;
 
 
 import com.badlogic.gdx.Gdx;
@@ -31,9 +31,6 @@ public class Head {
         this.speed = speed;
         this.initGraphics();
         text = handle.readString().split("\n");
-        for (String string : text) {
-            System.out.println(string);
-        }
         String[] header = text[0].split(",");
         header[1] = header[1].replaceAll("\\s", "");
 
@@ -47,9 +44,6 @@ public class Head {
                 row.put(header[n], Integer.parseInt(line[n]));
             }
             location.add(row);
-        }
-        for (HashMap<String, Integer> row : location) {
-            System.out.println(row.get("x"));
         }
     }
 
@@ -174,12 +168,12 @@ public class Head {
                     locationNum = 0;
                 }
                 checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
-
-                System.out.println(locationNum);
-
-                System.out.println(location.get(locationNum).get("x"));
                 break;
         }
+    }
+
+    public void dispose() {
+        texture.dispose();
     }
 }
 
