@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.sun.tools.javac.main.Option;
 import com.badlogic.gdx.utils.Array;
+import  com.badlogic.gdx.utils.Timer;
+
+import java.util.TimerTask;
+
 import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
 import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
@@ -15,12 +19,15 @@ import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 public class Boss {
     private int x, y, speed;
     private Head head;
+    private Timer timer;
+    private TimerTask timerTask;
+    public int delta;
 
     private Array<Body> bodies = new Array<>();
     private float angle;
     private SpriteBatch batch;
     private Sprite sprite;
-
+    private int i;
     public Boss(int x, int y, int speed) {
         this.x = x;
         this.y = y;
@@ -96,24 +103,24 @@ public class Boss {
         this.bodies = bodies;
     }
 
-    public void update(int i) {
+    public void update() {
+        head.update();
 
-
-//        if (i < head.getLocation().size() - 1){
-//            i+=1;
-//        }else {
-//            i=0;
-//        }
-        head.update(head.getLocation().get(i).get("x"), head.getLocation().get(i).get("y"));
-
-
-//        for (int i = 1; i < 7; i++) {
-//            if (bodies.get(i).getX() - bodies.get(i - 1).getX() > bodies.get(i - 1).getTexture().getWidth() / 6) {
-//                bodies.get(i).update();
+//        head.update(head.getLocation().get(i).get("x"), head.getLocation().get(i).get("y"));
+//
+//        delta += Gdx.graphics.getDeltaTime()*100;
+//        System.out.println(delta);
+//        if (delta ==60){
+//            if (i < this.location.size()-1) {
+//                i++;
+//                delta = 0;
+//                System.out.println(i);
+//            }else {
+//                i=0;
+//                delta = 0;
+//                System.out.println(i);
 //            }
-//
-//
-//        }
+//        }//
     }
 }
 

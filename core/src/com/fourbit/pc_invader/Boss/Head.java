@@ -28,6 +28,8 @@ public class Head {
     private String[] text;
     public int currentHeight = 800;
     private ArrayList<HashMap<String,Integer>> location = new ArrayList<>();
+    private int delta;
+    private int i;
 
 
     public Head(int x, int y, int speed) {
@@ -99,6 +101,9 @@ public class Head {
     }
 
     public void checkDirection(int x, int y){
+        if (this.x == x && this.y > y){
+            this.state = State.GOINGDOWN;
+        }
         if (this.x > x && this.y > y) {
             this.state =  State.GOINGDOWNLEFT;
         }
@@ -117,58 +122,68 @@ public class Head {
         if (this.x < x && this.y == y ){
             this.state = State.GOINGRIGHT;
         }
-        if (this.x == x && this.y > y){
+        if (this.x < x && this.y > y){
             this.state =  State.GOINGDOWNRIGHT;
         }
-        if(this.x==x && this.y == y){
+        if (this.x == x && this.y == y){
             this.state = State.STAND;
         }
     }
-    public void update(int x, int y) {
+    public void update() {
+
+
         switch (state) {
             case GOINGDOWN:
                 this.y -= this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGDOWNLEFT:
                 this.x -= this.speed;
                 this.y -= this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGLEFT:
                 this.x -= this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGUPLEFT:
                 this.x -= this.speed;
                 this.y += this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGUP:
                 this.y += this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGUPRIGHT:
                 this.x += this.speed;
                 this.y += this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGRIGHT:
                 this.x += this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case GOINGDOWNRIGHT:
                 this.x += this.speed;
                 this.y -= this.speed;
-                checkDirection(x,y);
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
                 break;
             case STAND:
-                this.x +=0;
-                this.y +=0;
-                checkDirection(x,y);
+                if (i < this.location.size()-1) {
+                    this.i++;
+                }else {
+                    i=0;
+                }
+                checkDirection(location.get(i).get("x"),location.get(i).get("y"));
+
+                System.out.println(i);
+
+                System.out.println(location.get(i).get("x"));
                 break;
         }
-//        //GO DOWN
+
+        // GO DOWN
 //        if (this.x == x && this.y > y){
 //            this.y -= this.speed;
 //        }

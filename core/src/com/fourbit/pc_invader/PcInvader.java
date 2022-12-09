@@ -10,7 +10,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.Boss.Body;
 import com.fourbit.pc_invader.Boss.Boss;
 import com.fourbit.pc_invader.Boss.Head;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PcInvader extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -26,7 +27,9 @@ public class PcInvader extends ApplicationAdapter {
     public static float rot = 0.0f;
     private float timeSecond = 0;
     private float locateX, locateY;
-    public int i = 0;
+    public int i;
+
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -40,31 +43,13 @@ public class PcInvader extends ApplicationAdapter {
                 true,
                 0.0f
         );
-//        head = new Head(
-//                GAME_WIDTH / 2,
-//                GAME_HEIGHT / 2,
-//                2
-//        );
-//
-//        for (int i = 0; i < 7; i++) {
-//            bodies.add(new Body(
-//                    head.getX() -head.getTexture().getWidth() +head.getTexture().getWidth()/2,
-//                    head.getY() -head.getTexture().getHeight()- 75 *i,
-//                    2
-//            ));
-//        }
+
         boss = new Boss(
                 GAME_WIDTH / 2,
                 GAME_HEIGHT / 2,
                 2
         );
-//        for (int i = 0; i < 7; i++) {
-//            bodies.add(new Body(
-//                    GAME_WIDTH / 2,
-//                    GAME_HEIGHT / 2,
-//                    2
-//            ));
-//        }
+
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -76,8 +61,10 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void render() {
-        timeSecond += Gdx.graphics.getDeltaTime();
         player.update();
+        boss.update();
+
+
 
 //            if(-(bodies.get(i-1).getX() - bodies.get(i).getX()) > bodies.get(i-1).getTexture().getWidth()/6) {
 //                bodies.get(i).update(bodies.get(i-1).getX());
@@ -90,14 +77,16 @@ public class PcInvader extends ApplicationAdapter {
 //            bodies.get(0).update(head.getX() -head.getTexture().getWidth());
 //        }
 
-        if(i < boss.getHead().getLocation().size()-1){
-            boss.update(i);
-            i+=Gdx.graphics.getDeltaTime()*100;
-        }
-        else {
-            i=0;
-        }
-        System.out.println();
+//        if(i < boss.getHead().getLocation().size()-1){
+//            boss.update(i);
+//            i+=Gdx.graphics.getDeltaTime()*100;
+//        }
+//        else {
+//            i=0;
+//        }
+//        System.out.println();
+
+
         player.setAngle(rot);
         PcInvader.rot += player.getSpeed() * 50 * Gdx.graphics.getDeltaTime() % 360.0f;
 
@@ -139,6 +128,7 @@ public class PcInvader extends ApplicationAdapter {
                 boss.getHead().getTexture().getWidth() ,
                 boss.getHead().getTexture().getHeight()
         );
+        System.out.println("x :"+boss.getHead().getX());
 
 //                batch.draw(
 //                        boss.getBodies().get(0).getTexture(),
