@@ -135,7 +135,6 @@ public class PcInvader extends ApplicationAdapter {
                 boss.getHead().getTexture().getWidth() ,
                 boss.getHead().getTexture().getHeight()
         );
-        System.out.println("x :"+boss.getHead().getX());
 
 //                batch.draw(
 //                        boss.getBodies().get(0).getTexture(),
