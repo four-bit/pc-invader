@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.ui.GameHUD;
@@ -131,4 +133,19 @@ public class PcInvader extends ApplicationAdapter {
     }
 
     public boolean isDebug() { return debug; }
+
+    public static Vector2 getMouseCoords() {
+        Vector2 mouseCoords2D = new Vector2();
+        Vector3 mouseCoords3D = new Vector3();
+        OrthographicCamera cam = new OrthographicCamera();
+
+        mouseCoords3D.x = Gdx.input.getX();
+        mouseCoords3D.y = Gdx.input.getY();
+        mouseCoords3D.z = 0;
+        cam.unproject(mouseCoords3D);
+        mouseCoords2D.x = mouseCoords3D.x;
+        mouseCoords2D.y = mouseCoords3D.y;
+
+        return mouseCoords2D;
+    }
 }

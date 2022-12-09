@@ -1,6 +1,7 @@
 package com.fourbit.pc_invader.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -49,6 +50,7 @@ public class GameHUD {
             debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
             debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
             debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
+            debugInfoLabels.put("mousePosition", new Label("mousePosition", skin));
 
             for (Label label : debugInfoLabels.values()) {
                 debugRoot.add(label);
@@ -63,12 +65,15 @@ public class GameHUD {
 
 
     public void updateFrom(Player player) {
+        Vector2 mousePosition =  PcInvader.getMouseCoords();
+
         if (debugMode) {
             debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + player.getHealthPoints());
             debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + player.getShieldPoints() + (player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
             debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + player.getSpeed());
             debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + player.getX() + " []Y:[YELLOW]" + player.getY());
             debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngle());
+            debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + mousePosition.x + " []Y:[YELLOW]" + mousePosition.y);
         }
     }
 
