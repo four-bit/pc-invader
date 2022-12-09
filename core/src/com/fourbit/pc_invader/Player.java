@@ -23,10 +23,9 @@ public class Player {
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
 
-    private Vector2 Heading = new Vector2();
-    private final Vector2 mouseInWorld2D = new Vector2();
-    private final Vector3 mouseInWorld3D = new Vector3();
-    private final OrthographicCamera cam  = new OrthographicCamera();
+    private final Vector2 mouseCoords2D = new Vector2();
+    private final Vector3 mouseCoords3D = new Vector3();
+    private final OrthographicCamera cam = new OrthographicCamera();
 
     Player() {
         this.texture = null;
@@ -107,8 +106,6 @@ public class Player {
     }
 
     public void update() {
-        // TODO: implement aiming base on cursor position
-
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             this.x -= this.speed;
         if (Gdx.input.isKeyPressed(Input.Keys.D))
@@ -128,13 +125,13 @@ public class Player {
         emitter.getAngle().setHigh(this.angle - 180.0f);
         emitter.getAngle().setLow(this.angle - 180.0f);
 
-        mouseInWorld3D.x = Gdx.input.getX(); // Get mouse location
-        mouseInWorld3D.y = Gdx.input.getY();
-        mouseInWorld3D.z = 0;
-        cam.unproject(mouseInWorld3D); // return x,y coordinate on the screen (read method documentation)
-        mouseInWorld2D.x = mouseInWorld3D.x;
-        mouseInWorld2D.y = mouseInWorld3D.y;
-        this.angle = mouseInWorld2D.angleDeg(); // Set player angle to angle of vector
+        mouseCoords3D.x = Gdx.input.getX();  // Get mouse location
+        mouseCoords3D.y = Gdx.input.getY();
+        mouseCoords3D.z = 0;
+        cam.unproject(mouseCoords3D);  // return x, y coordinate on the screen (read method documentation)
+        mouseCoords2D.x = Gdx.input.getX();
+        mouseCoords2D.y = Gdx.input.getY();
+        this.angle = mouseCoords2D.angleDeg();  // Set player angle to angle of vector
     }
 
     public void dispose() {
