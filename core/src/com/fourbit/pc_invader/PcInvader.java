@@ -7,17 +7,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.fourbit.pc_invader.ui.GameHUD;
 import com.fourbit.pc_invader.Boss.Body;
 import com.fourbit.pc_invader.Boss.Boss;
 import com.fourbit.pc_invader.Boss.Head;
 
 
+
 public class PcInvader extends ApplicationAdapter {
+    private boolean debug;
     private SpriteBatch batch;
     private Texture background;
     private OrthographicCamera viewportCamera;
     private FrameBuffer sceneFrameBuffer;
     private Player player;
+    private GameHUD gameHud;
     private Head head;
     private Array<Body> bodies = new Array<>();
     public static final int GAME_WIDTH = 1920;
@@ -28,6 +32,8 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void create() {
+        debug = true;  // TODO: Change this to false for production
+
         batch = new SpriteBatch();
         background = new Texture("levels/level-boss.bg.png");
         player = new Player(
@@ -48,6 +54,8 @@ public class PcInvader extends ApplicationAdapter {
 
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        gameHud = new GameHUD(this);
 
         viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
         viewportCamera.position.set(0.5f * viewportCamera.viewportWidth, 0.5f * viewportCamera.viewportHeight, 0.0f);
@@ -85,6 +93,9 @@ public class PcInvader extends ApplicationAdapter {
 //        }
 //        System.out.println();
 
+        
+
+        gameHud.updateFrom(player);
 
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -152,14 +163,17 @@ public class PcInvader extends ApplicationAdapter {
         batch.draw(sceneFrameBuffer.getColorBufferTexture(), 0, GAME_HEIGHT, GAME_WIDTH, -GAME_HEIGHT);
         batch.end();
 
-
+        gameHud.draw();
     }
-        @Override
-        public void dispose() {
-            batch.dispose();
-            sceneFrameBuffer.dispose();
-            background.dispose();
-            player.dispose();
-        }
-}
 
+    @Override
+    public void dispose() {
+        batch.dispose();
+        sceneFrameBuffer.dispose();
+        background.dispose();
+        player.dispose();
+        gameHud.dispose();
+    }
+
+    public boolean isDebug() { return debug; }
+}

@@ -71,6 +71,7 @@ public class Player {
     public int getSpeed() { return this.speed; }
     public int getHealthPoints() { return this.healthPoints; }
     public int getShieldPoints() { return this.hasShield ? this.shieldPoints : -1; }
+    public boolean hasShield() { return this.hasShield; }
     public float getAngle() { return this.angle; }
     public Texture getTexture() { return this.texture; }
     public ParticleEffect getExhaustEffect() { return exhaustEffect; }
