@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.ui.GameHUD;
-import com.fourbit.pc_invader.Boss.Body;
-import com.fourbit.pc_invader.Boss.Boss;
-import com.fourbit.pc_invader.Boss.Head;
+import com.fourbit.pc_invader.boss.Body;
+import com.fourbit.pc_invader.boss.Boss;
+import com.fourbit.pc_invader.boss.Head;
 
 
 

@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader.Boss;
+package com.fourbit.pc_invader.boss;
 
 
 
