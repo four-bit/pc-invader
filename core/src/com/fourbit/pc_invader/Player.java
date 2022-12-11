@@ -17,9 +17,9 @@ import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
 public class Player {
     private int speed, healthPoints, shieldPoints;
-    private boolean hasShield;
+    private boolean hasShield, hasInput;
     private float angle;
-    private Vector2 position;
+    private final Vector2 position, movement;
     private Texture texture;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
@@ -28,6 +28,7 @@ public class Player {
     Player() {
         texture = null;
         position = new Vector2(0, 0);
+        movement = new Vector2(0, 0);
         speed = 0;
         healthPoints = 0;
         shieldPoints = -1;
@@ -44,6 +45,7 @@ public class Player {
             float angle
     ) {
         position = new Vector2(x, y);
+        movement = new Vector2(0, 0);
         this.speed = speed;
         healthPoints = maxHealth;
         shieldPoints = maxShield;
@@ -55,20 +57,25 @@ public class Player {
 
     // Player logic
     public void update() {
-
+        // Calculate movement vector based on user input and add that vector to player's position
+        hasInput = false;
         if (Gdx.input.isKeyPressed(Input.Keys.A))
-            position.x -= speed;
+            movement.add(new Vector2(-speed, 0));
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            position.x += speed;
+            movement.add(new Vector2(speed, 0));
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            position.y += speed;
+            movement.add(new Vector2(0, speed));
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            position.y -= speed;
+            movement.add(new Vector2(0, -speed));
+        position.add(movement);
 
+        // Level boundary check
         if ((position.x - (float) texture.getWidth() / 2) < 0) position.x = (float) texture.getWidth() / 2;
         if ((position.x + (float) texture.getWidth() / 2) > GAME_WIDTH) position.x = GAME_WIDTH - (float) texture.getWidth() / 2;
         if ((position.y - (float) texture.getHeight() / 2) < 0) position.y = (float) texture.getHeight() / 2;
         if ((position.y + (float) texture.getHeight() / 2) > GAME_HEIGHT) position.y = GAME_HEIGHT - (float) texture.getHeight() / 2;
+
+        movement.setZero();
 
         exhaustEffect.setPosition(position.x, position.y);
         ParticleEmitter emitter = exhaustEffect.getEmitters().first();
