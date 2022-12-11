@@ -35,7 +35,7 @@ public class PcInvader extends ApplicationAdapter {
         player = new Player(
                 GAME_WIDTH / 4,
                 GAME_HEIGHT / 2,
-                20,
+                15,
                 8,
                 3,
                 true,
