@@ -16,9 +16,10 @@ import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
 
 public class Player {
-    private int x, y, speed, healthPoints, shieldPoints;
+    private int speed, healthPoints, shieldPoints;
     private boolean hasShield;
     private float angle;
+    private Vector2 position;
     private Texture texture;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
@@ -26,8 +27,7 @@ public class Player {
 
     Player() {
         texture = null;
-        x = 0;
-        y = 0;
+        position = new Vector2(0, 0);
         speed = 0;
         healthPoints = 0;
         shieldPoints = -1;
@@ -43,8 +43,7 @@ public class Player {
             int maxShield, boolean hasShield,
             float angle
     ) {
-        this.x = x;
-        this.y = y;
+        position = new Vector2(x, y);
         this.speed = speed;
         healthPoints = maxHealth;
         shieldPoints = maxShield;
@@ -56,21 +55,22 @@ public class Player {
 
     // Player logic
     public void update() {
+
         if (Gdx.input.isKeyPressed(Input.Keys.A))
-            x -= speed;
+            position.x -= speed;
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            x += speed;
+            position.x += speed;
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            y += speed;
+            position.y += speed;
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            y -= speed;
+            position.y -= speed;
 
-        if ((x - texture.getWidth() / 2) < 0) x = texture.getWidth() / 2;
-        if ((x + texture.getWidth() / 2) > GAME_WIDTH) x = GAME_WIDTH - texture.getWidth() / 2;
-        if ((y - texture.getHeight() / 2) < 0) y = texture.getHeight() / 2;
-        if ((y + texture.getHeight() / 2) > GAME_HEIGHT) y = GAME_HEIGHT - texture.getHeight() / 2;
+        if ((position.x - (float) texture.getWidth() / 2) < 0) position.x = (float) texture.getWidth() / 2;
+        if ((position.x + (float) texture.getWidth() / 2) > GAME_WIDTH) position.x = GAME_WIDTH - (float) texture.getWidth() / 2;
+        if ((position.y - (float) texture.getHeight() / 2) < 0) position.y = (float) texture.getHeight() / 2;
+        if ((position.y + (float) texture.getHeight() / 2) > GAME_HEIGHT) position.y = GAME_HEIGHT - (float) texture.getHeight() / 2;
 
-        exhaustEffect.setPosition(x, y);
+        exhaustEffect.setPosition(position.x, position.y);
         ParticleEmitter emitter = exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(angle - 180.0f);
         emitter.getAngle().setLow(angle - 180.0f);
@@ -91,8 +91,8 @@ public class Player {
         Vector3 bearing3D = new Vector3();
         OrthographicCamera cam = new OrthographicCamera();
 
-        bearing3D.x = x;
-        bearing3D.y = y;
+        bearing3D.x = position.x;
+        bearing3D.y = position.y;
         bearing3D.z = 0;
         cam.unproject(bearing3D);
         bearing2D.x = bearing3D.x;
@@ -117,8 +117,8 @@ public class Player {
 
 
     // Getter and setters
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getX() { return (int) position.x; }
+    public int getY() { return (int) position.y; }
     public int getSpeed() { return speed; }
     public int getHealthPoints() { return healthPoints; }
     public int getShieldPoints() { return hasShield ? shieldPoints : -1; }
