@@ -16,26 +16,16 @@ import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
 
 public class Player {
-    private int speed, healthPoints, shieldPoints;
-    private boolean hasShield, hasInput;
+    private final int speed;
+    private int healthPoints;
+    private int shieldPoints;
+    private boolean hasShield;
     private float angle;
     private final Vector2 position, movement;
     private Texture texture;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
 
-
-    Player() {
-        texture = null;
-        position = new Vector2(0, 0);
-        movement = new Vector2(0, 0);
-        speed = 0;
-        healthPoints = 0;
-        shieldPoints = -1;
-        hasShield = false;
-        angle = 0.0f;
-        initGraphics();
-    }
 
     Player(
             int x, int y,
@@ -58,7 +48,6 @@ public class Player {
     // Player logic
     public void update() {
         // Calculate movement vector based on user input and add that vector to player's position
-        hasInput = false;
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             movement.add(new Vector2(-speed, 0));
         if (Gdx.input.isKeyPressed(Input.Keys.D))
