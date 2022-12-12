@@ -31,7 +31,7 @@ public class PcInvader extends ApplicationAdapter {
         debug = true;  // TODO: Change this to false for production
 
         batch = new SpriteBatch();
-        background = new Texture("levels/level-boss.bg.png");
+        background = new Texture("levels/glob.bg.png");
         player = new Player(
                 GAME_WIDTH / 4,
                 GAME_HEIGHT / 2,

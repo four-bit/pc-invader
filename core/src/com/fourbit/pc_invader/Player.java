@@ -41,6 +41,7 @@ public class Player {
         shieldPoints = maxShield;
         this.hasShield = hasShield;
         this.angle = angle;
+
         initGraphics();
     }
 
@@ -102,7 +103,7 @@ public class Player {
     }
 
     public void initGraphics() {
-        texture = new Texture("player/level-3.png");
+        texture = new Texture("player/sprite.png");
 
         exhaustTextureAtlas = new TextureAtlas();
         exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("player/exhaust_particle.png")));
