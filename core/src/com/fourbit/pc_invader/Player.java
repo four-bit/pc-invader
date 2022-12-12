@@ -4,38 +4,45 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.sun.tools.javac.main.Option;
 import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
 import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
 
-public class Player {
+public class Player extends BodyDef {
     private final int speed;
     private int healthPoints;
     private int shieldPoints;
     private boolean hasShield;
     private float angle;
-    private final Vector2 position, movement;
+    private final Vector2 movement;
+    private Body body;
     private Texture texture;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
 
 
     Player(
+            World world,
             int x, int y,
             int speed,
             int maxHealth,
             int maxShield, boolean hasShield,
             float angle
     ) {
-        position = new Vector2(x, y);
+        super();
+        body = world.createBody(this);
+        super.type = BodyType.DynamicBody;
+
+        this.position.set(x, y);
         movement = new Vector2(0, 0);
+
         this.speed = speed;
         healthPoints = maxHealth;
         shieldPoints = maxShield;
@@ -73,6 +80,28 @@ public class Player {
         emitter.getAngle().setLow(angle - 180.0f);
 
         angle = 180 - getAngleVector().angleDeg();
+    }
+
+    public void draw(Batch batch) {
+        exhaustEffect.draw(batch, Gdx.graphics.getDeltaTime());
+        batch.draw(
+                texture,
+                getX() - (float) getWidth() / 2,
+                getY() - (float) getHeight() / 2,
+                (float) getWidth() / 2,
+                (float) getHeight() / 2,
+                getWidth(),
+                getHeight(),
+                1.0f,
+                1.0f,
+                getAngle(),
+                0,
+                0,
+                getWidth(),
+                getHeight(),
+                false,
+                false
+        );
     }
 
     public void dispose() {
@@ -121,7 +150,6 @@ public class Player {
     public int getShieldPoints() { return hasShield ? shieldPoints : -1; }
     public boolean hasShield() { return hasShield; }
     public float getAngle() { return angle; }
-    public Texture getTexture() { return texture; }
     public ParticleEffect getExhaustEffect() { return exhaustEffect; }
     public int getWidth() { return texture.getWidth(); }
     public int getHeight() { return texture.getHeight(); }
