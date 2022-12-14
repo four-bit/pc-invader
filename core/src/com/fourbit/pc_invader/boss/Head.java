@@ -181,7 +181,8 @@ public class Head {
                 checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
                 break;
         }
-        this.angle =  (float) Math.toDegrees( Math.atan2((float) (this.y-GAME_HEIGHT/2),(float)(this.x-GAME_WIDTH/2))) - 180;
+
+        this.angle =  (float) Math.toDegrees( Math.atan2((float) (this.y-this.location.get(locationNum).get("y")),(float)(this.x-this.location.get(locationNum).get("x"))));
 
     }
 
