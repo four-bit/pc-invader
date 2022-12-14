@@ -23,12 +23,15 @@ public class Head {
     private String[] text;
     private ArrayList<HashMap<String, Integer>> location = new ArrayList<>();
     private int locationNum;
+    public static final int GAME_WIDTH = 1920;
+    public static final int GAME_HEIGHT = 1080;
 
 
-    public Head(int x, int y, int speed) {
+    public Head(int x, int y, int speed, float angle) {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.angle = angle;
         this.initGraphics();
         text = handle.readString().split("\n");
         String[] header = text[0].split(",");
@@ -89,6 +92,14 @@ public class Head {
 
     public void setLocation(ArrayList<HashMap<String, Integer>> location) {
         this.location = location;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
     public void checkDirection(int x, int y) {
@@ -170,6 +181,8 @@ public class Head {
                 checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
                 break;
         }
+        this.angle =  (float) Math.toDegrees( Math.atan2((float) (this.y-GAME_HEIGHT/2),(float)(this.x-GAME_WIDTH/2))) - 180;
+
     }
 
     public void dispose() {
