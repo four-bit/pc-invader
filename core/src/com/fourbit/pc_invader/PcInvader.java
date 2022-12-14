@@ -119,7 +119,7 @@ public class PcInvader extends ApplicationAdapter {
                 boss.getHead().getTexture().getWidth(),
                 boss.getHead().getTexture().getHeight(),
                 false,
-                false
+                boss.getHead().getFlip()
         );
 
 

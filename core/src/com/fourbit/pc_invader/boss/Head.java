@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class Head {
 
     private int x, y;
+    private boolean flip;
     private Texture texture;
     private float speed, angle;
 
@@ -102,6 +103,14 @@ public class Head {
         this.angle = angle;
     }
 
+    public boolean getFlip() {
+        return flip;
+    }
+
+    public void setFlip(boolean flip) {
+        this.flip = flip;
+    }
+
     public void checkDirection(int x, int y) {
         if (this.x == x && this.y > y) {
             this.state = State.GOINGDOWN;
@@ -182,8 +191,16 @@ public class Head {
                 break;
         }
 
-        this.angle =  (float) Math.toDegrees( Math.atan2((float) (this.y-this.location.get(locationNum).get("y")),(float)(this.x-this.location.get(locationNum).get("x"))));
+        this.angle =  (float) Math.toDegrees( Math.atan2(
+                (float) (this.y-this.location.get(locationNum).get("y")),
+                (float)(this.x-this.location.get(locationNum).get("x"))));
 
+        if (this.x < location.get(locationNum).get("x")){
+            this.flip = true;
+        }
+        else {
+            flip = false;
+        }
     }
 
     public void dispose() {
