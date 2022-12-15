@@ -83,6 +83,7 @@ public class Boss {
     }
 
     public void update() {
+        bodies.get(0).update(head.getX(),head.getY());
         head.update();
 //        for (Body body : bodies){
 //            body.update(head.getX(),head.getY());
@@ -93,7 +94,7 @@ public class Boss {
 //                head.getX() - bodies.get(0).getX()  >  bodies.get(0).getTexture().getWidth()/6 ||
 //                bodies.get(0).getY()-head.getY()  > bodies.get(0).getTexture().getHeight()/10
 //        ){
-//            bodies.get(0).update(head.getX(),head.getY());
+
 //        }
 
 //        if (
@@ -111,23 +112,23 @@ public class Boss {
 //        else {
 //            bodies.get(0).update(head.getX(),head.getY());
 //        }
-        if ((bodies.get(0).getX()+200 - head.getX() > 0 || bodies.get(0).getX()+200  - head.getX()<0)){
-            bodies.get(0).update(head.getX(),bodies.get(0).getY());
-        }
+//        if ((bodies.get(0).getX()+200 - head.getX() > 0 || bodies.get(0).getX()+200  - head.getX()<0)){
+//            bodies.get(0).update(head.getX(),bodies.get(0).getY());
+//        }
 
 //        System.out.println( bodies.get(0).getX() - head.getX());
 ////        bodies.get(0).update(head.getX(),head.getY());
-//        for (int i =1; i < bodies.size; i++){
-//            if (
-//                    bodies.get(i).getX()  - bodies.get(i-1).getX() >  50||
-//                            bodies.get(i).getY() - bodies.get(i).getY()  < -75||
-//                            bodies.get(i-1).getX() - bodies.get(i).getX() >  50 ||
-//                            bodies.get(i).getY() - bodies.get(i-1).getY()   > 20
-//            ){
-//                    bodies.get(i).update(bodies.get(i-1).getX(), bodies.get(i-1).getY());
-//            }
-////            bodies.get(i).update(bodies.get(i-1).getX(),bodies.get(i-1).getY());
-//        }
+        for (int i =1; i < bodies.size; i++){
+            if (
+                    bodies.get(i).getX()  - bodies.get(i-1).getX() >  50||
+                            bodies.get(i).getY() - bodies.get(i).getY()  < -75||
+                            bodies.get(i-1).getX() - bodies.get(i).getX() >  50 ||
+                            bodies.get(i).getY() - bodies.get(i-1).getY()   > 20
+            ){
+                    bodies.get(i).update(bodies.get(i-1).getX(), bodies.get(i-1).getY());
+            }
+//            bodies.get(i).update(bodies.get(i-1).getX(),bodies.get(i-1).getY());
+        }
 
     }
 

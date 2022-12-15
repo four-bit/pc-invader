@@ -82,10 +82,10 @@ public class PcInvader extends ApplicationAdapter {
 
         batch.draw(background, 0, 0);
 
-        for (int i = boss.getBodies().size - 1; i > -1; i--){
+        for (int i = boss.getBodies().size - 1; i > 2; i--){
             batch.draw(
                     boss.getBodies().get(i).getTexture(),
-                    boss.getBodies().get(i).getX() + 200,
+                    boss.getBodies().get(i).getX() + 200 + (int)Math.pow(2*i,2),
                     boss.getBodies().get(i).getY() - 50 - 75*i,
                     (float) boss.getBodies().get(i).getTexture().getWidth()/2,
                     (float) boss.getBodies().get(i).getTexture().getHeight()/2,
@@ -102,6 +102,27 @@ public class PcInvader extends ApplicationAdapter {
                     false
             );
         }
+        for (int i = 2; i > -1; i--){
+            batch.draw(
+                    boss.getBodies().get(i).getTexture(),
+                    boss.getBodies().get(i).getX() + 212 - (int)Math.pow(2*i,2),
+                    boss.getBodies().get(i).getY() - 50 - 75*i,
+                    (float) boss.getBodies().get(i).getTexture().getWidth()/2,
+                    (float) boss.getBodies().get(i).getTexture().getHeight()/2,
+                    boss.getBodies().get(i).getTexture().getWidth() ,
+                    boss.getBodies().get(i).getTexture().getHeight(),
+                    1.0f,
+                    1.0f,
+                    boss.getBodies().get(i).getAngle(),
+                    0,
+                    0,
+                    boss.getHead().getTexture().getWidth(),
+                    boss.getHead().getTexture().getHeight(),
+                    false,
+                    false
+            );
+        }
+
 
         batch.draw(
                 boss.getHead().getTexture(),
