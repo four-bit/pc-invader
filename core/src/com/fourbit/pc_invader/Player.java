@@ -17,6 +17,7 @@ import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
 
 public class Player extends BodyDef {
     private final int speed;
+    private int ammo;
     private int healthPoints;
     private int shieldPoints;
     private boolean hasShield;
@@ -32,6 +33,7 @@ public class Player extends BodyDef {
             World world,
             int x, int y,
             int speed,
+            int max_ammo,
             int maxHealth,
             int maxShield, boolean hasShield,
             float angle
@@ -40,10 +42,11 @@ public class Player extends BodyDef {
         body = world.createBody(this);
         super.type = BodyType.DynamicBody;
 
-        this.position.set(x, y);
+        position.set(x, y);
         movement = new Vector2(0, 0);
 
         this.speed = speed;
+        ammo = max_ammo;
         healthPoints = maxHealth;
         shieldPoints = maxShield;
         this.hasShield = hasShield;
@@ -80,6 +83,11 @@ public class Player extends BodyDef {
         emitter.getAngle().setLow(angle - 180.0f);
 
         angle = 180 - getAngleVector().angleDeg();
+
+        // Shooting
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            ammo--;
+        }
     }
 
     public void draw(Batch batch) {
@@ -146,6 +154,7 @@ public class Player extends BodyDef {
     public int getX() { return (int) position.x; }
     public int getY() { return (int) position.y; }
     public int getSpeed() { return speed; }
+    public int getAmmo() { return ammo; }
     public int getHealthPoints() { return healthPoints; }
     public int getShieldPoints() { return hasShield ? shieldPoints : -1; }
     public boolean hasShield() { return hasShield; }

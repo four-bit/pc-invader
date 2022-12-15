@@ -51,6 +51,7 @@ public class GameHUD {
             debugInfoLabels.put("playerHealth", new Label("playerHealth", skin));
             debugInfoLabels.put("playerShield", new Label("playerShield", skin));
             debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
+            debugInfoLabels.put("playerAmmo", new Label("playerAmmo", skin));
             debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
             debugInfoLabels.put("playerBearing", new Label("playerBearing", skin));
             debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
@@ -79,6 +80,7 @@ public class GameHUD {
             debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + player.getHealthPoints());
             debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + player.getShieldPoints() + (player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
             debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + player.getSpeed());
+            debugInfoLabels.get("playerAmmo").setText("[]Player ammunition: [YELLOW]" + player.getAmmo());
             debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + player.getX() + " []Y:[YELLOW]" + player.getY());
             debugInfoLabels.get("playerBearing").setText("[]Player bearing: X:[YELLOW]" + playerBearing.x + " []Y:[YELLOW]" + playerBearing.y);
             debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngle());

@@ -45,6 +45,7 @@ public class PcInvader extends ApplicationAdapter {
                 GAME_WIDTH / 4,
                 GAME_HEIGHT / 2,
                 15,
+                20,
                 8,
                 3,
                 true,
