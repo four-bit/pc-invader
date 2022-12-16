@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class Head {
 
     private int x, y;
+    private boolean flip;
     private Texture texture;
     private float speed, angle;
 
@@ -23,12 +24,15 @@ public class Head {
     private String[] text;
     private ArrayList<HashMap<String, Integer>> location = new ArrayList<>();
     private int locationNum;
+    public static final int GAME_WIDTH = 1920;
+    public static final int GAME_HEIGHT = 1080;
 
 
-    public Head(int x, int y, int speed) {
+    public Head(int x, int y, int speed, float angle) {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.angle = angle;
         this.initGraphics();
         text = handle.readString().split("\n");
         String[] header = text[0].split(",");
@@ -55,40 +59,24 @@ public class Head {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public Texture getTexture() {
         return texture;
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
     public ArrayList<HashMap<String, Integer>> getLocation() {
         return location;
     }
 
-    public void setLocation(ArrayList<HashMap<String, Integer>> location) {
-        this.location = location;
+    public float getAngle() {
+        return angle;
+    }
+
+    public boolean getFlip() {
+        return flip;
     }
 
     public void checkDirection(int x, int y) {
@@ -122,8 +110,6 @@ public class Head {
     }
 
     public void update() {
-
-
         switch (state) {
             case GOINGDOWN:
                 this.y -= this.speed;
@@ -170,6 +156,11 @@ public class Head {
                 checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
                 break;
         }
+
+        this.angle = (float) Math.toDegrees(Math.atan2(
+                (float) (this.y - this.location.get(locationNum).get("y")),
+                (float) (this.x - this.location.get(locationNum).get("x"))));
+        this.flip = this.x < location.get(locationNum).get("x");
     }
 
     public void dispose() {
