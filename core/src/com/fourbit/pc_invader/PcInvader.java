@@ -7,12 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.ui.GameHUD;
 import com.fourbit.pc_invader.boss.Boss;
-
 
 
 public class PcInvader extends ApplicationAdapter {
@@ -20,6 +21,7 @@ public class PcInvader extends ApplicationAdapter {
 
     private World physicsWorld;
     private Box2DDebugRenderer physicsDebugRenderer;
+    private Array<Body> physicsBodies;
     private SpriteBatch batch;
     private Texture background;
     private OrthographicCamera viewportCamera;
@@ -36,22 +38,17 @@ public class PcInvader extends ApplicationAdapter {
         debug = true;  // TODO: Change this to false for production
 
         physicsWorld = new World(new Vector2(0, 0), false);
+        physicsBodies = new Array<>();
         physicsDebugRenderer = new Box2DDebugRenderer();
 
         batch = new SpriteBatch();
         background = new Texture("levels/glob.bg.png");
+
         player = new Player(
                 physicsWorld,
-                GAME_WIDTH / 4,
-                GAME_HEIGHT / 2,
-                15,
-                20,
-                8,
-                3,
-                true,
-                0.0f
+                GAME_WIDTH / 4, GAME_HEIGHT / 2, 0.0f, 150000000,
+                8, 3, true
         );
-
         boss = new Boss(
                 GAME_WIDTH / 2,
                 GAME_HEIGHT / 2,
@@ -61,18 +58,17 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        gameHud = new GameHUD(this);
-
         viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
         viewportCamera.position.set(0.5f * viewportCamera.viewportWidth, 0.5f * viewportCamera.viewportHeight, 0.0f);
         viewportCamera.update();
 
+        gameHud = new GameHUD(this);
     }
 
     @Override
     public void render() {
         // Update game state
-        physicsWorld.step(1/60f, 6, 2);
+        physicsWorld.step(1 / 60f, 6, 2);
         player.update();
         boss.update();
         gameHud.updateFrom(player);
@@ -87,79 +83,19 @@ public class PcInvader extends ApplicationAdapter {
         // Update sceneFrameBuffer
         sceneFrameBuffer.begin();
         batch.begin();
-       { 
-
-        batch.draw(background, 0, 0);
-
-        for (int i = boss.getBodies().size - 1; i > 2; i--){
-            batch.draw(
-                    boss.getBodies().get(i).getTexture(),
-                    boss.getBodies().get(i).getX() + 200 + (int)Math.pow(2*i,2),
-                    boss.getBodies().get(i).getY() - 50 - 75*i,
-                    (float) boss.getBodies().get(i).getTexture().getWidth()/2,
-                    (float) boss.getBodies().get(i).getTexture().getHeight()/2,
-                    boss.getBodies().get(i).getTexture().getWidth() ,
-                    boss.getBodies().get(i).getTexture().getHeight(),
-                    1.0f,
-                    1.0f,
-                    boss.getBodies().get(i).getAngle(),
-                    0,
-                    0,
-                    boss.getHead().getTexture().getWidth(),
-                    boss.getHead().getTexture().getHeight(),
-                    false,
-                    false
-            );
+        {
+            batch.draw(background, 0, 0);
+            boss.draw(batch);
+            // Set sprites positions
+            physicsWorld.getBodies(physicsBodies);
+            for (Body body : physicsBodies) {
+                Entity entity = (Entity) body.getUserData();
+                if (entity != null) {
+                    entity.setPosition(body.getPosition().x, body.getPosition().y);
+                    entity.draw(batch);
+                }
+            }
         }
-        for (int i = 2; i > -1; i--){
-            batch.draw(
-                    boss.getBodies().get(i).getTexture(),
-                    boss.getBodies().get(i).getX() + 212 - (int)Math.pow(2*i,2),
-                    boss.getBodies().get(i).getY() - 50 - 75*i,
-                    (float) boss.getBodies().get(i).getTexture().getWidth()/2,
-                    (float) boss.getBodies().get(i).getTexture().getHeight()/2,
-                    boss.getBodies().get(i).getTexture().getWidth() ,
-                    boss.getBodies().get(i).getTexture().getHeight(),
-                    1.0f,
-                    1.0f,
-                    boss.getBodies().get(i).getAngle(),
-                    0,
-                    0,
-                    boss.getHead().getTexture().getWidth(),
-                    boss.getHead().getTexture().getHeight(),
-                    false,
-                    false
-            );
-        }
-
-
-        batch.draw(
-                boss.getHead().getTexture(),
-                boss.getHead().getX(),
-                boss.getHead().getY(),
-                (float) boss.getHead().getTexture().getWidth()/2,
-                (float) boss.getHead().getTexture().getHeight()/2,
-                boss.getHead().getTexture().getWidth() ,
-                boss.getHead().getTexture().getHeight(),
-                1.0f,
-                1.0f,
-                boss.getHead().getAngle(),
-                0,
-                0,
-                boss.getHead().getTexture().getWidth(),
-                boss.getHead().getTexture().getHeight(),
-                false,
-                boss.getHead().getFlip()
-        );
-         
-         player.draw(batch);
-       }
-      batch.end();
-
-
-        
-        );
-
         batch.end();
         sceneFrameBuffer.end();
 
@@ -172,9 +108,10 @@ public class PcInvader extends ApplicationAdapter {
         }
         batch.end();
 
+        // Render HUD and debug information
         gameHud.draw();
 
-        physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
+        if (debug) physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
     }
 
     @Override
@@ -189,7 +126,9 @@ public class PcInvader extends ApplicationAdapter {
         physicsWorld.dispose();
     }
 
-    public boolean isDebug() { return debug; }
+    public boolean isDebug() {
+        return debug;
+    }
 
     public static Vector2 getMouseCoords() {
         Vector2 mouseCoords2D = new Vector2();
@@ -205,6 +144,4 @@ public class PcInvader extends ApplicationAdapter {
 
         return mouseCoords2D;
     }
-}gameHud.draw();
-
-        physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
+}

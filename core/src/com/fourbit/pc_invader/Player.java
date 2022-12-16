@@ -7,52 +7,42 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.sun.tools.javac.main.Option;
-import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
+
 import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
+import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
 
 
-public class Player extends BodyDef {
-    private final int speed;
-    private int ammo;
+public class Player extends Entity {
+    private final float speed;
+    private final Vector2 movement;
     private int healthPoints;
     private int shieldPoints;
     private boolean hasShield;
-    private float angle;
-    private final Vector2 movement;
     private Body body;
-    private Texture texture;
+    private CircleShape collisionBox;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
 
 
     Player(
             World world,
-            int x, int y,
-            int speed,
-            int max_ammo,
-            int maxHealth,
-            int maxShield, boolean hasShield,
-            float angle
+            int x, int y, float angle, float speed,
+            int maxHealth, int maxShield, boolean hasShield
     ) {
-        super();
-        body = world.createBody(this);
-        super.type = BodyType.DynamicBody;
-
-        position.set(x, y);
-        movement = new Vector2(0, 0);
+        super("player/sprite.png");
+        super.setPosition(x, y);
+        super.setAngle(angle);
 
         this.speed = speed;
-        ammo = max_ammo;
-        healthPoints = maxHealth;
-        shieldPoints = maxShield;
+        this.movement = new Vector2();
+        this.healthPoints = maxHealth;
+        this.shieldPoints = maxShield;
         this.hasShield = hasShield;
-        this.angle = angle;
 
         initGraphics();
+        initPhysics(world);
     }
 
 
@@ -67,55 +57,34 @@ public class Player extends BodyDef {
             movement.add(new Vector2(0, speed));
         if (Gdx.input.isKeyPressed(Input.Keys.S))
             movement.add(new Vector2(0, -speed));
-        position.add(movement);
+        this.body.setLinearVelocity(movement);
 
         // Level boundary check
-        if ((position.x - (float) texture.getWidth() / 2) < 0) position.x = (float) texture.getWidth() / 2;
-        if ((position.x + (float) texture.getWidth() / 2) > GAME_WIDTH) position.x = GAME_WIDTH - (float) texture.getWidth() / 2;
-        if ((position.y - (float) texture.getHeight() / 2) < 0) position.y = (float) texture.getHeight() / 2;
-        if ((position.y + (float) texture.getHeight() / 2) > GAME_HEIGHT) position.y = GAME_HEIGHT - (float) texture.getHeight() / 2;
+        if ((this.body.getPosition().x - (float) super.getWidth() / 2) < 0) this.body.setLinearVelocity(speed, 0);
+        if ((this.body.getPosition().x + (float) super.getWidth() / 2) > GAME_WIDTH) this.body.setLinearVelocity(-speed, 0);;
+        if ((this.body.getPosition().y - (float) super.getHeight() / 2) < 0) this.body.setLinearVelocity(0, speed);;
+        if ((this.body.getPosition().y + (float) super.getHeight() / 2) > GAME_HEIGHT) this.body.setLinearVelocity(0, -speed);;
 
         movement.setZero();
 
-        exhaustEffect.setPosition(position.x, position.y);
+        exhaustEffect.setPosition(super.getPosition().x, super.getPosition().y);
         ParticleEmitter emitter = exhaustEffect.getEmitters().first();
-        emitter.getAngle().setHigh(angle - 180.0f);
-        emitter.getAngle().setLow(angle - 180.0f);
+        emitter.getAngle().setHigh(super.getAngle() - 180.0f);
+        emitter.getAngle().setLow(super.getAngle() - 180.0f);
 
-        angle = 180 - getAngleVector().angleDeg();
-
-        // Shooting
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            ammo--;
-        }
+        super.setAngle(180 - getAngleVector().angleDeg());
     }
 
+    @Override
     public void draw(Batch batch) {
         exhaustEffect.draw(batch, Gdx.graphics.getDeltaTime());
-        batch.draw(
-                texture,
-                getX() - (float) getWidth() / 2,
-                getY() - (float) getHeight() / 2,
-                (float) getWidth() / 2,
-                (float) getHeight() / 2,
-                getWidth(),
-                getHeight(),
-                1.0f,
-                1.0f,
-                getAngle(),
-                0,
-                0,
-                getWidth(),
-                getHeight(),
-                false,
-                false
-        );
+        super.draw(batch);
     }
 
     public void dispose() {
-        texture.dispose();
         exhaustEffect.dispose();
         exhaustTextureAtlas.dispose();
+        collisionBox.dispose();
     }
 
 
@@ -125,8 +94,8 @@ public class Player extends BodyDef {
         Vector3 bearing3D = new Vector3();
         OrthographicCamera cam = new OrthographicCamera();
 
-        bearing3D.x = position.x;
-        bearing3D.y = position.y;
+        bearing3D.x = super.getPosition().x;
+        bearing3D.y = super.getPosition().y;
         bearing3D.z = 0;
         cam.unproject(bearing3D);
         bearing2D.x = bearing3D.x;
@@ -140,8 +109,6 @@ public class Player extends BodyDef {
     }
 
     public void initGraphics() {
-        texture = new Texture("player/sprite.png");
-
         exhaustTextureAtlas = new TextureAtlas();
         exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("player/exhaust_particle.png")));
         exhaustEffect = new ParticleEffect();
@@ -149,19 +116,32 @@ public class Player extends BodyDef {
         exhaustEffect.start();
     }
 
+    public void initPhysics(World world) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.position.set(super.getPosition());
+        body = world.createBody(bodyDef);
+
+        collisionBox = new CircleShape();
+        collisionBox.setRadius((float) (super.getHeight() + super.getWidth()) / 4);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = collisionBox;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.6f;
+        fixtureDef.isSensor = true;
+
+        body.createFixture(fixtureDef);
+        body.setUserData(this);
+    }
+
 
     // Getter and setters
-    public int getX() { return (int) position.x; }
-    public int getY() { return (int) position.y; }
-    public int getSpeed() { return speed; }
-    public int getAmmo() { return ammo; }
+    public float getSpeed() { return speed; }
     public int getHealthPoints() { return healthPoints; }
     public int getShieldPoints() { return hasShield ? shieldPoints : -1; }
     public boolean hasShield() { return hasShield; }
-    public float getAngle() { return angle; }
-    public ParticleEffect getExhaustEffect() { return exhaustEffect; }
-    public int getWidth() { return texture.getWidth(); }
-    public int getHeight() { return texture.getHeight(); }
 
     public void setHealthPoints(int val) throws Option.InvalidValueException {
         if (val >= 0) {
