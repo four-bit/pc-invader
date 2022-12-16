@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.Player;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 public class GameHUD {
@@ -18,7 +18,7 @@ public class GameHUD {
     private Skin skin;
     private Stage main, debug;
     private Table mainRoot, debugRoot;
-    private HashMap<String, Label> debugInfoLabels;
+    private LinkedHashMap<String, Label> debugInfoLabels;
 
 
     public GameHUD(PcInvader game) {
@@ -42,12 +42,16 @@ public class GameHUD {
         if (debugMode) {
             debug = new Stage(new ScreenViewport());
             debugRoot = new Table();
-            debugRoot.defaults().expandX().bottom().left();
 
-            debugInfoLabels = new HashMap<>();
+            Table debugZone = new Table();
+            debugZone.defaults().bottom().left();
+            debugRoot.add(debugZone).expand().bottom().left();
+
+            debugInfoLabels = new LinkedHashMap<>();
             debugInfoLabels.put("playerHealth", new Label("playerHealth", skin));
             debugInfoLabels.put("playerShield", new Label("playerShield", skin));
             debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
+            debugInfoLabels.put("playerAmmo", new Label("playerAmmo", skin));
             debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
             debugInfoLabels.put("playerBearing", new Label("playerBearing", skin));
             debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
@@ -56,8 +60,8 @@ public class GameHUD {
             debugInfoLabels.put("mouseVector", new Label("mouseVector", skin));
 
             for (Label label : debugInfoLabels.values()) {
-                debugRoot.add(label);
-                debugRoot.row();
+                debugZone.add(label);
+                debugZone.row();
             }
 
             debugRoot.setFillParent(true);
@@ -76,6 +80,7 @@ public class GameHUD {
             debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + player.getHealthPoints());
             debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + player.getShieldPoints() + (player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
             debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + player.getSpeed());
+            debugInfoLabels.get("playerAmmo").setText("[]Player ammunition: [YELLOW]" + player.getAmmo());
             debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + player.getX() + " []Y:[YELLOW]" + player.getY());
             debugInfoLabels.get("playerBearing").setText("[]Player bearing: X:[YELLOW]" + playerBearing.x + " []Y:[YELLOW]" + playerBearing.y);
             debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngle());

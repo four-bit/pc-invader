@@ -6,12 +6,12 @@ lowMin: 1000.0
 lowMax: 1000.0
 - Count - 
 min: 0
-max: 1500
+max: 100
 - Emission - 
 lowMin: 50.0
 lowMax: 50.0
-highMin: 150.0
-highMax: 150.0
+highMin: 100.0
+highMax: 100.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -106,30 +106,58 @@ active: false
 - Gravity - 
 active: false
 - Tint - 
-colorsCount: 3
-colors0: 0.77254903
-colors1: 0.30588236
-colors2: 0.16078432
-timelineCount: 1
+colorsCount: 18
+colors0: 1.0
+colors1: 0.9137255
+colors2: 0.8901961
+colors3: 0.99215686
+colors4: 0.9098039
+colors5: 0.7882353
+colors6: 0.9647059
+colors7: 0.63529414
+colors8: 0.65882355
+colors9: 0.69803923
+colors10: 0.32156864
+colors11: 0.4
+colors12: 0.39215687
+colors13: 0.21176471
+colors14: 0.29411766
+colors15: 0.16470589
+colors16: 0.11764706
+colors17: 0.13725491
+timelineCount: 6
 timeline0: 0.0
+timeline1: 0.38726333
+timeline2: 0.4302926
+timeline3: 0.5060241
+timeline4: 0.6454389
+timeline5: 1.0
 - Transparency - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 5
+scalingCount: 9
 scaling0: 0.0
 scaling1: 1.0
-scaling2: 0.93820226
-scaling3: 0.44382024
-scaling4: 0.0
-timelineCount: 5
+scaling2: 0.94736844
+scaling3: 0.8596491
+scaling4: 0.68421054
+scaling5: 0.47368422
+scaling6: 0.31578946
+scaling7: 0.10526316
+scaling8: 0.0
+timelineCount: 9
 timeline0: 0.0
-timeline1: 0.06849315
-timeline2: 0.43457943
-timeline3: 0.81931466
-timeline4: 1.0
+timeline1: 0.0890411
+timeline2: 0.26027396
+timeline3: 0.4178082
+timeline4: 0.5479452
+timeline5: 0.65753424
+timeline6: 0.72602737
+timeline7: 0.84246576
+timeline8: 0.9589041
 - Options - 
 attached: false
 continuous: true
@@ -140,3 +168,4 @@ premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
 exhaust_particle.png
+
