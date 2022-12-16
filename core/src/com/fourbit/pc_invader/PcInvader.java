@@ -14,7 +14,6 @@ import com.fourbit.pc_invader.ui.GameHUD;
 import com.fourbit.pc_invader.boss.Boss;
 
 
-
 public class PcInvader extends ApplicationAdapter {
     private boolean debug;
 
@@ -72,7 +71,7 @@ public class PcInvader extends ApplicationAdapter {
     @Override
     public void render() {
         // Update game state
-        physicsWorld.step(1/60f, 6, 2);
+        physicsWorld.step(1 / 60f, 6, 2);
         player.update();
         boss.update();
         gameHud.updateFrom(player);
@@ -87,79 +86,72 @@ public class PcInvader extends ApplicationAdapter {
         // Update sceneFrameBuffer
         sceneFrameBuffer.begin();
         batch.begin();
-       { 
+        {
+            batch.draw(background, 0, 0);
 
-        batch.draw(background, 0, 0);
+            for (int i = boss.getBodies().size - 1; i > 2; i--) {
+                batch.draw(
+                        boss.getBodies().get(i).getTexture(),
+                        boss.getBodies().get(i).getX() + 200 + (int) Math.pow(2 * i, 2),
+                        boss.getBodies().get(i).getY() - 50 - 75 * i,
+                        (float) boss.getBodies().get(i).getTexture().getWidth() / 2,
+                        (float) boss.getBodies().get(i).getTexture().getHeight() / 2,
+                        boss.getBodies().get(i).getTexture().getWidth(),
+                        boss.getBodies().get(i).getTexture().getHeight(),
+                        1.0f,
+                        1.0f,
+                        boss.getBodies().get(i).getAngle(),
+                        0,
+                        0,
+                        boss.getHead().getTexture().getWidth(),
+                        boss.getHead().getTexture().getHeight(),
+                        false,
+                        false
+                );
+            }
+            for (int i = 2; i > -1; i--) {
+                batch.draw(
+                        boss.getBodies().get(i).getTexture(),
+                        boss.getBodies().get(i).getX() + 212 - (int) Math.pow(2 * i, 2),
+                        boss.getBodies().get(i).getY() - 50 - 75 * i,
+                        (float) boss.getBodies().get(i).getTexture().getWidth() / 2,
+                        (float) boss.getBodies().get(i).getTexture().getHeight() / 2,
+                        boss.getBodies().get(i).getTexture().getWidth(),
+                        boss.getBodies().get(i).getTexture().getHeight(),
+                        1.0f,
+                        1.0f,
+                        boss.getBodies().get(i).getAngle(),
+                        0,
+                        0,
+                        boss.getHead().getTexture().getWidth(),
+                        boss.getHead().getTexture().getHeight(),
+                        false,
+                        false
+                );
+            }
 
-        for (int i = boss.getBodies().size - 1; i > 2; i--){
+
             batch.draw(
-                    boss.getBodies().get(i).getTexture(),
-                    boss.getBodies().get(i).getX() + 200 + (int)Math.pow(2*i,2),
-                    boss.getBodies().get(i).getY() - 50 - 75*i,
-                    (float) boss.getBodies().get(i).getTexture().getWidth()/2,
-                    (float) boss.getBodies().get(i).getTexture().getHeight()/2,
-                    boss.getBodies().get(i).getTexture().getWidth() ,
-                    boss.getBodies().get(i).getTexture().getHeight(),
+                    boss.getHead().getTexture(),
+                    boss.getHead().getX(),
+                    boss.getHead().getY(),
+                    (float) boss.getHead().getTexture().getWidth() / 2,
+                    (float) boss.getHead().getTexture().getHeight() / 2,
+                    boss.getHead().getTexture().getWidth(),
+                    boss.getHead().getTexture().getHeight(),
                     1.0f,
                     1.0f,
-                    boss.getBodies().get(i).getAngle(),
+                    boss.getHead().getAngle(),
                     0,
                     0,
                     boss.getHead().getTexture().getWidth(),
                     boss.getHead().getTexture().getHeight(),
                     false,
-                    false
+                    boss.getHead().getFlip()
             );
+
+            player.draw(batch);
         }
-        for (int i = 2; i > -1; i--){
-            batch.draw(
-                    boss.getBodies().get(i).getTexture(),
-                    boss.getBodies().get(i).getX() + 212 - (int)Math.pow(2*i,2),
-                    boss.getBodies().get(i).getY() - 50 - 75*i,
-                    (float) boss.getBodies().get(i).getTexture().getWidth()/2,
-                    (float) boss.getBodies().get(i).getTexture().getHeight()/2,
-                    boss.getBodies().get(i).getTexture().getWidth() ,
-                    boss.getBodies().get(i).getTexture().getHeight(),
-                    1.0f,
-                    1.0f,
-                    boss.getBodies().get(i).getAngle(),
-                    0,
-                    0,
-                    boss.getHead().getTexture().getWidth(),
-                    boss.getHead().getTexture().getHeight(),
-                    false,
-                    false
-            );
-        }
-
-
-        batch.draw(
-                boss.getHead().getTexture(),
-                boss.getHead().getX(),
-                boss.getHead().getY(),
-                (float) boss.getHead().getTexture().getWidth()/2,
-                (float) boss.getHead().getTexture().getHeight()/2,
-                boss.getHead().getTexture().getWidth() ,
-                boss.getHead().getTexture().getHeight(),
-                1.0f,
-                1.0f,
-                boss.getHead().getAngle(),
-                0,
-                0,
-                boss.getHead().getTexture().getWidth(),
-                boss.getHead().getTexture().getHeight(),
-                false,
-                boss.getHead().getFlip()
-        );
-         
-         player.draw(batch);
-       }
-      batch.end();
-
-
-        
-        );
-
         batch.end();
         sceneFrameBuffer.end();
 
@@ -189,7 +181,9 @@ public class PcInvader extends ApplicationAdapter {
         physicsWorld.dispose();
     }
 
-    public boolean isDebug() { return debug; }
+    public boolean isDebug() {
+        return debug;
+    }
 
     public static Vector2 getMouseCoords() {
         Vector2 mouseCoords2D = new Vector2();
@@ -205,6 +199,4 @@ public class PcInvader extends ApplicationAdapter {
 
         return mouseCoords2D;
     }
-}gameHud.draw();
-
-        physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
+}
