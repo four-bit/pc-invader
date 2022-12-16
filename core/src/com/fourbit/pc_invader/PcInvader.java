@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.ui.GameHUD;
 import com.fourbit.pc_invader.boss.Boss;
@@ -19,6 +21,7 @@ public class PcInvader extends ApplicationAdapter {
 
     private World physicsWorld;
     private Box2DDebugRenderer physicsDebugRenderer;
+    private Array<Body> physicsBodies;
     private SpriteBatch batch;
     private Texture background;
     private OrthographicCamera viewportCamera;
@@ -35,6 +38,7 @@ public class PcInvader extends ApplicationAdapter {
         debug = true;  // TODO: Change this to false for production
 
         physicsWorld = new World(new Vector2(0, 0), false);
+        physicsBodies = new Array<>();
         physicsDebugRenderer = new Box2DDebugRenderer();
 
         batch = new SpriteBatch();
@@ -87,7 +91,15 @@ public class PcInvader extends ApplicationAdapter {
         {
             batch.draw(background, 0, 0);
             boss.draw(batch);
-            player.draw(batch);
+            // Set sprites positions
+            physicsWorld.getBodies(physicsBodies);
+            for (Body body : physicsBodies) {
+                Entity entity = (Entity) body.getUserData();
+                if (entity != null) {
+                    entity.setPosition(body.getPosition().x, body.getPosition().y);
+                    entity.draw(batch);
+                }
+            }
         }
         batch.end();
         sceneFrameBuffer.end();
