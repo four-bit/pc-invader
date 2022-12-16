@@ -85,39 +85,6 @@ public class Boss {
     public void update() {
         bodies.get(0).update(head.getX(),head.getY());
         head.update();
-//        for (Body body : bodies){
-//            body.update(head.getX(),head.getY());
-//        }
-//        if (
-//                bodies.get(0).getX() - head.getX() >  bodies.get(0).getTexture().getWidth()/6 ||
-//                head.getY() - bodies.get(0).getY() > bodies.get(0).getTexture().getHeight()/10||
-//                head.getX() - bodies.get(0).getX()  >  bodies.get(0).getTexture().getWidth()/6 ||
-//                bodies.get(0).getY()-head.getY()  > bodies.get(0).getTexture().getHeight()/10
-//        ){
-
-//        }
-
-//        if (
-//                (bodies.get(0).getX()+200 - head.getX() > 0 &&
-//                        head.getY() - bodies.get(0).getY() < 50)||
-//                        (bodies.get(0).getX()+200  - head.getX()<0 &&
-//                        head.getY() - bodies.get(0).getY() > -50)
-//        ){
-//            bodies.get(0).update(head.getX(),bodies.get(0).getY());
-//        }
-////        if (head.getY() - bodies.get(0).getY() > 50||
-////                head.getY() - bodies.get(0).getY()  <-50){
-////            bodies.get(0).update(head.getX(),head.getY());
-////        }
-//        else {
-//            bodies.get(0).update(head.getX(),head.getY());
-//        }
-//        if ((bodies.get(0).getX()+200 - head.getX() > 0 || bodies.get(0).getX()+200  - head.getX()<0)){
-//            bodies.get(0).update(head.getX(),bodies.get(0).getY());
-//        }
-
-//        System.out.println( bodies.get(0).getX() - head.getX());
-////        bodies.get(0).update(head.getX(),head.getY());
         for (int i =1; i < bodies.size; i++){
             if (
                     bodies.get(i).getX()  - bodies.get(i-1).getX() >  50||
@@ -127,9 +94,7 @@ public class Boss {
             ){
                     bodies.get(i).update(bodies.get(i-1).getX(), bodies.get(i-1).getY());
             }
-//            bodies.get(i).update(bodies.get(i-1).getX(),bodies.get(i-1).getY());
         }
-
     }
 
     public void dispose() {
