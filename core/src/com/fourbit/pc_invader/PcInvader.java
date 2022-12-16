@@ -88,68 +88,7 @@ public class PcInvader extends ApplicationAdapter {
         batch.begin();
         {
             batch.draw(background, 0, 0);
-
-            for (int i = boss.getBodies().size - 1; i > 2; i--) {
-                batch.draw(
-                        boss.getBodies().get(i).getTexture(),
-                        boss.getBodies().get(i).getX() + 200 + (int) Math.pow(2 * i, 2),
-                        boss.getBodies().get(i).getY() - 50 - 75 * i,
-                        (float) boss.getBodies().get(i).getTexture().getWidth() / 2,
-                        (float) boss.getBodies().get(i).getTexture().getHeight() / 2,
-                        boss.getBodies().get(i).getTexture().getWidth(),
-                        boss.getBodies().get(i).getTexture().getHeight(),
-                        1.0f,
-                        1.0f,
-                        boss.getBodies().get(i).getAngle(),
-                        0,
-                        0,
-                        boss.getHead().getTexture().getWidth(),
-                        boss.getHead().getTexture().getHeight(),
-                        false,
-                        false
-                );
-            }
-            for (int i = 2; i > -1; i--) {
-                batch.draw(
-                        boss.getBodies().get(i).getTexture(),
-                        boss.getBodies().get(i).getX() + 212 - (int) Math.pow(2 * i, 2),
-                        boss.getBodies().get(i).getY() - 50 - 75 * i,
-                        (float) boss.getBodies().get(i).getTexture().getWidth() / 2,
-                        (float) boss.getBodies().get(i).getTexture().getHeight() / 2,
-                        boss.getBodies().get(i).getTexture().getWidth(),
-                        boss.getBodies().get(i).getTexture().getHeight(),
-                        1.0f,
-                        1.0f,
-                        boss.getBodies().get(i).getAngle(),
-                        0,
-                        0,
-                        boss.getHead().getTexture().getWidth(),
-                        boss.getHead().getTexture().getHeight(),
-                        false,
-                        false
-                );
-            }
-
-
-            batch.draw(
-                    boss.getHead().getTexture(),
-                    boss.getHead().getX(),
-                    boss.getHead().getY(),
-                    (float) boss.getHead().getTexture().getWidth() / 2,
-                    (float) boss.getHead().getTexture().getHeight() / 2,
-                    boss.getHead().getTexture().getWidth(),
-                    boss.getHead().getTexture().getHeight(),
-                    1.0f,
-                    1.0f,
-                    boss.getHead().getAngle(),
-                    0,
-                    0,
-                    boss.getHead().getTexture().getWidth(),
-                    boss.getHead().getTexture().getHeight(),
-                    false,
-                    boss.getHead().getFlip()
-            );
-
+            boss.draw(batch);
             player.draw(batch);
         }
         batch.end();

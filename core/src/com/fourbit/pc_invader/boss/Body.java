@@ -31,40 +31,16 @@ public class Body {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public Texture getTexture() {
         return texture;
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
     public float getAngle() {
         return angle;
-    }
-
-    public void setAngle(float angle) {
-        this.angle = angle;
     }
 
     public void checkDirection(int x, int y) {
@@ -139,8 +115,6 @@ public class Body {
     public void dispose() {
         texture.dispose();
     }
-
-
 }
 
 

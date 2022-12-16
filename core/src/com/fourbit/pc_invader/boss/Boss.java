@@ -1,10 +1,8 @@
 package com.fourbit.pc_invader.boss;
 
 
-
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
-
-
 
 
 public class Boss {
@@ -34,67 +32,91 @@ public class Boss {
         }
     }
 
-    public float getAngle() {
-        return angle;
-    }
-
-    public void setAngle(float angle) {
-        this.angle = angle;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
 
     public Head getHead() {
         return head;
-    }
-
-    public void setHead(Head head) {
-        this.head = head;
     }
 
     public Array<Body> getBodies() {
         return bodies;
     }
 
-    public void setBodies(Array<Body> bodies) {
-        this.bodies = bodies;
-    }
-
     public void update() {
-        bodies.get(0).update(head.getX(),head.getY());
+        bodies.get(0).update(head.getX(), head.getY());
         head.update();
-        for (int i =1; i < bodies.size; i++){
+        for (int i = 1; i < bodies.size; i++) {
             if (
-                    bodies.get(i).getX()  - bodies.get(i-1).getX() >  50||
-                            bodies.get(i).getY() - bodies.get(i).getY()  < -75||
-                            bodies.get(i-1).getX() - bodies.get(i).getX() >  50 ||
-                            bodies.get(i).getY() - bodies.get(i-1).getY()   > 20
-            ){
-                    bodies.get(i).update(bodies.get(i-1).getX(), bodies.get(i-1).getY());
+                    bodies.get(i).getX() - bodies.get(i - 1).getX() > 50 ||
+                            bodies.get(i).getY() - bodies.get(i).getY() < -75 ||
+                            bodies.get(i - 1).getX() - bodies.get(i).getX() > 50 ||
+                            bodies.get(i).getY() - bodies.get(i - 1).getY() > 20
+            ) {
+                bodies.get(i).update(bodies.get(i - 1).getX(), bodies.get(i - 1).getY());
             }
         }
+    }
+
+    public void draw(Batch batch) {
+        for (int i = getBodies().size - 1; i > 2; i--) {
+            batch.draw(
+                    getBodies().get(i).getTexture(),
+                    getBodies().get(i).getX() + 200 + (int) Math.pow(2 * i, 2),
+                    getBodies().get(i).getY() - 50 - 75 * i,
+                    (float) getBodies().get(i).getTexture().getWidth() / 2,
+                    (float) getBodies().get(i).getTexture().getHeight() / 2,
+                    getBodies().get(i).getTexture().getWidth(),
+                    getBodies().get(i).getTexture().getHeight(),
+                    1.0f,
+                    1.0f,
+                    getBodies().get(i).getAngle(),
+                    0,
+                    0,
+                    getHead().getTexture().getWidth(),
+                    getHead().getTexture().getHeight(),
+                    false,
+                    false
+            );
+        }
+        for (int i = 2; i > -1; i--) {
+            batch.draw(
+                    getBodies().get(i).getTexture(),
+                    getBodies().get(i).getX() + 212 - (int) Math.pow(2 * i, 2),
+                    getBodies().get(i).getY() - 50 - 75 * i,
+                    (float) getBodies().get(i).getTexture().getWidth() / 2,
+                    (float) getBodies().get(i).getTexture().getHeight() / 2,
+                    getBodies().get(i).getTexture().getWidth(),
+                    getBodies().get(i).getTexture().getHeight(),
+                    1.0f,
+                    1.0f,
+                    getBodies().get(i).getAngle(),
+                    0,
+                    0,
+                    getHead().getTexture().getWidth(),
+                    getHead().getTexture().getHeight(),
+                    false,
+                    false
+            );
+        }
+
+
+        batch.draw(
+                getHead().getTexture(),
+                getHead().getX(),
+                getHead().getY(),
+                (float) getHead().getTexture().getWidth() / 2,
+                (float) getHead().getTexture().getHeight() / 2,
+                getHead().getTexture().getWidth(),
+                getHead().getTexture().getHeight(),
+                1.0f,
+                1.0f,
+                getHead().getAngle(),
+                0,
+                0,
+                getHead().getTexture().getWidth(),
+                getHead().getTexture().getHeight(),
+                false,
+                getHead().getFlip()
+        );
     }
 
     public void dispose() {

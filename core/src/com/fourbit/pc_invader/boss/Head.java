@@ -59,56 +59,24 @@ public class Head {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public Texture getTexture() {
         return texture;
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
     public ArrayList<HashMap<String, Integer>> getLocation() {
         return location;
-    }
-
-    public void setLocation(ArrayList<HashMap<String, Integer>> location) {
-        this.location = location;
     }
 
     public float getAngle() {
         return angle;
     }
 
-    public void setAngle(float angle) {
-        this.angle = angle;
-    }
-
     public boolean getFlip() {
         return flip;
-    }
-
-    public void setFlip(boolean flip) {
-        this.flip = flip;
     }
 
     public void checkDirection(int x, int y) {
@@ -142,8 +110,6 @@ public class Head {
     }
 
     public void update() {
-
-
         switch (state) {
             case GOINGDOWN:
                 this.y -= this.speed;
@@ -191,16 +157,10 @@ public class Head {
                 break;
         }
 
-        this.angle =  (float) Math.toDegrees( Math.atan2(
-                (float) (this.y-this.location.get(locationNum).get("y")),
-                (float)(this.x-this.location.get(locationNum).get("x"))));
-
-        if (this.x < location.get(locationNum).get("x")){
-            this.flip = true;
-        }
-        else {
-            flip = false;
-        }
+        this.angle = (float) Math.toDegrees(Math.atan2(
+                (float) (this.y - this.location.get(locationNum).get("y")),
+                (float) (this.x - this.location.get(locationNum).get("x"))));
+        this.flip = this.x < location.get(locationNum).get("x");
     }
 
     public void dispose() {
