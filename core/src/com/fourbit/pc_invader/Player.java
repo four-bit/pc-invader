@@ -10,9 +10,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.sun.tools.javac.main.Option;
 
+import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
+import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
+
 
 public class Player extends Entity {
-    private final int maxSpeed;
+    private final float speed;
+    private final Vector2 movement;
     private int healthPoints;
     private int shieldPoints;
     private boolean hasShield;
@@ -24,20 +28,18 @@ public class Player extends Entity {
 
     Player(
             World world,
-            int x, int y,
-            int maxSpeed,
-            int maxHealth,
-            int maxShield, boolean hasShield,
-            float angle
+            int x, int y, float angle, float speed,
+            int maxHealth, int maxShield, boolean hasShield
     ) {
         super("player/sprite.png");
         super.setPosition(x, y);
+        super.setAngle(angle);
 
-        this.maxSpeed = maxSpeed;
+        this.speed = speed;
+        this.movement = new Vector2();
         this.healthPoints = maxHealth;
         this.shieldPoints = maxShield;
         this.hasShield = hasShield;
-        super.setAngle(angle);
 
         initGraphics();
         initPhysics(world);
@@ -46,24 +48,24 @@ public class Player extends Entity {
 
     // Player logic
     public void update() {
-        Vector2 vel = this.body.getLinearVelocity();
-        Vector2 pos = this.body.getPosition();
-
         // Calculate movement vector based on user input and add that vector to player's position
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && vel.x > -maxSpeed)
-            this.body.applyLinearImpulse(-8f, 0, pos.x, pos.y, true);
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && vel.x > maxSpeed)
-            this.body.applyLinearImpulse(8f, 0, pos.x, pos.y, true);
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && vel.y < maxSpeed)
-            this.body.applyLinearImpulse(0, 8f, pos.x, pos.y, true);
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && vel.y > -maxSpeed)
-            this.body.applyLinearImpulse(0, -8f, pos.x, pos.y, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.A))
+            movement.add(new Vector2(-speed, 0));
+        if (Gdx.input.isKeyPressed(Input.Keys.D))
+            movement.add(new Vector2(speed, 0));
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+            movement.add(new Vector2(0, speed));
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
+            movement.add(new Vector2(0, -speed));
+        this.body.setLinearVelocity(movement);
 
-//        // Level boundary check
-//        if ((position.x - (float) texture.getWidth() / 2) < 0) position.x = (float) texture.getWidth() / 2;
-//        if ((position.x + (float) texture.getWidth() / 2) > GAME_WIDTH) position.x = GAME_WIDTH - (float) texture.getWidth() / 2;
-//        if ((position.y - (float) texture.getHeight() / 2) < 0) position.y = (float) texture.getHeight() / 2;
-//        if ((position.y + (float) texture.getHeight() / 2) > GAME_HEIGHT) position.y = GAME_HEIGHT - (float) texture.getHeight() / 2;
+        // Level boundary check
+        if ((this.body.getPosition().x - (float) super.getWidth() / 2) < 0) this.body.setLinearVelocity(speed, 0);
+        if ((this.body.getPosition().x + (float) super.getWidth() / 2) > GAME_WIDTH) this.body.setLinearVelocity(-speed, 0);;
+        if ((this.body.getPosition().y - (float) super.getHeight() / 2) < 0) this.body.setLinearVelocity(0, speed);;
+        if ((this.body.getPosition().y + (float) super.getHeight() / 2) > GAME_HEIGHT) this.body.setLinearVelocity(0, -speed);;
+
+        movement.setZero();
 
         exhaustEffect.setPosition(super.getPosition().x, super.getPosition().y);
         ParticleEmitter emitter = exhaustEffect.getEmitters().first();
@@ -75,8 +77,8 @@ public class Player extends Entity {
 
     @Override
     public void draw(Batch batch) {
-        super.draw(batch);
         exhaustEffect.draw(batch, Gdx.graphics.getDeltaTime());
+        super.draw(batch);
     }
 
     public void dispose() {
@@ -119,6 +121,7 @@ public class Player extends Entity {
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(super.getPosition());
         body = world.createBody(bodyDef);
+
         collisionBox = new CircleShape();
         collisionBox.setRadius((float) (super.getHeight() + super.getWidth()) / 4);
 
@@ -135,8 +138,7 @@ public class Player extends Entity {
 
 
     // Getter and setters
-
-    public Body getBody() { return body; }
+    public float getSpeed() { return speed; }
     public int getHealthPoints() { return healthPoints; }
     public int getShieldPoints() { return hasShield ? shieldPoints : -1; }
     public boolean hasShield() { return hasShield; }

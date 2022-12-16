@@ -46,13 +46,8 @@ public class PcInvader extends ApplicationAdapter {
 
         player = new Player(
                 physicsWorld,
-                GAME_WIDTH / 4,
-                GAME_HEIGHT / 2,
-                15,
-                8,
-                3,
-                true,
-                0.0f
+                GAME_WIDTH / 4, GAME_HEIGHT / 2, 0.0f, 150000000,
+                8, 3, true
         );
         boss = new Boss(
                 GAME_WIDTH / 2,

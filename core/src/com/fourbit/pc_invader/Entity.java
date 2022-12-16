@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Entity {
-    private Vector2 position;
+    private final Vector2 position;
     private float angle;
     private final Texture texture;
 
