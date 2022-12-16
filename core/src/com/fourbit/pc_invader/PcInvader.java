@@ -44,7 +44,6 @@ public class PcInvader extends ApplicationAdapter {
                 GAME_WIDTH / 4,
                 GAME_HEIGHT / 2,
                 15,
-                20,
                 8,
                 3,
                 true,
@@ -103,9 +102,10 @@ public class PcInvader extends ApplicationAdapter {
         }
         batch.end();
 
+        // Render HUD and debug information
         gameHud.draw();
 
-        physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
+        if (debug) physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
     }
 
     @Override
