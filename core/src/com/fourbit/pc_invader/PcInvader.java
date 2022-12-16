@@ -39,6 +39,7 @@ public class PcInvader extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         background = new Texture("levels/glob.bg.png");
+
         player = new Player(
                 physicsWorld,
                 GAME_WIDTH / 4,
@@ -49,7 +50,6 @@ public class PcInvader extends ApplicationAdapter {
                 true,
                 0.0f
         );
-
         boss = new Boss(
                 GAME_WIDTH / 2,
                 GAME_HEIGHT / 2,
@@ -59,12 +59,11 @@ public class PcInvader extends ApplicationAdapter {
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        gameHud = new GameHUD(this);
-
         viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
         viewportCamera.position.set(0.5f * viewportCamera.viewportWidth, 0.5f * viewportCamera.viewportHeight, 0.0f);
         viewportCamera.update();
 
+        gameHud = new GameHUD(this);
     }
 
     @Override
