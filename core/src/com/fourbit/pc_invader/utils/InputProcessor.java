@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 
 public class InputProcessor {
-    public static Vector2 getMouseCoords() {
+    public static Vector2 getMouseVector() {
         Vector2 mouseCoords2D = new Vector2();
         Vector3 mouseCoords3D = new Vector3();
         OrthographicCamera cam = new OrthographicCamera();

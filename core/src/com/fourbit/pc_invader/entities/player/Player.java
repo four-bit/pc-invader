@@ -2,7 +2,6 @@ package com.fourbit.pc_invader.entities.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -18,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.Utils;
-import com.fourbit.pc_invader.utils.InputProcessor;
 import com.sun.tools.javac.main.Option;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
@@ -150,7 +147,7 @@ public class Player extends Entity {
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
-        super.angle = 180 - getAngleVector().angleDeg();
+        super.angle = 180 - Utils.getAngleToMouse(this).angleDeg();
     }
 
     @Override
@@ -165,26 +162,5 @@ public class Player extends Entity {
         exhaustTextureAtlas.dispose();
         collisionBox.dispose();
         super.dispose();
-    }
-
-
-    // Utilities
-    public Vector2 getBearing() {
-        Vector2 bearing2D = new Vector2();
-        Vector3 bearing3D = new Vector3();
-        OrthographicCamera cam = new OrthographicCamera();
-
-        bearing3D.x = super.position.x;
-        bearing3D.y = super.position.y;
-        bearing3D.z = 0;
-        cam.unproject(bearing3D);
-        bearing2D.x = bearing3D.x;
-        bearing2D.y = bearing3D.y;
-
-        return bearing2D;
-    }
-
-    public Vector2 getAngleVector() {
-        return getBearing().sub(InputProcessor.getMouseCoords());
     }
 }

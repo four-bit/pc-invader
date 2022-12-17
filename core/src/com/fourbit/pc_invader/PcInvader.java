@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.levels.BossLevel;
 import com.fourbit.pc_invader.levels.Level;
 
-
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
