@@ -22,6 +22,10 @@ public class Utils {
         return new Vector2(meters.x * Globals.PPM, meters.y * Globals.PPM);
     }
 
+    public static float toDegrees(float radians) {
+        return (float) (radians * 180 / Math.PI);
+    }
+
     public static Vector2 getBearingFromCenter(Entity entity) {
         Vector2 bearing2D = new Vector2();
         Vector3 bearing3D = new Vector3();

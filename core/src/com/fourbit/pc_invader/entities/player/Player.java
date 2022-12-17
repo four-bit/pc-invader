@@ -42,7 +42,6 @@ public class Player extends Entity {
         super("player/sprite.png");
         super.position.x = x;
         super.position.y = y;
-        super.angle = angle;
 
         this.speed = speed;
         this.movement = new Vector2();
@@ -137,7 +136,7 @@ public class Player extends Entity {
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
-        super.angle = 180 - Utils.getAngleToMouse(this).angleDeg();
+        this.body.setTransform(body.getPosition(), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
     }
 
     @Override

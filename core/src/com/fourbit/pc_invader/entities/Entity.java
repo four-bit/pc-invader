@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.fourbit.pc_invader.utils.Utils;
 
 
 public class Entity implements GameComponent {
@@ -28,6 +29,14 @@ public class Entity implements GameComponent {
 
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    public void setAngleRadian(float angle) {
+        this.angle = Utils.toDegrees(angle);
+    }
+
+    public void setAngleDegrees(float angle) {
+        this.angle = angle;
     }
 
 

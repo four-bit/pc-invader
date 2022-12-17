@@ -72,6 +72,7 @@ public class Level implements GameComponent {
             Entity entity = (Entity) body.getUserData();
             if (entity != null) {
                 entity.setPosition(Utils.toPixels(body.getPosition()));
+                entity.setAngleRadian(body.getAngle());
                 entity.draw(batch);
             }
         }
