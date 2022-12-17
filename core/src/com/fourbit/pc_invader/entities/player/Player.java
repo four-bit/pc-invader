@@ -132,13 +132,6 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.S))
             this.movement.add(new Vector2(0, -this.speed));
         this.body.setLinearVelocity(movement);
-
-        // Level boundary check
-        if ((Utils.toPixels(this.body.getPosition().x) - (float) super.texture.getWidth() / 2) < 0) this.body.setLinearVelocity(speed, 0);
-        if ((Utils.toPixels(this.body.getPosition().x) + (float) super.texture.getWidth() / 2) > GAME_WIDTH) this.body.setLinearVelocity(-speed, 0);;
-        if ((Utils.toPixels(this.body.getPosition().y) - (float) super.texture.getHeight() / 2) < 0) this.body.setLinearVelocity(0, speed);;
-        if ((Utils.toPixels(this.body.getPosition().y) + (float) super.texture.getHeight() / 2) > GAME_HEIGHT) this.body.setLinearVelocity(0, -speed);;
-
         this.movement.setZero();
 
         this.exhaustEffect.setPosition(super.position.x, super.position.y);
