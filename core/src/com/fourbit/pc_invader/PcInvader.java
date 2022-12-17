@@ -20,7 +20,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class PcInvader extends ApplicationAdapter {
-    private boolean debug;
+    protected boolean debug;
 
     private SpriteBatch batch;
     private FrameBuffer sceneFrameBuffer;
