@@ -16,9 +16,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.Utils;
+import com.fourbit.pc_invader.utils.InputProcessor;
 import com.sun.tools.javac.main.Option;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
@@ -185,6 +185,6 @@ public class Player extends Entity {
     }
 
     public Vector2 getAngleVector() {
-        return getBearing().sub(PcInvader.getMouseCoords());
+        return getBearing().sub(InputProcessor.getMouseCoords());
     }
 }

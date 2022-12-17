@@ -7,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.entities.player.Player;
 import com.fourbit.pc_invader.levels.Level;
+import com.fourbit.pc_invader.utils.InputProcessor;
 
 import java.util.LinkedHashMap;
 
@@ -72,7 +72,7 @@ public class GameHUD {
 
 
     public void updateFrom(Player player) {
-        Vector2 mouseVector = PcInvader.getMouseCoords();
+        Vector2 mouseVector = InputProcessor.getMouseCoords();
         Vector2 playerBearing = player.getBearing();
         Vector2 playerAngleVector = player.getAngleVector();
 
