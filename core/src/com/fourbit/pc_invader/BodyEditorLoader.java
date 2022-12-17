@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Loads the collision fixtures defined with the Physics Body Editor application.
  * You only need to give it a body and the corresponding fixture name, and it will attach these fixtures to your body.
  */
 public class BodyEditorLoader {
-    // Reusable stuff
     private final Model model;
     private final List<Vector2> vectorPool = new ArrayList<Vector2>();
     private final PolygonShape polygonShape = new PolygonShape();
@@ -42,8 +42,8 @@ public class BodyEditorLoader {
      * <br/><br/>
      * <p>
      * The body reference point (the red cross in the tool) is by default
-     * located at the bottom left corner of the image. This reference point
-     * will be put right over the BodyDef position point. Therefore, you should
+     * located in the bottom left corner of the image. This reference point
+     * will be put over the BodyDef position point. Therefore, you should
      * place this reference point carefully to let you place your body in your
      * world easily with its BodyDef.position point. Note that to draw an image
      * at the position of your body, you will need to know this reference point
@@ -81,8 +81,8 @@ public class BodyEditorLoader {
             fd.shape = polygonShape;
             body.createFixture(fd);
 
-            for (int ii = 0, nn = vertices.length; ii < nn; ii++) {
-                free(vertices[ii]);
+            for (Vector2 vertex : vertices) {
+                free(vertex);
             }
         }
 

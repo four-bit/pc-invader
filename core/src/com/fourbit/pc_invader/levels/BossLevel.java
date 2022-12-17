@@ -76,6 +76,7 @@ public class BossLevel extends Level {
                 8, 3, true
         );
         this.boss = new Boss(
+                super.physicsWorld,
                 GAME_WIDTH / 2,
                 GAME_HEIGHT / 2,
                 2

@@ -31,6 +31,11 @@ public class Entity implements GameComponent {
         this.position = position;
     }
 
+    public void setPosition(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
     public void setAngleRadian(float angle) {
         this.angle = Utils.toDegrees(angle);
     }
