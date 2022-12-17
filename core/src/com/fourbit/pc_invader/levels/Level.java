@@ -33,7 +33,7 @@ public class Level implements GameComponent {
 
         this.background = new Texture(backgroundPath);
 
-        this.physicsWorld = new World(new Vector2(0, -2), false);
+        this.physicsWorld = new World(new Vector2(0, 0), false);
         this.physicsBodies = new Array<>();
 
         this.viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);

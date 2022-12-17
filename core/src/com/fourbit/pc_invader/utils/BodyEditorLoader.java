@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader;
+package com.fourbit.pc_invader.utils;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
