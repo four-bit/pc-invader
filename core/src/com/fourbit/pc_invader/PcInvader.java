@@ -50,7 +50,7 @@ public class PcInvader extends ApplicationAdapter {
                 8, 3, true
         );
         boss = new Boss(
-                GAME_WIDTH / 2,
+                physicsWorld,GAME_WIDTH / 2,
                 GAME_HEIGHT / 2,
                 2
         );

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class Head {
     private int locationNum;
     public static final int GAME_WIDTH = 1920;
     public static final int GAME_HEIGHT = 1080;
+
+    private Vector2 movement;
 
 
     public Head(int x, int y, int speed, float angle) {
@@ -114,6 +117,7 @@ public class Head {
             case GOINGDOWN:
                 this.y -= this.speed;
                 checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+
                 break;
             case GOINGDOWNLEFT:
                 this.x -= this.speed;
