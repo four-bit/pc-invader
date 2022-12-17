@@ -11,21 +11,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Utils;
 import com.sun.tools.javac.main.Option;
-
-import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
 public class Player extends Entity {
     private final float speed;
     private final Vector2 movement;
     private final Body body;
-    private final CircleShape collisionBox;
     private final TextureAtlas exhaustTextureAtlas;
     private final ParticleEffect exhaustEffect;
 
@@ -50,18 +47,12 @@ public class Player extends Entity {
         this.hasShield = hasShield;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(Utils.toMeters(super.position));
         this.body = world.createBody(bodyDef);
 
-        this.collisionBox = new CircleShape();
-        this.collisionBox.setRadius((float) (super.texture.getHeight() + super.texture.getWidth()) / 4 / PPM);
-
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = collisionBox;
-        fixtureDef.density = 0.5f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.6f;
+        new BodyEditorLoader(Gdx.files.internal("player/body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth()));
 
         this.body.createFixture(fixtureDef);
         this.body.setUserData(this);
@@ -120,6 +111,7 @@ public class Player extends Entity {
         super.update();
 
         // Calculate movement vector based on user input and add that vector to player's position
+        this.movement.setZero();
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             this.movement.add(new Vector2(-this.speed, 0));
         if (Gdx.input.isKeyPressed(Input.Keys.D))
@@ -128,15 +120,13 @@ public class Player extends Entity {
             this.movement.add(new Vector2(0, this.speed));
         if (Gdx.input.isKeyPressed(Input.Keys.S))
             this.movement.add(new Vector2(0, -this.speed));
-        this.body.setLinearVelocity(movement);
-        this.movement.setZero();
 
         this.exhaustEffect.setPosition(super.position.x, super.position.y);
         ParticleEmitter emitter = this.exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
-        this.body.setTransform(body.getPosition(), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
+        this.body.setTransform(body.getPosition().add(Utils.toMeters(movement)), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
     }
 
     @Override
@@ -149,7 +139,6 @@ public class Player extends Entity {
     public void dispose() {
         this.exhaustEffect.dispose();
         this.exhaustTextureAtlas.dispose();
-        this.collisionBox.dispose();
         super.dispose();
     }
 }
