@@ -1,9 +1,14 @@
 package com.fourbit.pc_invader.levels;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.player.Player;
 import com.fourbit.pc_invader.ui.GameHUD;
+import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -13,10 +18,22 @@ public class BossLevel extends Level {
     private final Player player;
     private final Boss boss;
     private final GameHUD gameHud;
+    private final PolygonShape groundBox;
 
 
     public BossLevel(boolean debug) {
         super("levels/level-boss.bg.png", debug);
+
+        // Create our body definition
+        BodyDef groundBodyDef = new BodyDef();
+        groundBodyDef.type = BodyDef.BodyType.StaticBody;
+        groundBodyDef.position.set(new Vector2(Utils.toMeters((int) super.viewportCamera.viewportWidth / 2), 10));
+
+        Body groundBody = super.physicsWorld.createBody(groundBodyDef);
+
+        this.groundBox = new PolygonShape();
+        this.groundBox.setAsBox(Utils.toMeters((int) super.viewportCamera.viewportWidth / 4), 1f);
+        groundBody.createFixture(this.groundBox, 0.0f);
 
         this.player = new Player(
                 super.physicsWorld,
@@ -54,6 +71,7 @@ public class BossLevel extends Level {
         this.player.dispose();
         this.boss.dispose();
         this.gameHud.dispose();
+        this.groundBox.dispose();
         super.dispose();
     }
 }

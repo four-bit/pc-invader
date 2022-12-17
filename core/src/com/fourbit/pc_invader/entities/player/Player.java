@@ -18,8 +18,8 @@ import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.Utils;
 import com.sun.tools.javac.main.Option;
 
-import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
@@ -53,7 +53,7 @@ public class Player extends Entity {
         this.hasShield = hasShield;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(Utils.toMeters(super.position));
         this.body = world.createBody(bodyDef);
 
@@ -65,7 +65,6 @@ public class Player extends Entity {
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.6f;
-        fixtureDef.isSensor = true;
 
         this.body.createFixture(fixtureDef);
         this.body.setUserData(this);
@@ -125,13 +124,13 @@ public class Player extends Entity {
 
         // Calculate movement vector based on user input and add that vector to player's position
         if (Gdx.input.isKeyPressed(Input.Keys.A))
-            movement.add(new Vector2(-speed, 0));
+            this.movement.add(new Vector2(-this.speed, 0));
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            movement.add(new Vector2(speed, 0));
+            this.movement.add(new Vector2(this.speed, 0));
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            movement.add(new Vector2(0, speed));
+            this.movement.add(new Vector2(0, this.speed));
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            movement.add(new Vector2(0, -speed));
+            this.movement.add(new Vector2(0, -this.speed));
         this.body.setLinearVelocity(movement);
 
         // Level boundary check
@@ -140,10 +139,10 @@ public class Player extends Entity {
         if ((Utils.toPixels(this.body.getPosition().y) - (float) super.texture.getHeight() / 2) < 0) this.body.setLinearVelocity(0, speed);;
         if ((Utils.toPixels(this.body.getPosition().y) + (float) super.texture.getHeight() / 2) > GAME_HEIGHT) this.body.setLinearVelocity(0, -speed);;
 
-        movement.setZero();
+        this.movement.setZero();
 
-        exhaustEffect.setPosition(super.position.x, super.position.y);
-        ParticleEmitter emitter = exhaustEffect.getEmitters().first();
+        this.exhaustEffect.setPosition(super.position.x, super.position.y);
+        ParticleEmitter emitter = this.exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
@@ -152,15 +151,15 @@ public class Player extends Entity {
 
     @Override
     public void draw(Batch batch) {
-        exhaustEffect.draw(batch, Gdx.graphics.getDeltaTime());
+        this.exhaustEffect.draw(batch, Gdx.graphics.getDeltaTime());
         super.draw(batch);
     }
 
     @Override
     public void dispose() {
-        exhaustEffect.dispose();
-        exhaustTextureAtlas.dispose();
-        collisionBox.dispose();
+        this.exhaustEffect.dispose();
+        this.exhaustTextureAtlas.dispose();
+        this.collisionBox.dispose();
         super.dispose();
     }
 }
