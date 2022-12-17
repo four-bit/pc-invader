@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.fourbit.pc_invader.PcInvader;
-import com.fourbit.pc_invader.Player;
+import com.fourbit.pc_invader.entities.Player;
 
 import java.util.LinkedHashMap;
 

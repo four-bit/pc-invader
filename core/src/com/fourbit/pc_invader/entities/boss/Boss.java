@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader.boss;
+package com.fourbit.pc_invader.entities.boss;
 
 
 import com.badlogic.gdx.graphics.g2d.Batch;

@@ -12,8 +12,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.fourbit.pc_invader.entities.Player;
 import com.fourbit.pc_invader.ui.GameHUD;
-import com.fourbit.pc_invader.boss.Boss;
+import com.fourbit.pc_invader.entities.boss.Boss;
+import com.fourbit.pc_invader.entities.Entity;
+
+import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
+import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class PcInvader extends ApplicationAdapter {
@@ -26,11 +31,10 @@ public class PcInvader extends ApplicationAdapter {
     private Texture background;
     private OrthographicCamera viewportCamera;
     private FrameBuffer sceneFrameBuffer;
-    private Boss boss;
+
     private Player player;
+    private Boss boss;
     private GameHUD gameHud;
-    public static final int GAME_WIDTH = 1920;
-    public static final int GAME_HEIGHT = 1080;
 
 
     @Override

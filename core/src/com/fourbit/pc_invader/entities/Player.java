@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader;
+package com.fourbit.pc_invader.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,25 +8,28 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.fourbit.pc_invader.PcInvader;
 import com.sun.tools.javac.main.Option;
 
-import static com.fourbit.pc_invader.PcInvader.GAME_HEIGHT;
-import static com.fourbit.pc_invader.PcInvader.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
+import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class Player extends Entity {
     private final float speed;
     private final Vector2 movement;
+
     private int healthPoints;
     private int shieldPoints;
     private boolean hasShield;
+
     private Body body;
     private CircleShape collisionBox;
     private TextureAtlas exhaustTextureAtlas;
     private ParticleEffect exhaustEffect;
 
 
-    Player(
+    public Player(
             World world,
             int x, int y, float angle, float speed,
             int maxHealth, int maxShield, boolean hasShield

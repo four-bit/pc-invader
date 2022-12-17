@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader;
+package com.fourbit.pc_invader.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
