@@ -18,8 +18,6 @@ import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.Utils;
 import com.sun.tools.javac.main.Option;
 
-import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
-import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
