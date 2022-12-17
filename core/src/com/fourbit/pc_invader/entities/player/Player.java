@@ -1,4 +1,4 @@
-package com.fourbit.pc_invader.entities;
+package com.fourbit.pc_invader.entities.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,10 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.fourbit.pc_invader.PcInvader;
+import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.utils.Utils;
 import com.sun.tools.javac.main.Option;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
 public class Player extends Entity {
@@ -122,11 +125,11 @@ public class Player extends Entity {
     public void initPhysics(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(super.getPosition());
+        bodyDef.position.set(Utils.toMeters(super.getPosition()));
         body = world.createBody(bodyDef);
 
         collisionBox = new CircleShape();
-        collisionBox.setRadius((float) (super.getHeight() + super.getWidth()) / 4);
+        collisionBox.setRadius((float) (super.getHeight() + super.getWidth()) / 4 / PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = collisionBox;

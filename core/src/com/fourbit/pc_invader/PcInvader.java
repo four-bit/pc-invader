@@ -12,13 +12,16 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.fourbit.pc_invader.entities.Player;
+
+import com.fourbit.pc_invader.entities.player.Player;
 import com.fourbit.pc_invader.ui.GameHUD;
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
 public class PcInvader extends ApplicationAdapter {
@@ -29,7 +32,7 @@ public class PcInvader extends ApplicationAdapter {
     private Array<Body> physicsBodies;
     private SpriteBatch batch;
     private Texture background;
-    private OrthographicCamera viewportCamera;
+    private OrthographicCamera viewportCamera, debugCamera;
     private FrameBuffer sceneFrameBuffer;
 
     private Player player;
@@ -45,12 +48,16 @@ public class PcInvader extends ApplicationAdapter {
         physicsBodies = new Array<>();
         physicsDebugRenderer = new Box2DDebugRenderer();
 
+        debugCamera = new OrthographicCamera(GAME_WIDTH / PPM, GAME_HEIGHT / PPM);
+        debugCamera.position.set(0.5f * debugCamera.viewportWidth, 0.5f * debugCamera.viewportHeight, 0.0f);
+        debugCamera.update();
+
         batch = new SpriteBatch();
         background = new Texture("levels/glob.bg.png");
 
         player = new Player(
                 physicsWorld,
-                GAME_WIDTH / 4, GAME_HEIGHT / 2, 0.0f, 150000000,
+                GAME_WIDTH / 4, GAME_HEIGHT / 2, 0.0f, 15,
                 8, 3, true
         );
         boss = new Boss(
@@ -95,7 +102,7 @@ public class PcInvader extends ApplicationAdapter {
             for (Body body : physicsBodies) {
                 Entity entity = (Entity) body.getUserData();
                 if (entity != null) {
-                    entity.setPosition(body.getPosition().x, body.getPosition().y);
+                    entity.setPosition(Utils.toPixels(body.getPosition()));
                     entity.draw(batch);
                 }
             }
@@ -115,7 +122,7 @@ public class PcInvader extends ApplicationAdapter {
         // Render HUD and debug information
         gameHud.draw();
 
-        if (debug) physicsDebugRenderer.render(physicsWorld, viewportCamera.combined);
+        if (debug) physicsDebugRenderer.render(physicsWorld, debugCamera.combined);
     }
 
     @Override

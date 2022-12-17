@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Entity {
-    private final Vector2 position;
+    private Vector2 position;
     private float angle;
     private final Texture texture;
 
@@ -25,6 +25,9 @@ public class Entity {
     public void setPosition(float x, float y) {
         this.position.x = x;
         this.position.y = y;
+    }
+    public void setPosition(Vector2 newPosition) {
+        this.position = newPosition;
     }
     public void setAngle(float angle) { this.angle = angle; }
 
