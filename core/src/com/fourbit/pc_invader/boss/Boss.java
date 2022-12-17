@@ -145,25 +145,21 @@ public class Boss extends Entity {
         bodyDef.position.set(super.getPosition());
         body = world.createBody(bodyDef);
 
-        CircleShape collisionBox = new CircleShape();
-        collisionBox.setRadius((float) (super.getHeight() + super.getWidth()) / 4);
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = collisionBox;
+//        fixtureDef.shape = collisionBox;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.6f;
         fixtureDef.isSensor = true;
 
 
-//        Add custom fixture from reading json file not working yet
-//        float scale = this.getWidth();
-//        loader = new BodyEditorLoader(Gdx.files.internal("boss/head.json"));
-//        loader.attachFixture(body, "head", fixtureDef, scale);
-//
-//        this.setOrigin(this.getWidth()/2,this.getHeight()/2);
-//        body.setAngularVelocity(1);
-        body.createFixture(fixtureDef);
+//        Add custom fixture from reading json file
+        float scale = this.getWidth();
+        loader = new BodyEditorLoader(Gdx.files.internal("boss/head.json"));
+        loader.attachFixture(body, "wormhead.png", fixtureDef, scale);
+
+        body.setAngularVelocity(0);
         body.setUserData(this);
 
     }
