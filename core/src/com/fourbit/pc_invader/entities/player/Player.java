@@ -1,5 +1,7 @@
 package com.fourbit.pc_invader.entities.player;
 
+import com.sun.tools.javac.main.Option;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,10 +15,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Utils;
-import com.sun.tools.javac.main.Option;
+
+
+import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
+import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class Player extends Entity {
@@ -112,21 +118,40 @@ public class Player extends Entity {
 
         // Calculate movement vector based on user input and add that vector to player's position
         this.movement.setZero();
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             this.movement.add(new Vector2(-this.speed, 0));
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             this.movement.add(new Vector2(this.speed, 0));
-        if (Gdx.input.isKeyPressed(Input.Keys.W))
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             this.movement.add(new Vector2(0, this.speed));
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             this.movement.add(new Vector2(0, -this.speed));
+        }
+        this.body.setTransform(body.getPosition().add(Utils.toMeters(movement)), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
 
+        // Level boundary checks
+        if ((Utils.toPixels(this.body.getPosition().x) - (float) super.texture.getWidth() / 2) < 0) {  // LEFT
+            this.body.setTransform(Utils.toMeters(super.texture.getWidth() / 2), body.getPosition().y, this.body.getAngle());
+        }
+        if ((Utils.toPixels(this.body.getPosition().x) + (float) super.texture.getWidth() / 2) > GAME_WIDTH) {  // RIGHT
+            this.body.setTransform(Utils.toMeters(GAME_WIDTH - super.texture.getWidth() / 2), body.getPosition().y, this.body.getAngle());
+        }
+        if ((Utils.toPixels(this.body.getPosition().y) + (float) super.texture.getHeight() / 2) > GAME_HEIGHT) {  // TOP
+            this.body.setTransform(body.getPosition().x, Utils.toMeters(GAME_HEIGHT - super.texture.getHeight() / 2), this.body.getAngle());
+        }
+        if ((Utils.toPixels(this.body.getPosition().y) - (float) super.texture.getHeight() / 2) < 0) {  // BOTTOM
+            this.body.setTransform(body.getPosition().x, Utils.toMeters(super.texture.getHeight() / 2), this.body.getAngle());
+        }
+
+        // Exhaust effect positioning
         this.exhaustEffect.setPosition(super.position.x, super.position.y);
         ParticleEmitter emitter = this.exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
-        this.body.setTransform(body.getPosition().add(Utils.toMeters(movement)), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
     }
 
     @Override
