@@ -8,10 +8,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
-import com.fourbit.pc_invader.entities.Sprite;
+import com.fourbit.pc_invader.entities.Entity;
 
 
-public class Boss extends Sprite {
+public class Boss extends Entity {
     private float x, y, speed;
     private Head head;
     private Array<Body> bodies = new Array<>();

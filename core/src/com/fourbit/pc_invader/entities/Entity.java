@@ -8,12 +8,12 @@ import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Utils;
 
 
-public class Sprite implements GameComponent {
+public class Entity implements GameComponent {
     protected Vector2 position;
     protected float angle;
     protected Texture texture;
 
-    public Sprite(String texturePath) {
+    public Entity(String texturePath) {
         texture = new Texture(texturePath);
         position = new Vector2();
     }
@@ -25,6 +25,14 @@ public class Sprite implements GameComponent {
 
     public float getAngleDegree() {
         return angle;
+    }
+
+    public int getWidth() {
+        return this.texture.getWidth();
+    }
+
+    public int getHeight() {
+        return this.texture.getHeight();
     }
 
     public float getAngleRadian() {

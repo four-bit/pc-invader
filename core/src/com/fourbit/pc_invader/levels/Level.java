@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import com.fourbit.pc_invader.entities.Sprite;
+import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Utils;
 
@@ -69,11 +69,12 @@ public class Level implements GameComponent {
         this.physicsWorld.getBodies(this.physicsBodies);
         // noinspection GDXJavaUnsafeIterator
         for (Body body : this.physicsBodies) {
-            Sprite sprite = (Sprite) body.getUserData();
-            if (sprite != null) {
-                sprite.setPosition(Utils.toPixels(body.getPosition()));
-                sprite.setAngleRadian(body.getAngle());
-                sprite.draw(batch);
+            Entity entity = (Entity) body.getUserData();
+            if (entity != null) {
+                if (!Utils.toMeters(entity.getPosition()).epsilonEquals(body.getPosition()))
+                    entity.setPosition(Utils.toPixels(body.getPosition()));
+                entity.setAngleRadian(body.getAngle());
+                entity.draw(batch);
             }
         }
 

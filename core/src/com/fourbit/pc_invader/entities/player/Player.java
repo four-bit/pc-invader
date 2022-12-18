@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-import com.fourbit.pc_invader.entities.Sprite;
+import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Utils;
 
@@ -25,7 +25,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
-public class Player extends Sprite {
+public class Player extends Entity {
     private final float speed;
     private final Vector2 movement;
     private final Body body;
@@ -130,20 +130,35 @@ public class Player extends Sprite {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             this.movement.add(new Vector2(0, -this.speed));
         }
-        this.body.setTransform(body.getPosition().add(Utils.toMeters(movement)), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
+        this.body.setTransform(this.body.getPosition().add(Utils.toMeters(movement)), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
+        this.position.set(Utils.toPixels(this.body.getPosition()));
 
         // Level boundary checks
-        if ((Utils.toPixels(this.body.getPosition().x) - (float) super.texture.getWidth() / 2) < 0) {  // LEFT
-            this.body.setTransform(Utils.toMeters(super.texture.getWidth() / 2), body.getPosition().y, this.body.getAngle());
+        if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.UP)) {
+            this.body.setTransform(
+                    body.getPosition().x,
+                    Utils.toMeters(GAME_HEIGHT - (float) super.texture.getHeight() / 2),
+                    this.body.getAngle()
+            );
         }
-        if ((Utils.toPixels(this.body.getPosition().x) + (float) super.texture.getWidth() / 2) > GAME_WIDTH) {  // RIGHT
-            this.body.setTransform(Utils.toMeters(GAME_WIDTH - super.texture.getWidth() / 2), body.getPosition().y, this.body.getAngle());
+        if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.DOWN)) {
+            this.body.setTransform(
+                    body.getPosition().x,
+                    Utils.toMeters((float) super.texture.getHeight() / 2),
+                    this.body.getAngle()
+            );
         }
-        if ((Utils.toPixels(this.body.getPosition().y) + (float) super.texture.getHeight() / 2) > GAME_HEIGHT) {  // TOP
-            this.body.setTransform(body.getPosition().x, Utils.toMeters(GAME_HEIGHT - super.texture.getHeight() / 2), this.body.getAngle());
+        if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.LEFT)) {
+            this.body.setTransform(
+                    Utils.toMeters((float) super.texture.getWidth() / 2),
+                    body.getPosition().y,
+                    this.body.getAngle());
         }
-        if ((Utils.toPixels(this.body.getPosition().y) - (float) super.texture.getHeight() / 2) < 0) {  // BOTTOM
-            this.body.setTransform(body.getPosition().x, Utils.toMeters(super.texture.getHeight() / 2), this.body.getAngle());
+        if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.RIGHT)) {
+            this.body.setTransform(
+                    Utils.toMeters(GAME_WIDTH - (float) super.texture.getWidth() / 2),
+                    body.getPosition().y,
+                    this.body.getAngle());
         }
 
         // Exhaust effect positioning
