@@ -21,7 +21,7 @@ public class Boss extends Sprite {
 
 
     public Boss(World world, float x, float y, int speed) {
-        super("boss/wormhead.png");
+        super("entities/boss/wormhead.png");
         super.angle = angle;
         super.setPosition(x, y);
         this.x = x;
@@ -107,7 +107,7 @@ public class Boss extends Sprite {
         fixtureDef.isSensor = true;
 
         float scale = this.texture.getWidth();
-        loader = new BodyEditorLoader(Gdx.files.internal("boss/head.json"));
+        loader = new BodyEditorLoader(Gdx.files.internal("entities/boss/head.json"));
         loader.attachFixture(body, "wormhead.png", fixtureDef, scale);
 
         body.setAngularVelocity(0);

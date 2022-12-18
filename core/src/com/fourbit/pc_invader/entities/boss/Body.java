@@ -23,7 +23,7 @@ public class Body {
     }
 
     public void initGraphics() {
-        this.texture = new Texture("boss/wormbody.png");
+        this.texture = new Texture("entities/boss/wormbody.png");
     }
 
 

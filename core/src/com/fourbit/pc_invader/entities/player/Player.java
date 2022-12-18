@@ -42,7 +42,7 @@ public class Player extends Sprite {
             float x, float y, float angle, float speed,
             int maxHealth, int maxShield, boolean hasShield
     ) {
-        super("player/sprite.png");
+        super("entities/player/sprite.png");
         super.position.x = x;
         super.position.y = y;
 
@@ -58,15 +58,15 @@ public class Player extends Sprite {
         this.body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        new BodyEditorLoader(Gdx.files.internal("player/body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth()));
+        new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth()));
 
         this.body.createFixture(fixtureDef);
         this.body.setUserData(this);
 
         exhaustTextureAtlas = new TextureAtlas();
-        exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("player/exhaust_particle.png")));
+        exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("entities/player/exhaust_particle.png")));
         exhaustEffect = new ParticleEffect();
-        exhaustEffect.load(Gdx.files.internal("player/exhaust.p"), exhaustTextureAtlas);
+        exhaustEffect.load(Gdx.files.internal("entities/player/exhaust.p"), exhaustTextureAtlas);
         exhaustEffect.start();
     }
 

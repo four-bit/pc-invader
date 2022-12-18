@@ -21,7 +21,7 @@ public class Head {
     public enum State {GOINGDOWN, GOINGDOWNLEFT, GOINGLEFT, GOINGUPLEFT, GOINGUP, GOINGUPRIGHT, GOINGRIGHT, GOINGDOWNRIGHT, STAND}
 
     public State state = State.GOINGUP;
-    private FileHandle handle = Gdx.files.internal("boss/location.txt");
+    private FileHandle handle = Gdx.files.internal("entities/boss/location.txt");
     private String[] text;
     private ArrayList<HashMap<String, Integer>> location = new ArrayList<>();
     private int locationNum;
@@ -55,7 +55,7 @@ public class Head {
     }
 
     public void initGraphics() {
-        this.texture = new Texture("boss/wormhead.png");
+        this.texture = new Texture("entities/boss/wormhead.png");
     }
 
     public float getX() {
