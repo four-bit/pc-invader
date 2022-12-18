@@ -1,14 +1,10 @@
 package com.fourbit.pc_invader.levels;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 
-import com.fourbit.pc_invader.entities.Bullet;
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.player.Player;
 import com.fourbit.pc_invader.ui.GameHUD;
-import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
