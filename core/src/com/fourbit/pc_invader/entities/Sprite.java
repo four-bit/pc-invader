@@ -8,12 +8,12 @@ import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Utils;
 
 
-public class Entity implements GameComponent {
+public class Sprite implements GameComponent {
     protected Vector2 position;
     protected float angle;
     protected Texture texture;
 
-    public Entity(String texturePath) {
+    public Sprite(String texturePath) {
         texture = new Texture(texturePath);
         position = new Vector2();
     }

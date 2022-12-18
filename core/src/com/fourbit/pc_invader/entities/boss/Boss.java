@@ -8,11 +8,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
-import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.entities.Sprite;
 
 
-public class Boss extends Entity {
-    private int x, y, speed;
+public class Boss extends Sprite {
+    private float x, y, speed;
     private Head head;
     private Array<Body> bodies = new Array<>();
     private float angle;
@@ -20,7 +20,7 @@ public class Boss extends Entity {
     private BodyEditorLoader loader ;
 
 
-    public Boss(World world, int x, int y, int speed) {
+    public Boss(World world, float x, float y, int speed) {
         super("boss/wormhead.png");
         super.angle = angle;
         super.setPosition(x, y);

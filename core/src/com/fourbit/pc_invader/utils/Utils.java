@@ -3,7 +3,7 @@ package com.fourbit.pc_invader.utils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.entities.Sprite;
 
 public class Utils {
     public static float toMeters(int pixels) {
@@ -26,13 +26,13 @@ public class Utils {
         return (float) (radians * 180 / Math.PI);
     }
 
-    public static Vector2 getBearingFromCenter(Entity entity) {
+    public static Vector2 getBearingFromCenter(Sprite sprite) {
         Vector2 bearing2D = new Vector2();
         Vector3 bearing3D = new Vector3();
         OrthographicCamera cam = new OrthographicCamera();
 
-        bearing3D.x = entity.getPosition().x;
-        bearing3D.y = entity.getPosition().y;
+        bearing3D.x = sprite.getPosition().x;
+        bearing3D.y = sprite.getPosition().y;
         bearing3D.z = 0;
         cam.unproject(bearing3D);
         bearing2D.x = bearing3D.x;
@@ -41,7 +41,7 @@ public class Utils {
         return bearing2D;
     }
 
-    public static Vector2 getAngleToMouse(Entity entity) {
-        return getBearingFromCenter(entity).sub(InputProcessor.getMouseVector());
+    public static Vector2 getAngleToMouse(Sprite sprite) {
+        return getBearingFromCenter(sprite).sub(InputProcessor.getMouseVector());
     }
 }

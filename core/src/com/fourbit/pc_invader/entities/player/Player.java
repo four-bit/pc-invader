@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.entities.Sprite;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Utils;
 
@@ -25,7 +25,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
-public class Player extends Entity {
+public class Player extends Sprite {
     private final float speed;
     private final Vector2 movement;
     private final Body body;
@@ -39,7 +39,7 @@ public class Player extends Entity {
 
     public Player(
             World world,
-            int x, int y, float angle, float speed,
+            float x, float y, float angle, float speed,
             int maxHealth, int maxShield, boolean hasShield
     ) {
         super("player/sprite.png");

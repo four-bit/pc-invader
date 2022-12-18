@@ -3,7 +3,7 @@ package com.fourbit.pc_invader.entities.boss;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Body {
-    private int x, y, speed;
+    private float x, y, speed;
     private Texture texture;
     private float angle;
 
@@ -14,7 +14,7 @@ public class Body {
     public static final int GAME_WIDTH = 1920;
     public static final int GAME_HEIGHT = 1080;
 
-    public Body(int x, int y, int speed, float angle) {
+    public Body(float x, float y, int speed, float angle) {
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -27,11 +27,11 @@ public class Body {
     }
 
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -43,7 +43,7 @@ public class Body {
         return angle;
     }
 
-    public void checkDirection(int x, int y) {
+    public void checkDirection(float x, float y) {
         if (this.x == x && this.y > y) {
             this.state = State.GOINGDOWN;
         }
@@ -70,7 +70,7 @@ public class Body {
         }
     }
 
-    public void update(int x, int y) {
+    public void update(float x, float y) {
         switch (state) {
             case GOINGDOWN:
                 this.y -= this.speed;

@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Head {
 
-    private int x, y;
+    private float x, y;
     private boolean flip;
     private Texture texture;
     private float speed, angle;
@@ -31,7 +31,7 @@ public class Head {
     private Vector2 movement;
 
 
-    public Head(int x, int y, int speed, float angle) {
+    public Head(float x, float y, int speed, float angle) {
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -58,11 +58,11 @@ public class Head {
         this.texture = new Texture("boss/wormhead.png");
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -82,7 +82,7 @@ public class Head {
         return flip;
     }
 
-    public void checkDirection(int x, int y) {
+    public void checkDirection(float x, float y) {
         if (this.x == x && this.y > y) {
             this.state = State.GOINGDOWN;
         }
