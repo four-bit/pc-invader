@@ -23,8 +23,12 @@ public class Sprite implements GameComponent {
         return position;
     }
 
-    public float getAngle() {
+    public float getAngleDegree() {
         return angle;
+    }
+
+    public float getAngleRadian() {
+        return Utils.toRadians(angle);
     }
 
     public void setPosition(Vector2 position) {
@@ -40,7 +44,7 @@ public class Sprite implements GameComponent {
         this.angle = Utils.toDegrees(angle);
     }
 
-    public void setAngleDegrees(float angle) {
+    public void setAngleDegree(float angle) {
         this.angle = angle;
     }
 

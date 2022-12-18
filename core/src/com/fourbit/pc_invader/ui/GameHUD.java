@@ -77,7 +77,7 @@ public class GameHUD {
             this.debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + player.getShieldPoints() + (player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
             this.debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + player.getSpeed());
             this.debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + player.getPosition().x + " []Y:[YELLOW]" + player.getPosition().y);
-            this.debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngle());
+            this.debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngleDegree());
             this.debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + Gdx.input.getX() + " []Y:[YELLOW]" + Gdx.input.getY());
             this.debugInfoLabels.get("mouseVector").setText("[]Mouse vector: X:[YELLOW]" + mouseVector.x + " []Y:[YELLOW]" + mouseVector.y);
         }

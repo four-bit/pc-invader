@@ -26,6 +26,10 @@ public class Utils {
         return (float) (radians * 180 / Math.PI);
     }
 
+    public static float toRadians(float degrees) {
+        return (float) (degrees * Math.PI / 180);
+    }
+
     public static Vector2 getBearingFromCenter(Sprite sprite) {
         Vector2 bearing2D = new Vector2();
         Vector3 bearing3D = new Vector3();
