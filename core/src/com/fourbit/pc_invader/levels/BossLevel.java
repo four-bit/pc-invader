@@ -3,6 +3,8 @@ package com.fourbit.pc_invader.levels;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+
+import com.fourbit.pc_invader.entities.Bullet;
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.player.Player;
 import com.fourbit.pc_invader.ui.GameHUD;
@@ -21,24 +23,15 @@ public class BossLevel extends Level {
     public BossLevel(boolean debug) {
         super("levels/level-boss.bg.png", debug);
 
-        // Create our body definition
-        BodyDef levellevelBoundBodyDef = new BodyDef();
-        levellevelBoundBodyDef.type = BodyDef.BodyType.StaticBody;
-        levellevelBoundBodyDef.position.set(
-                new Vector2(
-                        Utils.toMeters((int) super.viewportCamera.viewportWidth / 2),
-                        Utils.toMeters((int) super.viewportCamera.viewportHeight / 2))
-        );
-
         this.player = new Player(
                 super.physicsWorld,
-                GAME_WIDTH / 4, GAME_HEIGHT / 2, 0.0f, 15,
+                (float) GAME_WIDTH / 4, (float) GAME_HEIGHT / 2, 0.0f, 15,
                 8, 3, true
         );
         this.boss = new Boss(
                 super.physicsWorld,
-                GAME_WIDTH / 2,
-                GAME_HEIGHT / 2,
+                (float) GAME_WIDTH / 2,
+                (float) GAME_HEIGHT / 2,
                 2
         );
 

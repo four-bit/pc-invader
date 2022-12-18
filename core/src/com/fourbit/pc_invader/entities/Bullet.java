@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Pool;
+
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Utils;
 
@@ -29,7 +30,10 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
         this.body = world.createBody(bodyDef);
 
         this.collisionBox = new PolygonShape();
-        this.collisionBox.setAsBox(Utils.toMeters(super.texture.getWidth()), Utils.toMeters(super.texture.getHeight()));
+        this.collisionBox.setAsBox(
+                Utils.toMeters((float) super.texture.getWidth() / 2),
+                Utils.toMeters((float) super.texture.getHeight() / 2)
+        );
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = this.collisionBox;
@@ -39,29 +43,38 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
         fixtureDef.restitution = 0.0f;
 
         this.body.createFixture(fixtureDef);
+        this.body.setBullet(true);
         this.body.setUserData(this);
+
+        this.body.setLinearVelocity(Utils.toMeters(new Vector2().setLength(this.speed).setAngleDeg(super.angle)));
     }
 
 
-    public void init(Vector2 position) {
+    public boolean isAlive() {
+        return alive;
+    }
+
+
+    public void init(Vector2 position, float angle) {
         super.position.set(position);
+        super.angle = angle;
         this.body.getPosition().set(Utils.toMeters(position));
+        this.body.setTransform(this.body.getPosition(), getAngleRadian());
         this.alive = true;
     }
 
-    public void init(float x, float y) {
+    public void init(float x, float y, float angle) {
         super.position.set(x, y);
+        super.angle = angle;
         this.body.getPosition().set(Utils.toMeters(position));
+        this.body.setTransform(this.body.getPosition(), getAngleRadian());
         this.alive = true;
     }
 
     @Override
     public void update() {
         super.update();
-
-        // TODO: Implement bullet physics here
-
-        super.position.set(this.body.getPosition());
+        this.position = Utils.toPixels(this.body.getPosition());
         if (Utils.isOutOfScreen(this)) this.alive = false;
     }
 
