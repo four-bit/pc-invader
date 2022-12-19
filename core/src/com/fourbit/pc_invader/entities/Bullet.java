@@ -25,7 +25,7 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
         this.speed = speed;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(Utils.toMeters(super.position));
         this.body = world.createBody(bodyDef);
 
@@ -56,25 +56,28 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
 
 
     public void init(Vector2 position, float angle) {
-        super.position.set(position);
+        super.position.set(Utils.toPixels(position));
         super.angle = angle;
-        this.body.getPosition().set(Utils.toMeters(position));
-        this.body.setTransform(this.body.getPosition(), getAngleRadian());
+        this.body.setTransform(position, super.getAngleRadian());
         this.alive = true;
     }
 
     public void init(float x, float y, float angle) {
-        super.position.set(x, y);
+        super.position.set(Utils.toPixels(x), Utils.toPixels(y));
         super.angle = angle;
-        this.body.getPosition().set(Utils.toMeters(position));
-        this.body.setTransform(this.body.getPosition(), getAngleRadian());
+        this.body.setTransform(x, y, super.getAngleRadian());
         this.alive = true;
     }
 
     @Override
     public void update() {
         super.update();
-        this.position = Utils.toPixels(this.body.getPosition());
+        this.body.setTransform(
+                this.body.getPosition().add(
+                        new Vector2(Utils.toMeters(speed), 0).setAngleRad(this.body.getAngle())
+                ),
+                this.body.getAngle());
+        super.position = Utils.toPixels(this.body.getPosition());
         if (Utils.isOutOfScreen(this)) this.alive = false;
     }
 

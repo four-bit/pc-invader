@@ -2,6 +2,9 @@ package com.fourbit.pc_invader.entities.player;
 
 import com.sun.tools.javac.main.Option;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,10 +19,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
+import com.fourbit.pc_invader.utils.InputProcessor;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Utils;
-
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -35,6 +38,14 @@ public class Player extends Entity {
     private int healthPoints;
     private int shieldPoints;
     private boolean hasShield;
+
+    private final Array<Bullet> activeBullets = new Array<>();
+    private final Pool<Bullet> bulletPool = new Pool<Bullet>() {
+        @Override
+        protected Bullet newObject() {
+            return new Bullet(body.getWorld());
+        }
+    };
 
 
     public Player(
@@ -167,6 +178,23 @@ public class Player extends Entity {
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
+        // Shooting
+        if (InputProcessor.isShoot()) {
+            Bullet bullet = bulletPool.obtain();
+            bullet.init(this.body.getPosition(), super.angle);
+            activeBullets.add(bullet);
+        }
+
+        Bullet bullet;
+        for (int i = this.activeBullets.size; --i >= 0;) {
+            bullet = this.activeBullets.get(i);
+            if (bullet.isAlive()) {
+                bullet.update();
+            } else {
+                this.activeBullets.removeIndex(i);
+                this.bulletPool.free(bullet);
+            }
+        }
     }
 
     @Override
@@ -179,6 +207,7 @@ public class Player extends Entity {
     public void dispose() {
         this.exhaustEffect.dispose();
         this.exhaustTextureAtlas.dispose();
+        this.bulletPool.freeAll(this.activeBullets);
         super.dispose();
     }
 }

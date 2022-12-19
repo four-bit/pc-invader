@@ -1,6 +1,7 @@
 package com.fourbit.pc_invader.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -21,5 +22,9 @@ public class InputProcessor {
         mouseCoords2D.y = mouseCoords3D.y;
 
         return mouseCoords2D;
+    }
+
+    public static boolean isShoot() {
+        return Gdx.input.isButtonPressed(Input.Buttons.LEFT);
     }
 }
