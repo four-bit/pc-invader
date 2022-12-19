@@ -1,12 +1,9 @@
 package com.fourbit.pc_invader.entities.player;
 
-import com.badlogic.gdx.utils.Null;
-import com.fourbit.pc_invader.utils.Globals;
 import com.sun.tools.javac.main.Option;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +25,7 @@ import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.PLAYER_SHOOT_COOLDOWN_MS;
 
 
 public class Player extends Entity {
@@ -48,6 +46,7 @@ public class Player extends Entity {
             return new Bullet(body.getWorld());
         }
     };
+    private int ammo;
     private float lastShot;
 
 
@@ -77,35 +76,40 @@ public class Player extends Entity {
         this.body.createFixture(fixtureDef);
         this.body.setUserData(this);
 
-        exhaustTextureAtlas = new TextureAtlas();
-        exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("entities/player/exhaust_particle.png")));
-        exhaustEffect = new ParticleEffect();
-        exhaustEffect.load(Gdx.files.internal("entities/player/exhaust.p"), exhaustTextureAtlas);
-        exhaustEffect.start();
+        this.exhaustTextureAtlas = new TextureAtlas();
+        this.exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("entities/player/exhaust_particle.png")));
+        this.exhaustEffect = new ParticleEffect();
+        this.exhaustEffect.load(Gdx.files.internal("entities/player/exhaust.p"), exhaustTextureAtlas);
+        this.exhaustEffect.start();
 
         this.lastShot = System.nanoTime();
+        this.ammo = 80;
     }
 
 
     public float getSpeed() {
-        return speed;
+        return this.speed;
+    }
+
+    public int getAmmo() {
+        return this.ammo;
     }
 
     public int getHealthPoints() {
-        return healthPoints;
+        return this.healthPoints;
     }
 
     public int getShieldPoints() {
-        return hasShield ? shieldPoints : -1;
+        return this.hasShield ? this.shieldPoints : -1;
     }
 
     public boolean hasShield() {
-        return hasShield;
+        return this.hasShield;
     }
 
     public void setHealthPoints(int val) throws Option.InvalidValueException {
         if (val >= 0) {
-            healthPoints = val;
+            this.healthPoints = val;
         } else {
             throw new Option.InvalidValueException("val cannot be negative.");
         }
@@ -113,18 +117,18 @@ public class Player extends Entity {
 
     public void setShieldPoints(int val) throws Option.InvalidValueException {
         if (val >= 0) {
-            if (!hasShield) {
-                hasShield = true;
+            if (!this.hasShield) {
+                this.hasShield = true;
             }
-            shieldPoints = val;
+            this.shieldPoints = val;
         } else {
             throw new Option.InvalidValueException("val cannot be negative.");
         }
     }
 
     public void disableShield() {
-        hasShield = false;
-        shieldPoints = -1;
+        this.hasShield = false;
+        this.shieldPoints = -1;
     }
 
 
@@ -187,13 +191,14 @@ public class Player extends Entity {
 
 
         // Shooting
-        if (InputProcessor.isShoot()) {
+        if (InputProcessor.isShoot() && this.ammo > 0) {
             long currentTime = System.nanoTime();
-            if (currentTime - lastShot > Globals.PLAYER_SHOOT_COOLDOWN_MS * 1000000) {
-                Bullet bullet = bulletPool.obtain();
+            if (currentTime - this.lastShot > PLAYER_SHOOT_COOLDOWN_MS * 1000000) {
+                Bullet bullet = this.bulletPool.obtain();
                 bullet.init(this.body.getPosition(), super.angle);
-                activeBullets.add(bullet);
-                lastShot = currentTime;
+                this.activeBullets.add(bullet);
+                this.lastShot = currentTime;
+                this.ammo--;
             }
         }
 

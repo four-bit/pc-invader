@@ -52,6 +52,7 @@ public class GameHUD {
             this.debugInfoLabels.put("playerHealth", new Label("playerHealth", skin));
             this.debugInfoLabels.put("playerShield", new Label("playerShield", skin));
             this.debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
+            this.debugInfoLabels.put("playerAmmo", new Label("playerAmmo", skin));
             this.debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
             this.debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
             this.debugInfoLabels.put("mousePosition", new Label("mousePosition", skin));
@@ -76,6 +77,7 @@ public class GameHUD {
             this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + player.getHealthPoints());
             this.debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + player.getShieldPoints() + (player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
             this.debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + player.getSpeed());
+            this.debugInfoLabels.get("playerAmmo").setText("[]Player ammo: [YELLOW]" + player.getAmmo());
             this.debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + player.getPosition().x + " []Y:[YELLOW]" + player.getPosition().y);
             this.debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + player.getAngleDegree());
             this.debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + Gdx.input.getX() + " []Y:[YELLOW]" + Gdx.input.getY());
