@@ -1,5 +1,7 @@
 package com.fourbit.pc_invader.entities.player;
 
+import com.badlogic.gdx.utils.Null;
+import com.fourbit.pc_invader.utils.Globals;
 import com.sun.tools.javac.main.Option;
 
 import com.badlogic.gdx.utils.Array;
@@ -46,6 +48,7 @@ public class Player extends Entity {
             return new Bullet(body.getWorld());
         }
     };
+    private float lastShot;
 
 
     public Player(
@@ -79,6 +82,8 @@ public class Player extends Entity {
         exhaustEffect = new ParticleEffect();
         exhaustEffect.load(Gdx.files.internal("entities/player/exhaust.p"), exhaustTextureAtlas);
         exhaustEffect.start();
+
+        this.lastShot = System.nanoTime();
     }
 
 
@@ -127,6 +132,7 @@ public class Player extends Entity {
     public void update() {
         super.update();
 
+
         // Calculate movement vector based on user input and add that vector to player's position
         this.movement.setZero();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -172,17 +178,23 @@ public class Player extends Entity {
                     this.body.getAngle());
         }
 
+
         // Exhaust effect positioning
         this.exhaustEffect.setPosition(super.position.x, super.position.y);
         ParticleEmitter emitter = this.exhaustEffect.getEmitters().first();
         emitter.getAngle().setHigh(super.angle - 180.0f);
         emitter.getAngle().setLow(super.angle - 180.0f);
 
+
         // Shooting
         if (InputProcessor.isShoot()) {
-            Bullet bullet = bulletPool.obtain();
-            bullet.init(this.body.getPosition(), super.angle);
-            activeBullets.add(bullet);
+            long currentTime = System.nanoTime();
+            if (currentTime - lastShot > Globals.PLAYER_SHOOT_COOLDOWN_MS * 1000000) {
+                Bullet bullet = bulletPool.obtain();
+                bullet.init(this.body.getPosition(), super.angle);
+                activeBullets.add(bullet);
+                lastShot = currentTime;
+            }
         }
 
         Bullet bullet;
