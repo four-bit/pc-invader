@@ -78,7 +78,7 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
                 ),
                 this.body.getAngle());
         super.position = Utils.toPixels(this.body.getPosition());
-        if (Utils.isOutOfScreen(this)) this.alive = false;
+        if (Utils.isOutOfScreen(this, super.getWidth())) this.alive = false;
     }
 
     @Override
