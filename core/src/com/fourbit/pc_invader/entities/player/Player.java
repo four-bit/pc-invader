@@ -25,7 +25,9 @@ import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.PLAYER_MAX_AMMO;
 import static com.fourbit.pc_invader.utils.Globals.PLAYER_SHOOT_COOLDOWN_MS;
+import static com.fourbit.pc_invader.utils.Globals.PLAYER_AMMO_REGEN_COOLDOWN_MS;
 
 
 public class Player extends Entity {
@@ -47,7 +49,7 @@ public class Player extends Entity {
         }
     };
     private int ammo;
-    private float lastShot;
+    private float lastShot, lastAmmoRegen;
 
 
     public Player(
@@ -83,7 +85,8 @@ public class Player extends Entity {
         this.exhaustEffect.start();
 
         this.lastShot = System.nanoTime();
-        this.ammo = 80;
+        this.lastAmmoRegen = System.nanoTime();
+        this.ammo = PLAYER_MAX_AMMO;
     }
 
 
@@ -191,14 +194,23 @@ public class Player extends Entity {
 
 
         // Shooting
+        long currentTime = System.nanoTime();
         if (InputProcessor.isShoot() && this.ammo > 0) {
-            long currentTime = System.nanoTime();
             if (currentTime - this.lastShot > PLAYER_SHOOT_COOLDOWN_MS * 1000000) {
                 Bullet bullet = this.bulletPool.obtain();
                 bullet.init(this.body.getPosition(), super.angle);
                 this.activeBullets.add(bullet);
                 this.lastShot = currentTime;
                 this.ammo--;
+            }
+        } else {  // Ammo regeneration
+            if (
+                    currentTime - lastShot > PLAYER_AMMO_REGEN_COOLDOWN_MS * 1000000 &&
+                    currentTime - lastAmmoRegen > PLAYER_AMMO_REGEN_COOLDOWN_MS * 1000000 &&
+                    this.ammo < PLAYER_MAX_AMMO
+            ) {
+                this.ammo++;
+                this.lastAmmoRegen = currentTime;
             }
         }
 
