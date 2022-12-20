@@ -9,7 +9,7 @@
 ##Links:
 Demo video:
 
-Lib GDX:
+Lib GDX: [https://libgdx.com/]()
 
 
 ###1. Motivation:
