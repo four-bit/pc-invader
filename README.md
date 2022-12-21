@@ -9,7 +9,7 @@
 ##Links:
 Demo video:
 
-Lib GDX: [https://libgdx.com/]()
+Lib GDX: [https://libgdx.com/](https://libgdx.com/)
 
 
 ###1. Motivation:
@@ -33,8 +33,18 @@ control the spaceship and destroy all the enemies and the final boss.
 * Framework: libGDX
 
 ###4. Functional Requirements:
+- Display a main menu to ask player to continue the previous game or start a new game and settings.
+- Setting allows the player to customize the game depend on their preference.
+- Display game background with spaceship.
+- Display the health bar and condition of the spaceship at the corner of the screen.
+- User can control the spaceship by using W/A/S/D and cursor.
+- User can shoot bullet by clicking. There a limit to the amount of bullet can be shot at once.
+- Enemies will shoot bullet towards the player's spaceship, enemies can also move in formation.
+- Boss will be spawned at the end of the stage, boss will have a special move set and appearance to be easily distinguished by the player.
 ###5. Non-functional Requirements:
-
+- System runs in approximately 10-20s to start the game. 
+- Product will have a friendly and simple user interface for players. 
+- The game will need to be downloaded and installed before playing
 ---
 ##Work Distribution
 
@@ -52,7 +62,7 @@ be compressed to meet the deadlines, this work is still distributed equally amon
 - Student: Vo Tuong Minh | [s3877562@rmit.edu.vn](s3877562@rmit.edu.vn)
 - Student: Tran Ly The Quang | [s3878707@rmit.edu.vn](s3878707@rmit.edu.vn)
 - Student: Nguyen Duc Dai | [s3878023@rmit.edu.vn](s3878023@rmit.edu.vn)
-- Student: Nguyen Quoc An | []()
+- Student: Nguyen Quoc An | [s3938278@rmit.edu.vn](s3938278@rmit.edu.vn)
 
 ---
 ## Submission Instructions
