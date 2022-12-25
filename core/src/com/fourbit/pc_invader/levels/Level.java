@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -64,7 +65,24 @@ public class Level implements GameComponent {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(this.background, 0, 0);
+        batch.draw(
+                this.background,
+                0,
+                0,
+                0,
+                0,
+                this.background.getWidth(),
+                this.background.getHeight(),
+                Globals.PIXEL_ART_SCALE,
+                Globals.PIXEL_ART_SCALE,
+                0,
+                0,
+                0,
+                this.background.getWidth(),
+                this.background.getHeight(),
+                false,
+                false
+        );
 
         this.physicsWorld.getBodies(this.physicsBodies);
         // Do not remove the following comment line, it is there to suppress IntelliJ warning about LibGDX Array

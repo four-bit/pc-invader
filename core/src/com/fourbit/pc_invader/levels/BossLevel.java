@@ -17,7 +17,7 @@ public class BossLevel extends Level {
 
 
     public BossLevel(boolean debug) {
-        super("levels/level-boss.bg.png", debug);
+        super("levels/boss/background.png", debug);
 
         this.boss = new Boss(
                 super.physicsWorld,

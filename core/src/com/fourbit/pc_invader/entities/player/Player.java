@@ -1,5 +1,6 @@
 package com.fourbit.pc_invader.entities.player;
 
+import com.fourbit.pc_invader.utils.Globals;
 import com.sun.tools.javac.main.Option;
 
 import com.badlogic.gdx.utils.Array;
@@ -71,7 +72,7 @@ public class Player extends Entity {
         this.body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth()));
+        new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth() * Globals.PIXEL_ART_SCALE));
 
         this.body.createFixture(fixtureDef);
         this.body.setUserData(this);
@@ -159,26 +160,26 @@ public class Player extends Entity {
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.UP)) {
             this.body.setTransform(
                     body.getPosition().x,
-                    Utils.toMeters(GAME_HEIGHT - (float) super.texture.getHeight() / 2),
+                    Utils.toMeters(GAME_HEIGHT - super.texture.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f),
                     this.body.getAngle()
             );
         }
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.DOWN)) {
             this.body.setTransform(
                     body.getPosition().x,
-                    Utils.toMeters((float) super.texture.getHeight() / 2),
+                    Utils.toMeters(super.texture.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f),
                     this.body.getAngle()
             );
         }
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.LEFT)) {
             this.body.setTransform(
-                    Utils.toMeters((float) super.texture.getWidth() / 2),
+                    Utils.toMeters(super.texture.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f),
                     body.getPosition().y,
                     this.body.getAngle());
         }
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.RIGHT)) {
             this.body.setTransform(
-                    Utils.toMeters(GAME_WIDTH - (float) super.texture.getWidth() / 2),
+                    Utils.toMeters(GAME_WIDTH - super.texture.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f),
                     body.getPosition().y,
                     this.body.getAngle());
         }

@@ -4,7 +4,6 @@ package com.fourbit.pc_invader.entities.boss;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,13 +11,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
+import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Head extends Entity {
+public class Main extends Entity {
     private final float speed;
     private final ArrayList<HashMap<String, Integer>> locations = new ArrayList<>();
     private int locationIndex;
@@ -28,8 +28,8 @@ public class Head extends Entity {
     public State state = State.GOINGUP;
 
 
-    public Head(World world, float x, float y, float speed) {
-        super("entities/boss/head.png", x, y, 0.0f);
+    public Main(World world, float x, float y, float speed) {
+        super("entities/boss/main.png", x, y, 0.0f);
         this.speed = speed;
 
         FileHandle handle = Gdx.files.internal("entities/boss/locations.txt");
@@ -55,14 +55,10 @@ public class Head extends Entity {
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = 1.5f;
+        fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = 0.0f;
-        fixtureDef.isSensor = true;
-
-        float scale = this.texture.getWidth();
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("entities/boss/head.json"));
-        loader.attachFixture(body, "head", fixtureDef, scale);
+        new BodyEditorLoader(Gdx.files.internal("entities/boss/main.body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth() * Globals.PIXEL_ART_SCALE));
 
         body.setAngularVelocity(0);
         body.setUserData(this);
