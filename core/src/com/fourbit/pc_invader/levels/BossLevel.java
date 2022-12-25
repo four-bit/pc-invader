@@ -19,16 +19,16 @@ public class BossLevel extends Level {
     public BossLevel(boolean debug) {
         super("levels/level-boss.bg.png", debug);
 
+        this.boss = new Boss(
+                super.physicsWorld,
+                GAME_WIDTH * 0.5f,
+                GAME_HEIGHT * 0.5f,
+                2.0f
+        );
         this.player = new Player(
                 super.physicsWorld,
                 (float) GAME_WIDTH / 4, (float) GAME_HEIGHT / 2, 0.0f, 15,
                 8, 3, true
-        );
-        this.boss = new Boss(
-                super.physicsWorld,
-                (float) GAME_WIDTH / 2,
-                (float) GAME_HEIGHT / 2,
-                2
         );
 
         this.gameHud = new GameHUD(this);
@@ -46,8 +46,6 @@ public class BossLevel extends Level {
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-        this.boss.draw(batch);
-        this.player.draw(batch);
         this.gameHud.draw();
     }
 

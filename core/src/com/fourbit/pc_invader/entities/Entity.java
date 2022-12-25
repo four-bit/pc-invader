@@ -75,20 +75,20 @@ public class Entity implements GameComponent {
     @Override
     public void draw(Batch batch) {
         batch.draw(
-                texture,
-                position.x - (float) texture.getWidth() / 2,
-                position.y - (float) texture.getHeight() / 2,
-                (float) texture.getWidth() / 2,
-                (float) texture.getHeight() / 2,
-                texture.getWidth(),
-                texture.getHeight(),
+                this.texture,
+                this.position.x - (float) this.texture.getWidth() / 2,
+                this.position.y - (float) this.texture.getHeight() / 2,
+                (float) this.texture.getWidth() / 2,
+                (float) this.texture.getHeight() / 2,
+                this.texture.getWidth(),
+                this.texture.getHeight(),
                 1.0f,
                 1.0f,
-                angle,
+                this.angle,
                 0,
                 0,
-                texture.getWidth(),
-                texture.getHeight(),
+                this.texture.getWidth(),
+                this.texture.getHeight(),
                 false,
                 false
         );
@@ -96,6 +96,6 @@ public class Entity implements GameComponent {
 
     @Override
     public void dispose() {
-        texture.dispose();
+        this.texture.dispose();
     }
 }

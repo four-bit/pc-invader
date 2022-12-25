@@ -4,6 +4,7 @@ package com.fourbit.pc_invader.entities.boss;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 
 
 public class Head extends Entity {
-    private float speed;
+    private final float speed;
     private final ArrayList<HashMap<String, Integer>> locations = new ArrayList<>();
     private int locationIndex;
     private final Body body;
@@ -27,11 +28,11 @@ public class Head extends Entity {
     public State state = State.GOINGUP;
 
 
-    public Head(World world, float x, float y, int speed) {
-        super("entities/boss/wormhead.png", x, y, 0.0f);
+    public Head(World world, float x, float y, float speed) {
+        super("entities/boss/head.png", x, y, 0.0f);
         this.speed = speed;
 
-        FileHandle handle = Gdx.files.internal("entities/boss/location.txt");
+        FileHandle handle = Gdx.files.internal("entities/boss/locations.txt");
         String[] text = handle.readString().split("\n");
         String[] header = text[0].split(",");
         header[1] = header[1].replaceAll("\\s", "");
@@ -50,7 +51,7 @@ public class Head extends Entity {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(super.getPosition());
+        bodyDef.position.set(Utils.toMeters(super.getPosition()));
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -147,10 +148,5 @@ public class Head extends Entity {
         this.angle = (float) Math.toDegrees(Math.atan2(
                 (Utils.toMeters(this.body.getPosition().x) - this.locations.get(locationIndex).get("y")),
                 (this.body.getPosition().y - this.locations.get(locationIndex).get("x"))));
-    }
-
-    @Override
-    public void dispose() {
-       super.dispose();
     }
 }

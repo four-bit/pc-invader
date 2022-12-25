@@ -67,6 +67,7 @@ public class Level implements GameComponent {
         batch.draw(this.background, 0, 0);
 
         this.physicsWorld.getBodies(this.physicsBodies);
+        // Do not remove the following comment line, it is there to suppress IntelliJ warning about LibGDX Array
         // noinspection GDXJavaUnsafeIterator
         for (Body body : this.physicsBodies) {
             Entity entity = (Entity) body.getUserData();

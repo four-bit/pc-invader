@@ -8,23 +8,23 @@ import com.fourbit.pc_invader.utils.GameComponent;
 public class Boss implements GameComponent {
     private final Head head;
 
-    public Boss(World world, float x, float y, int speed) {
+    public Boss(World world, float x, float y, float speed) {
         this.head = new Head(world, x, y, speed);
     }
 
 
     @Override
     public void update() {
-        head.update();
+        this.head.update();
     }
 
     @Override
     public void draw(Batch batch) {
-        head.draw(batch);
+        this.head.draw(batch);
     }
 
     @Override
     public void dispose() {
-        head.dispose();
+        this.head.dispose();
     }
 }
