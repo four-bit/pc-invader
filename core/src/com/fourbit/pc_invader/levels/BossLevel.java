@@ -27,7 +27,7 @@ public class BossLevel extends Level {
         );
         this.player = new Player(
                 super.physicsWorld,
-                (float) GAME_WIDTH / 4, (float) GAME_HEIGHT / 2, 0.0f, 15,
+                GAME_WIDTH * 0.25f, GAME_HEIGHT * 0.5f, 0.0f, 15,
                 8, 3, true
         );
 

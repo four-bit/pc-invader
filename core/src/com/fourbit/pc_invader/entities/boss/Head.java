@@ -55,14 +55,14 @@ public class Head extends Entity {
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = 0.5f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.6f;
+        fixtureDef.density = 1.5f;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f;
         fixtureDef.isSensor = true;
 
         float scale = this.texture.getWidth();
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("entities/boss/head.json"));
-        loader.attachFixture(body, "wormhead.png", fixtureDef, scale);
+        loader.attachFixture(body, "head", fixtureDef, scale);
 
         body.setAngularVelocity(0);
         body.setUserData(this);
