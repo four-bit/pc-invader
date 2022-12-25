@@ -1,4 +1,5 @@
 # PC Invader
+
 ## Instruction to download and play the game
 1.
 2.
@@ -10,7 +11,6 @@
 Demo video:
 
 LibGDX: [https://libgdx.com/](https://libgdx.com/)
-
 
 ### 1. Motivation:
 The team opted to create a new version of the game based on the original
@@ -46,6 +46,8 @@ control the spaceship and destroy all the enemies and the final boss.
 - Product will have a friendly and simple user interface for players. 
 - The game will need to be downloaded and installed before playing
 ---
+
+
 ## Work Distribution
 
 The division of work took a little longer than expected compared to the original schedule because the group was formed
