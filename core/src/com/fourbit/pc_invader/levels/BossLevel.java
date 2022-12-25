@@ -12,7 +12,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 public class BossLevel extends Level {
     private final Player player;
-//    private final Boss boss;
+    private final Boss boss;
     private final GameHUD gameHud;
 
 
@@ -24,12 +24,12 @@ public class BossLevel extends Level {
                 (float) GAME_WIDTH / 4, (float) GAME_HEIGHT / 2, 0.0f, 15,
                 8, 3, true
         );
-//        this.boss = new Boss(
-//                super.physicsWorld,
-//                (float) GAME_WIDTH / 2,
-//                (float) GAME_HEIGHT / 2,
-//                2
-//        );
+        this.boss = new Boss(
+                super.physicsWorld,
+                (float) GAME_WIDTH / 2,
+                (float) GAME_HEIGHT / 2,
+                2
+        );
 
         this.gameHud = new GameHUD(this);
     }
@@ -39,14 +39,14 @@ public class BossLevel extends Level {
     public void update() {
         super.update();
         this.player.update();
-//        this.boss.update();
+        this.boss.update();
         this.gameHud.updateFrom(player);
     }
 
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-//        this.boss.draw(batch);
+        this.boss.draw(batch);
         this.player.draw(batch);
         this.gameHud.draw();
     }
@@ -54,7 +54,7 @@ public class BossLevel extends Level {
     @Override
     public void dispose() {
         this.player.dispose();
-//        this.boss.dispose();
+        this.boss.dispose();
         this.gameHud.dispose();
         super.dispose();
     }

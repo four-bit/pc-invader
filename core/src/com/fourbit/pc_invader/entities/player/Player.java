@@ -57,9 +57,7 @@ public class Player extends Entity {
             float x, float y, float angle, float speed,
             int maxHealth, int maxShield, boolean hasShield
     ) {
-        super("entities/player/sprite.png");
-        super.position.x = x;
-        super.position.y = y;
+        super("entities/player/sprite.png", x, y, angle);
 
         this.speed = speed;
         this.movement = new Vector2();

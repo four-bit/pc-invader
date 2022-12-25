@@ -4,40 +4,35 @@ package com.fourbit.pc_invader.entities.boss;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
+import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.utils.BodyEditorLoader;
+import com.fourbit.pc_invader.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Head {
-
-    private float x, y;
-    private boolean flip;
-    private Texture texture;
-    private float speed, angle;
+public class Head extends Entity {
+    private float speed;
+    private final ArrayList<HashMap<String, Integer>> locations = new ArrayList<>();
+    private int locationIndex;
+    private final Body body;
 
     public enum State {GOINGDOWN, GOINGDOWNLEFT, GOINGLEFT, GOINGUPLEFT, GOINGUP, GOINGUPRIGHT, GOINGRIGHT, GOINGDOWNRIGHT, STAND}
-
     public State state = State.GOINGUP;
-    private FileHandle handle = Gdx.files.internal("entities/boss/location.txt");
-    private String[] text;
-    private ArrayList<HashMap<String, Integer>> location = new ArrayList<>();
-    private int locationNum;
-    public static final int GAME_WIDTH = 1920;
-    public static final int GAME_HEIGHT = 1080;
-
-    private Vector2 movement;
 
 
-    public Head(float x, float y, int speed, float angle) {
-        this.x = x;
-        this.y = y;
+    public Head(World world, float x, float y, int speed) {
+        super("entities/boss/wormhead.png", x, y, 0.0f);
         this.speed = speed;
-        this.angle = angle;
-        this.initGraphics();
-        text = handle.readString().split("\n");
+
+        FileHandle handle = Gdx.files.internal("entities/boss/location.txt");
+        String[] text = handle.readString().split("\n");
         String[] header = text[0].split(",");
         header[1] = header[1].replaceAll("\\s", "");
 
@@ -50,125 +45,112 @@ public class Head {
             for (int n = 0; n < 2; n++) {
                 row.put(header[n], Integer.parseInt(line[n]));
             }
-            location.add(row);
+            this.locations.add(row);
         }
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.position.set(super.getPosition());
+        body = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.6f;
+        fixtureDef.isSensor = true;
+
+        float scale = this.texture.getWidth();
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("entities/boss/head.json"));
+        loader.attachFixture(body, "wormhead.png", fixtureDef, scale);
+
+        body.setAngularVelocity(0);
+        body.setUserData(this);
     }
 
-    public void initGraphics() {
-        this.texture = new Texture("entities/boss/wormhead.png");
-    }
 
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public ArrayList<HashMap<String, Integer>> getLocation() {
-        return location;
-    }
-
-    public float getAngle() {
-        return angle;
-    }
-
-    public boolean getFlip() {
-        return flip;
-    }
-
-    public void checkDirection(float x, float y) {
-        if (this.x == x && this.y > y) {
+    private void checkDirection(float x, float y) {
+        if (Utils.toMeters(this.body.getPosition().x) == x && Utils.toMeters(this.body.getPosition().y) > y) {
             this.state = State.GOINGDOWN;
         }
-        if (this.x > x && this.y > y) {
+        if (Utils.toMeters(this.body.getPosition().x) > x && Utils.toMeters(this.body.getPosition().y) > y) {
             this.state = State.GOINGDOWNLEFT;
         }
-        if (this.x > x && this.y == y) {
+        if (Utils.toMeters(this.body.getPosition().x) > x && Utils.toMeters(this.body.getPosition().y) == y) {
             this.state = State.GOINGLEFT;
         }
-        if (this.x > x && this.y < y) {
+        if (Utils.toMeters(this.body.getPosition().x) > x && Utils.toMeters(this.body.getPosition().y) < y) {
             this.state = State.GOINGUPLEFT;
         }
-        if (this.x == x && this.y < y) {
+        if (Utils.toMeters(this.body.getPosition().x) == x && Utils.toMeters(this.body.getPosition().y) < y) {
             this.state = State.GOINGUP;
         }
-        if (this.x < x && this.y < y) {
+        if (Utils.toMeters(this.body.getPosition().x) < x && Utils.toMeters(this.body.getPosition().y) < y) {
             this.state = State.GOINGUPRIGHT;
         }
-        if (this.x < x && this.y == y) {
+        if (Utils.toMeters(this.body.getPosition().x) < x && Utils.toMeters(this.body.getPosition().y) == y) {
             this.state = State.GOINGRIGHT;
         }
-        if (this.x < x && this.y > y) {
+        if (Utils.toMeters(this.body.getPosition().x) < x && Utils.toMeters(this.body.getPosition().y) > y) {
             this.state = State.GOINGDOWNRIGHT;
         }
-        if (this.x == x && this.y == y) {
+        if (Utils.toMeters(this.body.getPosition().x) == x && Utils.toMeters(this.body.getPosition().y) == y) {
             this.state = State.STAND;
         }
     }
 
+
+    @Override
     public void update() {
         switch (state) {
             case GOINGDOWN:
-                this.y -= this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
-
+                this.body.getPosition().add(Utils.toMeters(new Vector2(0, -this.speed)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGDOWNLEFT:
-                this.x -= this.speed;
-                this.y -= this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(-this.speed, -this.speed)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGLEFT:
-                this.x -= this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(-this.speed, 0)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGUPLEFT:
-                this.x -= this.speed;
-                this.y += this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(-this.speed, this.speed)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGUP:
-                this.y += this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(0, this.speed)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGUPRIGHT:
-                this.x += this.speed;
-                this.y += this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(this.speed, this.speed)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGRIGHT:
-                this.x += this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(this.speed, 0)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case GOINGDOWNRIGHT:
-                this.x += this.speed;
-                this.y -= this.speed;
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                this.body.getPosition().add(Utils.toMeters(new Vector2(this.speed, -this.speed)));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
             case STAND:
-                if (locationNum < this.location.size() - 1) {
-                    this.locationNum++;
+                if (locationIndex < this.locations.size() - 1) {
+                    this.locationIndex++;
                 } else {
-                    locationNum = 0;
+                    locationIndex = 0;
                 }
-                checkDirection(location.get(locationNum).get("x"), location.get(locationNum).get("y"));
+                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
                 break;
         }
 
         this.angle = (float) Math.toDegrees(Math.atan2(
-                (float) (this.y - this.location.get(locationNum).get("y")),
-                (float) (this.x - this.location.get(locationNum).get("x"))));
-        this.flip = this.x < location.get(locationNum).get("x");
+                (Utils.toMeters(this.body.getPosition().x) - this.locations.get(locationIndex).get("y")),
+                (this.body.getPosition().y - this.locations.get(locationIndex).get("x"))));
     }
 
+    @Override
     public void dispose() {
-        texture.dispose();
+       super.dispose();
     }
 }
-

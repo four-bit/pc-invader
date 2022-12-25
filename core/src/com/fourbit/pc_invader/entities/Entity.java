@@ -14,8 +14,20 @@ public class Entity implements GameComponent {
     protected Texture texture;
 
     public Entity(String texturePath) {
-        texture = new Texture(texturePath);
-        position = new Vector2();
+        this.texture = new Texture(texturePath);
+        this.position = new Vector2();
+    }
+
+    public Entity(String texturePath, Vector2 position, float angle) {
+        this.texture = new Texture(texturePath);
+        this.position = position;
+        this.angle = angle;
+    }
+
+    public Entity(String texturePath, float x, float y, float angle) {
+        this.texture = new Texture(texturePath);
+        this.position = new Vector2(x, y);
+        this.angle = angle;
     }
 
 
