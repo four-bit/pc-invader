@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.Utils;
 
 
@@ -76,14 +77,14 @@ public class Entity implements GameComponent {
     public void draw(Batch batch) {
         batch.draw(
                 this.texture,
-                this.position.x - (float) this.texture.getWidth() / 2,
-                this.position.y - (float) this.texture.getHeight() / 2,
-                (float) this.texture.getWidth() / 2,
-                (float) this.texture.getHeight() / 2,
+                this.position.x - (float) this.texture.getWidth() * 0.5f,
+                this.position.y - (float) this.texture.getHeight() * 0.5f,
+                this.texture.getWidth() * 0.5f,
+                this.texture.getHeight() * 0.5f,
                 this.texture.getWidth(),
                 this.texture.getHeight(),
-                1.0f,
-                1.0f,
+                Globals.PIXEL_ART_SCALE,
+                Globals.PIXEL_ART_SCALE,
                 this.angle,
                 0,
                 0,

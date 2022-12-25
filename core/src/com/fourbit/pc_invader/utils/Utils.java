@@ -34,29 +34,29 @@ public class Utils {
 
 
     public static boolean isOutOfScreen(Entity entity) {
-        return ((entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT) ||  // TOP
-                ((entity.getPosition().y - (float) entity.getHeight() / 2) < 0) ||  // BOTTOM
-                ((entity.getPosition().x - (float) entity.getWidth() / 2) < 0) ||  // LEFT
-                ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH);  // RIGHT
+        return ((entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT) ||  // TOP
+                ((entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < 0) ||  // BOTTOM
+                ((entity.getPosition().x - (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) < 0) ||  // LEFT
+                ((entity.getPosition().x + (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_WIDTH);  // RIGHT
     }
 
     public static boolean isOutOfScreen(Entity entity, int padding) {
-        return ((entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT + padding) ||  // TOP
-                ((entity.getPosition().y - (float) entity.getHeight() / 2) < -padding) ||  // BOTTOM
-                ((entity.getPosition().x - (float) entity.getWidth() / 2) < -padding) ||  // LEFT
-                ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding);  // RIGHT
+        return ((entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT + padding) ||  // TOP
+                ((entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding) ||  // BOTTOM
+                ((entity.getPosition().x - (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding) ||  // LEFT
+                ((entity.getPosition().x + (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_WIDTH + padding);  // RIGHT
     }
 
     public static boolean isOutOfScreen(Entity entity, OrthographicDirection direction) {
         switch (direction) {
             case UP:
-                return (entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT;
+                return (entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT;
             case DOWN:
-                return (entity.getPosition().y - (float) entity.getHeight() / 2) < 0;
+                return (entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < 0;
             case LEFT:
-                return (entity.getPosition().x - (float) entity.getWidth() / 2) < 0;
+                return (entity.getPosition().x - (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) < 0;
             case RIGHT:
-                return (entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH;
+                return (entity.getPosition().x + (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_WIDTH;
             default:
                 return false;
         }
@@ -65,13 +65,13 @@ public class Utils {
     public static boolean isOutOfScreen(Entity entity, OrthographicDirection direction, int padding) {
         switch (direction) {
             case UP:
-                return (entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT + padding;
+                return (entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT + padding;
             case DOWN:
-                return (entity.getPosition().y - (float) entity.getHeight() / 2) < -padding;
+                return (entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding;
             case LEFT:
-                return (entity.getPosition().x - (float) entity.getWidth() / 2) < -padding;
+                return (entity.getPosition().x - (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding;
             case RIGHT:
-                return (entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding;
+                return (entity.getPosition().x + (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_WIDTH + padding;
             default:
                 return false;
         }
@@ -111,28 +111,28 @@ public class Utils {
     public static Direction whereOutOfScreen(Entity entity, int padding) {
         Direction direction = Direction.NONE;
 
-        if ((entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT + padding) {
+        if ((entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT + padding) {
             direction = Direction.UP;
         }
-        if ((entity.getPosition().y - (float) entity.getHeight() / 2) < -padding) {
+        if ((entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding) {
             direction = Direction.DOWN;
         }
-        if ((entity.getPosition().x - (float) entity.getWidth() / 2) < -padding) {
+        if ((entity.getPosition().x - (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding) {
             direction = Direction.LEFT;
         }
-        if ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding) {
+        if ((entity.getPosition().x + (float) entity.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_WIDTH + padding) {
             direction = Direction.RIGHT;
         }
-        if (((entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT + padding) && ((entity.getPosition().x - (float) entity.getWidth() / 2) < -padding)) {
+        if (((entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT + padding) && ((entity.getPosition().x - (float) entity.getWidth() / 2) < -padding)) {
             direction = Direction.UP_LEFT;
         }
-        if (((entity.getPosition().y + (float) entity.getHeight() / 2) > GAME_HEIGHT + padding) && ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding)) {
+        if (((entity.getPosition().y + (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) > GAME_HEIGHT + padding) && ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding)) {
             direction = Direction.UP_RIGHT;
         }
-        if (((entity.getPosition().y - (float) entity.getHeight() / 2) < -padding) && ((entity.getPosition().x - (float) entity.getWidth() / 2) < -padding)) {
+        if (((entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding) && ((entity.getPosition().x - (float) entity.getWidth() / 2) < -padding)) {
             direction = Direction.DOWN_LEFT;
         }
-        if (((entity.getPosition().y - (float) entity.getHeight() / 2) < -padding) && ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding)) {
+        if (((entity.getPosition().y - (float) entity.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f) < -padding) && ((entity.getPosition().x + (float) entity.getWidth() / 2) > GAME_WIDTH + padding)) {
             direction = Direction.DOWN_RIGHT;
         }
 

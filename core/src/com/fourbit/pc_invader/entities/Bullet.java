@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Pool;
 
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.Utils;
 
 
@@ -31,8 +32,8 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
 
         this.collisionBox = new PolygonShape();
         this.collisionBox.setAsBox(
-                Utils.toMeters((float) super.texture.getWidth() / 2),
-                Utils.toMeters((float) super.texture.getHeight() / 2)
+                Utils.toMeters(super.texture.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f),
+                Utils.toMeters(super.texture.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f)
         );
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -78,7 +79,7 @@ public class Bullet extends Entity implements Pool.Poolable, GameComponent {
                 ),
                 this.body.getAngle());
         super.position = Utils.toPixels(this.body.getPosition());
-        if (Utils.isOutOfScreen(this, super.getWidth())) this.alive = false;
+        if (Utils.isOutOfScreen(this, super.getWidth() * Globals.PIXEL_ART_SCALE)) this.alive = false;
     }
 
     @Override

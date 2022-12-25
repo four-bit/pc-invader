@@ -168,4 +168,3 @@ premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
 exhaust_particle.png
-
