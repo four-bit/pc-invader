@@ -20,11 +20,11 @@ with the projects of the other groups.
 
 Due to the fact that we are redesigning a game that has already become popular, our team has made certain adjustments
 to the visuals and themes to prevent gamers from becoming disinterested while playing the game. In order to make this
-game more replayable, we also planned to develop the game with a roguelike map so that players can replay the game with
+game more re-playable, we also planned to develop the game with a roguelike map so that players can replay the game with
 a different route to explore different challenges.
 
 ### 2. Topic:
-This game takes the theme of the player's ship, which is an anti-virus software that is installed on a computer to be
+This game takes the theme of the player's ship, which is an antivirus software that is installed on a computer to be
 able to clean up the viruses that are destroying the software and components inside. To be able to win the user needs to
 control the spaceship and destroy all the enemies and the final boss.
 
