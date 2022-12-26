@@ -1,6 +1,6 @@
 package com.fourbit.pc_invader.entities.player;
 
-import com.fourbit.pc_invader.utils.Globals;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.sun.tools.javac.main.Option;
 
 import com.badlogic.gdx.utils.Array;
@@ -14,15 +14,13 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 
+import com.fourbit.pc_invader.entities.PhysicsEntity;
 import com.fourbit.pc_invader.utils.InputProcessor;
-import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Utils;
+import com.fourbit.pc_invader.utils.Globals;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -31,10 +29,7 @@ import static com.fourbit.pc_invader.utils.Globals.PLAYER_SHOOT_COOLDOWN_MS;
 import static com.fourbit.pc_invader.utils.Globals.PLAYER_AMMO_REGEN_COOLDOWN_MS;
 
 
-public class Player extends Entity {
-    private final float speed;
-    private final Vector2 movement;
-    private final Body body;
+public class Player extends PhysicsEntity {
     private final TextureAtlas exhaustTextureAtlas;
     private final ParticleEffect exhaustEffect;
 
@@ -58,24 +53,17 @@ public class Player extends Entity {
             float x, float y, float angle, float speed,
             int maxHealth, int maxShield, boolean hasShield
     ) {
-        super("entities/player/sprite.png", x, y, angle);
+        super(world, BodyDef.BodyType.KinematicBody, "entities/player/sprite.png", x, y, angle, speed);
 
-        this.speed = speed;
-        this.movement = new Vector2();
         this.healthPoints = maxHealth;
         this.shieldPoints = maxShield;
         this.hasShield = hasShield;
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(Utils.toMeters(super.position));
-        this.body = world.createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth() * Globals.PIXEL_ART_SCALE));
-
-        this.body.createFixture(fixtureDef);
-        this.body.setUserData(this);
+        new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(super.body, "body", super.fixtureDef, Utils.toMeters(super.getWidth()));
+        super.body.createFixture(fixtureDef);
+        super.fixtureDef.density = 1.0f;
+        super.fixtureDef.friction = 0.0f;
+        super.fixtureDef.restitution = 0.0f;
 
         this.exhaustTextureAtlas = new TextureAtlas();
         this.exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("entities/player/exhaust_particle.png")));
@@ -88,10 +76,6 @@ public class Player extends Entity {
         this.ammo = PLAYER_MAX_AMMO;
     }
 
-
-    public float getSpeed() {
-        return this.speed;
-    }
 
     public int getAmmo() {
         return this.ammo;
@@ -138,53 +122,53 @@ public class Player extends Entity {
     public void update() {
         super.update();
 
-
         // Calculate movement vector based on user input and add that vector to player's position
-        this.movement.setZero();
+        super.movement.setZero();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            this.movement.add(new Vector2(-this.speed, 0));
+            super.movement.add(new Vector2(-super.speed, 0));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            this.movement.add(new Vector2(this.speed, 0));
+            super.movement.add(new Vector2(super.speed, 0));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            this.movement.add(new Vector2(0, this.speed));
+            super.movement.add(new Vector2(0, super.speed));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            this.movement.add(new Vector2(0, -this.speed));
+            super.movement.add(new Vector2(0, -super.speed));
         }
-        this.body.setTransform(
-                this.body.getPosition().add(Utils.toMeters(movement)),
+        super.body.setTransform(
+                super.body.getPosition().add(super.movement),
                 (float) Math.PI - Utils.getAngleToMouse(this).angleRad()  // Aiming
         );
-        this.position.set(Utils.toPixels(this.body.getPosition()));
+        super.position.set(Utils.toPixels(super.body.getPosition()));
+
 
         // Level boundary checks
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.UP)) {
-            this.body.setTransform(
+            super.body.setTransform(
                     body.getPosition().x,
-                    Utils.toMeters(GAME_HEIGHT - super.texture.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f),
-                    this.body.getAngle()
+                    Utils.toMeters(GAME_HEIGHT - super.getHeight() * 0.5f),
+                    super.body.getAngle()
             );
         }
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.DOWN)) {
-            this.body.setTransform(
+            super.body.setTransform(
                     body.getPosition().x,
-                    Utils.toMeters(super.texture.getHeight() * Globals.PIXEL_ART_SCALE * 0.5f),
-                    this.body.getAngle()
+                    Utils.toMeters(super.getHeight() * 0.5f),
+                    super.body.getAngle()
             );
         }
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.LEFT)) {
-            this.body.setTransform(
-                    Utils.toMeters(super.texture.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f),
+            super.body.setTransform(
+                    Utils.toMeters(super.getWidth() * 0.5f),
                     body.getPosition().y,
-                    this.body.getAngle());
+                    super.body.getAngle());
         }
         if (Utils.isOutOfScreen(this, Utils.OrthographicDirection.RIGHT)) {
-            this.body.setTransform(
-                    Utils.toMeters(GAME_WIDTH - super.texture.getWidth() * Globals.PIXEL_ART_SCALE * 0.5f),
+            super.body.setTransform(
+                    Utils.toMeters(GAME_WIDTH - super.getWidth() * 0.5f),
                     body.getPosition().y,
-                    this.body.getAngle());
+                    super.body.getAngle());
         }
 
 
@@ -200,7 +184,7 @@ public class Player extends Entity {
         if (InputProcessor.isShoot() && this.ammo > 0) {
             if (currentTime - this.lastShot > PLAYER_SHOOT_COOLDOWN_MS * 1000000) {
                 Bullet bullet = this.bulletPool.obtain();
-                bullet.init(this.body.getPosition(), super.angle);
+                bullet.init(super.body.getPosition(), super.angle);
                 this.activeBullets.add(bullet);
                 this.lastShot = currentTime;
                 this.ammo--;

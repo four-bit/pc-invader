@@ -1,0 +1,51 @@
+package com.fourbit.pc_invader.levels.boss;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.fourbit.pc_invader.utils.ui.LevelHud;
+import com.fourbit.pc_invader.utils.InputProcessor;
+
+
+public class Hud extends LevelHud {
+    private final Level level;
+
+    public Hud(Level level) {
+        super(level);
+        this.level = level;
+
+        if (super.debug) {
+            super.debugInfoLabels.put("playerHealth", new Label("playerHealth", skin));
+            super.debugInfoLabels.put("playerShield", new Label("playerShield", skin));
+            super.debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
+            super.debugInfoLabels.put("playerAmmo", new Label("playerAmmo", skin));
+            super.debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
+            super.debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
+            super.debugInfoLabels.put("mousePosition", new Label("mousePosition", skin));
+            super.debugInfoLabels.put("mouseVector", new Label("mouseVector", skin));
+
+            for (Label label : this.debugInfoLabels.values()) {
+                debugZone.add(label);
+                debugZone.row();
+            }
+        }
+    }
+
+
+    @Override
+    public void update() {
+        if (super.debug) {
+            Vector2 mouseVector = InputProcessor.getMouseVector();
+
+            this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + this.level.player.getHealthPoints());
+            this.debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + this.level.player.getShieldPoints() + (this.level.player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
+            this.debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + this.level.player.getSpeed());
+            this.debugInfoLabels.get("playerAmmo").setText("[]Player ammo: [YELLOW]" + this.level.player.getAmmo());
+            this.debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + this.level.player.getPosition().x + " []Y:[YELLOW]" + this.level.player.getPosition().y);
+            this.debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + this.level.player.getAngleDegree());
+            this.debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + Gdx.input.getX() + " []Y:[YELLOW]" + Gdx.input.getY());
+            this.debugInfoLabels.get("mouseVector").setText("[]Mouse vector: X:[YELLOW]" + mouseVector.x + " []Y:[YELLOW]" + mouseVector.y);
+        }
+    }
+}

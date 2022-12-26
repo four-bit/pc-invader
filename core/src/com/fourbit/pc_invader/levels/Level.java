@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Globals;
@@ -19,7 +20,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
-public class Level implements GameComponent {
+public class Level implements GameComponent, Disposable {
     protected final boolean debug;
 
     protected World physicsWorld;
@@ -73,8 +74,8 @@ public class Level implements GameComponent {
                 0,
                 this.background.getWidth(),
                 this.background.getHeight(),
-                Globals.PIXEL_ART_SCALE,
-                Globals.PIXEL_ART_SCALE,
+                Globals.PAS,
+                Globals.PAS,
                 0,
                 0,
                 0,

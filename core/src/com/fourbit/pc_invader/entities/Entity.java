@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.Utils;
 
+import static com.fourbit.pc_invader.utils.Globals.PAS;
 
-public class Entity implements GameComponent {
+
+public class Entity implements GameComponent, Disposable {
     protected Vector2 position;
     protected float angle;
     protected Texture texture;
@@ -41,11 +44,11 @@ public class Entity implements GameComponent {
     }
 
     public int getWidth() {
-        return this.texture.getWidth();
+        return this.texture.getWidth() * PAS;
     }
 
     public int getHeight() {
-        return this.texture.getHeight();
+        return this.texture.getHeight() * PAS;
     }
 
     public float getAngleRadian() {
@@ -83,8 +86,8 @@ public class Entity implements GameComponent {
                 this.texture.getHeight() * 0.5f,
                 this.texture.getWidth(),
                 this.texture.getHeight(),
-                Globals.PIXEL_ART_SCALE,
-                Globals.PIXEL_ART_SCALE,
+                Globals.PAS,
+                Globals.PAS,
                 this.angle,
                 0,
                 0,

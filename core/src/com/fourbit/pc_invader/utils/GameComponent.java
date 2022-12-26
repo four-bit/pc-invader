@@ -5,5 +5,4 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public interface GameComponent {
     void update();
     void draw(Batch batch);
-    void dispose();
 }
