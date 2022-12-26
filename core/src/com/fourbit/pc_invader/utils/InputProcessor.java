@@ -7,12 +7,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
+import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+
 
 public class InputProcessor {
     public static Vector2 getMouseVector() {
         Vector2 mouseCoords2D = new Vector2();
         Vector3 mouseCoords3D = new Vector3();
-        OrthographicCamera cam = new OrthographicCamera();
+        OrthographicCamera cam = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
 
         mouseCoords3D.x = Gdx.input.getX();
         mouseCoords3D.y = GAME_HEIGHT - Gdx.input.getY();

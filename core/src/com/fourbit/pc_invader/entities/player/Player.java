@@ -153,7 +153,10 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             this.movement.add(new Vector2(0, -this.speed));
         }
-        this.body.setTransform(this.body.getPosition().add(Utils.toMeters(movement)), (float) Math.PI - Utils.getAngleToMouse(this).angleRad());
+        this.body.setTransform(
+                this.body.getPosition().add(Utils.toMeters(movement)),
+                (float) Math.PI - Utils.getAngleToMouse(this).angleRad()  // Aiming
+        );
         this.position.set(Utils.toPixels(this.body.getPosition()));
 
         // Level boundary checks
