@@ -4,14 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.fourbit.pc_invader.utils.ui.LevelHud;
 import com.fourbit.pc_invader.utils.InputProcessor;
 
 
-public class Hud extends LevelHud {
+public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
     private final Level level;
 
-    public Hud(Level level) {
+    public LevelHud(Level level) {
         super(level);
         this.level = level;
 
@@ -24,6 +23,7 @@ public class Hud extends LevelHud {
             super.debugInfoLabels.put("playerAngle", new Label("playerAngle", skin));
             super.debugInfoLabels.put("mousePosition", new Label("mousePosition", skin));
             super.debugInfoLabels.put("mouseVector", new Label("mouseVector", skin));
+            super.debugInfoLabels.put("bossPosition", new Label("bossPosition", skin));
 
             for (Label label : this.debugInfoLabels.values()) {
                 debugZone.add(label);
@@ -46,6 +46,7 @@ public class Hud extends LevelHud {
             this.debugInfoLabels.get("playerAngle").setText("[]Player angle: [YELLOW]" + this.level.player.getAngleDegree());
             this.debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + Gdx.input.getX() + " []Y:[YELLOW]" + Gdx.input.getY());
             this.debugInfoLabels.get("mouseVector").setText("[]Mouse vector: X:[YELLOW]" + mouseVector.x + " []Y:[YELLOW]" + mouseVector.y);
+            this.debugInfoLabels.get("bossPosition").setText("[]Boss position: X:[YELLOW]" + this.level.boss.getPosition().x + " []Y:[YELLOW]" + this.level.boss.getPosition().y);
         }
     }
 }

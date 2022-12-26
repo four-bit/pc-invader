@@ -11,8 +11,8 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 public class Level extends com.fourbit.pc_invader.levels.Level {
     protected final Player player;
-    private final Boss boss;
-    private final Hud hud;
+    protected final Boss boss;
+    private final LevelHud levelHud;
 
 
     public Level(boolean debug) {
@@ -29,7 +29,7 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
                 8, 3, true
         );
 
-        this.hud = new Hud(this);
+        this.levelHud = new LevelHud(this);
     }
 
 
@@ -38,20 +38,20 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
         super.update();
         this.player.update();
         this.boss.update();
-        this.hud.update();
+        this.levelHud.update();
     }
 
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-        this.hud.draw();
+        this.levelHud.draw();
     }
 
     @Override
     public void dispose() {
         this.player.dispose();
         this.boss.dispose();
-        this.hud.dispose();
+        this.levelHud.dispose();
         super.dispose();
     }
 }

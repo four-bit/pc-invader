@@ -24,6 +24,11 @@ public class Boss implements GameComponent, Disposable {
     }
 
 
+    public Vector2 getPosition() {
+        return this.main.getPosition();
+    }
+
+
     @Override
     public void update() {
         if (this.initPhase) {
