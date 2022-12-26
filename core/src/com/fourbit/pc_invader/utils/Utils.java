@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.fourbit.pc_invader.entities.Entity;
 
-import com.sun.tools.javac.main.Option;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -166,7 +165,7 @@ public class Utils {
     public static Vector2 getBearingFromCenter(Entity entity) {
         Vector2 bearing2D = new Vector2();
         Vector3 bearing3D = new Vector3();
-        OrthographicCamera cam = new OrthographicCamera();
+        OrthographicCamera cam = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
 
         bearing3D.x = entity.getPosition().x;
         bearing3D.y = entity.getPosition().y;
