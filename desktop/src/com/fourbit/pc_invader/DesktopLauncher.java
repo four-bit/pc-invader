@@ -10,7 +10,7 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         Graphics.DisplayMode primaryMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setForegroundFPS(60);
+        config.setForegroundFPS(120);
         config.setFullscreenMode(primaryMode);
         config.useVsync(true);
         config.setTitle("PC INVADER");

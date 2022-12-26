@@ -24,6 +24,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
             super.debugInfoLabels.put("mousePosition", new Label("mousePosition", skin));
             super.debugInfoLabels.put("mouseVector", new Label("mouseVector", skin));
             super.debugInfoLabels.put("bossPosition", new Label("bossPosition", skin));
+            super.debugInfoLabels.put("bossInitPhase", new Label("bossInitPhase", skin));
 
             for (Label label : this.debugInfoLabels.values()) {
                 debugZone.add(label);
@@ -47,6 +48,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
             this.debugInfoLabels.get("mousePosition").setText("[]Mouse position: X:[YELLOW]" + Gdx.input.getX() + " []Y:[YELLOW]" + Gdx.input.getY());
             this.debugInfoLabels.get("mouseVector").setText("[]Mouse vector: X:[YELLOW]" + mouseVector.x + " []Y:[YELLOW]" + mouseVector.y);
             this.debugInfoLabels.get("bossPosition").setText("[]Boss position: X:[YELLOW]" + this.level.boss.getPosition().x + " []Y:[YELLOW]" + this.level.boss.getPosition().y);
+            this.debugInfoLabels.get("bossInitPhase").setText("[]Boss init phase:" + ((this.level.boss.isInitPhase()) ? "[RED] YES" : "[GREEN] NO"));
         }
     }
 }

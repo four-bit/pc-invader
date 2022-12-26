@@ -20,7 +20,7 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
 
         this.boss = new Boss(
                 super.physicsWorld,
-                GAME_WIDTH * .75f,
+                GAME_WIDTH * .7f,
                 GAME_HEIGHT * .5f
         );
         this.player = new Player(

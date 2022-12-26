@@ -28,12 +28,19 @@ public class Boss implements GameComponent, Disposable {
         return this.main.getPosition();
     }
 
+    public boolean isInitPhase() {
+        return initPhase;
+    }
 
     @Override
     public void update() {
         if (this.initPhase) {
-            this.main.getBody().setLinearVelocity(this.main.getBody().getLinearVelocity().add(5,0));
-            if (this.main.getPosition().epsilonEquals(this.initPosition)) this.initPhase = false;
+            this.main.getBody().setLinearVelocity(-Math.abs(this.main.getPosition().x - this.initPosition.x) * 0.2f,0);
+            if (Math.abs(this.main.getPosition().x - this.initPosition.x) < 0.1) {
+                this.main.setPosition(this.initPosition);
+                this.main.getBody().setLinearVelocity(Vector2.Zero);
+                this.initPhase = false;
+            }
         } else {
             this.main.update();
         }
