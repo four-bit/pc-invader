@@ -1,37 +1,34 @@
-package com.fourbit.pc_invader.levels;
+package com.fourbit.pc_invader.levels.boss;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.player.Player;
-import com.fourbit.pc_invader.ui.GameHUD;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
-public class BossLevel extends Level {
-    private final Player player;
-    private final Boss boss;
-    private final GameHUD gameHud;
+public class Level extends com.fourbit.pc_invader.levels.Level {
+    protected final Player player;
+    protected final Boss boss;
+    private final LevelHud levelHud;
 
 
-    public BossLevel(boolean debug) {
+    public Level(boolean debug) {
         super("levels/boss/background.png", debug);
 
         this.boss = new Boss(
                 super.physicsWorld,
-                GAME_WIDTH * 0.5f,
-                GAME_HEIGHT * 0.5f,
-                2.0f
+                GAME_WIDTH * .7f,
+                GAME_HEIGHT * .5f
         );
         this.player = new Player(
                 super.physicsWorld,
-                GAME_WIDTH * 0.25f, GAME_HEIGHT * 0.5f, 0.0f, 15,
-                8, 3, true
+                GAME_WIDTH * .25f, GAME_HEIGHT * .5f, 0.0f, 8
         );
 
-        this.gameHud = new GameHUD(this);
+        this.levelHud = new LevelHud(this);
     }
 
 
@@ -40,20 +37,20 @@ public class BossLevel extends Level {
         super.update();
         this.player.update();
         this.boss.update();
-        this.gameHud.updateFrom(player);
+        this.levelHud.update();
     }
 
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-        this.gameHud.draw();
+        this.levelHud.draw();
     }
 
     @Override
     public void dispose() {
         this.player.dispose();
         this.boss.dispose();
-        this.gameHud.dispose();
+        this.levelHud.dispose();
         super.dispose();
     }
 }

@@ -2,147 +2,73 @@ package com.fourbit.pc_invader.entities.boss;
 
 
 import com.badlogic.gdx.Gdx;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.fourbit.pc_invader.entities.Entity;
+
+import com.fourbit.pc_invader.entities.PhysicsEntity;
+import com.fourbit.pc_invader.utils.Anchor;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
-import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
+public class Main extends PhysicsEntity {
+    private final BossConfig config;
+    private int currentAnchorIndex;
+    private long lastStop;
+    private boolean stopped;
 
-public class Main extends Entity {
-    private final float speed;
-    private final ArrayList<HashMap<String, Integer>> locations = new ArrayList<>();
-    private int locationIndex;
-    private final Body body;
+    public Main(World world, float x, float y, float speed, BossConfig bossConfig) {
+        super(world, BodyDef.BodyType.KinematicBody, "entities/boss/main.png", x, y, 0.0f, speed);
 
-    public enum State {GOINGDOWN, GOINGDOWNLEFT, GOINGLEFT, GOINGUPLEFT, GOINGUP, GOINGUPRIGHT, GOINGRIGHT, GOINGDOWNRIGHT, STAND}
-    public State state = State.GOINGUP;
+        super.fixtureDef = new FixtureDef();
+        super.fixtureDef.density = 1.0f;
+        super.fixtureDef.friction = 0.0f;
+        super.fixtureDef.restitution = 0.0f;
+        new BodyEditorLoader(Gdx.files.internal("entities/boss/main.body.json")).attachFixture(super.body, "body", super.fixtureDef, Utils.toMeters(super.getWidth()));
+        super.body.setAngularVelocity(0);
 
-
-    public Main(World world, float x, float y, float speed) {
-        super("entities/boss/main.png", x, y, 0.0f);
-        this.speed = speed;
-
-        FileHandle handle = Gdx.files.internal("entities/boss/locations.txt");
-        String[] text = handle.readString().split("\n");
-        String[] header = text[0].split(",");
-        header[1] = header[1].replaceAll("\\s", "");
-
-        for (int i = 1; i < text.length; i++) {
-            String[] line = text[i].split(",");
-            for (int token_idx = 0; token_idx < line.length; token_idx++) {
-                line[token_idx] = line[token_idx].replaceAll("\\s", "");
-            }
-            HashMap<String, Integer> row = new HashMap<>();
-            for (int n = 0; n < 2; n++) {
-                row.put(header[n], Integer.parseInt(line[n]));
-            }
-            this.locations.add(row);
-        }
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(Utils.toMeters(super.getPosition()));
-        body = world.createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.0f;
-        fixtureDef.restitution = 0.0f;
-        new BodyEditorLoader(Gdx.files.internal("entities/boss/main.body.json")).attachFixture(this.body, "body", fixtureDef, Utils.toMeters(this.texture.getWidth() * Globals.PIXEL_ART_SCALE));
-
-        body.setAngularVelocity(0);
-        body.setUserData(this);
+        this.config = bossConfig;
+        this.currentAnchorIndex = 0;
+        this.stopped = false;
     }
 
 
-    private void checkDirection(float x, float y) {
-        if (Utils.toMeters(this.body.getPosition().x) == x && Utils.toMeters(this.body.getPosition().y) > y) {
-            this.state = State.GOINGDOWN;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) > x && Utils.toMeters(this.body.getPosition().y) > y) {
-            this.state = State.GOINGDOWNLEFT;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) > x && Utils.toMeters(this.body.getPosition().y) == y) {
-            this.state = State.GOINGLEFT;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) > x && Utils.toMeters(this.body.getPosition().y) < y) {
-            this.state = State.GOINGUPLEFT;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) == x && Utils.toMeters(this.body.getPosition().y) < y) {
-            this.state = State.GOINGUP;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) < x && Utils.toMeters(this.body.getPosition().y) < y) {
-            this.state = State.GOINGUPRIGHT;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) < x && Utils.toMeters(this.body.getPosition().y) == y) {
-            this.state = State.GOINGRIGHT;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) < x && Utils.toMeters(this.body.getPosition().y) > y) {
-            this.state = State.GOINGDOWNRIGHT;
-        }
-        if (Utils.toMeters(this.body.getPosition().x) == x && Utils.toMeters(this.body.getPosition().y) == y) {
-            this.state = State.STAND;
-        }
+    public Anchor getCurrentAnchor() {
+        return this.config.getAnchor(this.currentAnchorIndex);
     }
 
 
     @Override
     public void update() {
-        switch (state) {
-            case GOINGDOWN:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(0, -this.speed)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGDOWNLEFT:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(-this.speed, -this.speed)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGLEFT:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(-this.speed, 0)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGUPLEFT:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(-this.speed, this.speed)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGUP:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(0, this.speed)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGUPRIGHT:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(this.speed, this.speed)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGRIGHT:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(this.speed, 0)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case GOINGDOWNRIGHT:
-                this.body.getPosition().add(Utils.toMeters(new Vector2(this.speed, -this.speed)));
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-            case STAND:
-                if (locationIndex < this.locations.size() - 1) {
-                    this.locationIndex++;
-                } else {
-                    locationIndex = 0;
-                }
-                checkDirection(locations.get(locationIndex).get("x"), locations.get(locationIndex).get("y"));
-                break;
-        }
+        if (!this.stopped) {
+            Anchor currentAnchor = this.config.getAnchor(this.currentAnchorIndex);
 
-        this.angle = (float) Math.toDegrees(Math.atan2(
-                (Utils.toMeters(this.body.getPosition().x) - this.locations.get(locationIndex).get("y")),
-                (this.body.getPosition().y - this.locations.get(locationIndex).get("x"))));
+            this.body.setLinearVelocity(
+                    this.body.getPosition()
+                            .sub(currentAnchor.getPhysicsPos())
+                            .rotateDeg(180.0f)
+            );
+
+            if (currentAnchor.getHomingSpeed() < 0.0f || 0.0f < currentAnchor.getHomingSpeed()) {
+                this.body.setLinearVelocity(this.body.getLinearVelocity().setLength(currentAnchor.getHomingSpeed()));
+            }
+
+            if (this.body.getPosition().sub(currentAnchor.getPhysicsPos()).len2() < 1.0f) {
+                if (currentAnchor.getDelay() > 0) {
+                    this.stopped = true;
+                    this.lastStop = System.nanoTime();
+                    this.body.setLinearVelocity(0, 0);
+                } else {
+                    this.currentAnchorIndex = (this.currentAnchorIndex + 1) % this.config.getAnchorsCount();
+                }
+            }
+        } else {
+            long currentTime = System.nanoTime();
+            if (currentTime - this.lastStop > this.getCurrentAnchor().getDelay() * 1000000) {
+                this.currentAnchorIndex = (this.currentAnchorIndex + 1) % this.config.getAnchorsCount();
+                this.stopped = false;
+            }
+        }
     }
 }
