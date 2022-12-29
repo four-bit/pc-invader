@@ -25,8 +25,7 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
         );
         this.player = new Player(
                 super.physicsWorld,
-                GAME_WIDTH * .25f, GAME_HEIGHT * .5f, 0.0f, .35f,
-                8, 3, true
+                GAME_WIDTH * .25f, GAME_HEIGHT * .5f, 0.0f, 8
         );
 
         this.levelHud = new LevelHud(this);

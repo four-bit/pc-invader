@@ -10,8 +10,8 @@ import com.fourbit.pc_invader.utils.Utils;
 
 
 public class PhysicsEntity extends Entity {
-    protected final float speed;  // In meter
-    protected final Vector2 movement;   // In meter
+    protected float speed;  // In meter
+    protected Vector2 movement;   // In meter
     protected Body body;
     protected FixtureDef fixtureDef;
 

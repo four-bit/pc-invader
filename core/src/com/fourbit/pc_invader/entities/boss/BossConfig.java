@@ -1,28 +1,24 @@
 package com.fourbit.pc_invader.entities.boss;
 
-
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.fourbit.pc_invader.entities.EntityConfig;
 import com.fourbit.pc_invader.utils.Anchor;
 
 import java.util.ArrayList;
 
 
-public class BossConfig {
+public class BossConfig extends EntityConfig {
     private final int mainHp, segmentHp;
     private final ArrayList<Anchor> anchors;
 
 
-    BossConfig(String configPath) {
-        JsonReader jsonReader = new JsonReader();
-        JsonValue map = jsonReader.parse(new FileHandle(configPath));
-
-        this.mainHp = map.getInt("mainHp");
-        this.segmentHp = map.getInt("segmentHp");
+    public BossConfig() {
+        super("entities/boss/boss.json");
+        this.mainHp = super.map.getInt("mainHp");
+        this.segmentHp = super.map.getInt("segmentHp");
 
         this.anchors = new ArrayList<>();
-        JsonValue anchor = map.getChild("anchors");
+        JsonValue anchor = super.map.getChild("anchors");
         for (; anchor != null; anchor = anchor.next()) {
             this.anchors.add(new Anchor(
                     anchor.getFloat("x"),
@@ -30,5 +26,18 @@ public class BossConfig {
                     anchor.getFloat("homingSpeed")
             ));
         }
+    }
+
+
+    public int getMainHp() {
+        return mainHp;
+    }
+
+    public int getSegmentHp() {
+        return segmentHp;
+    }
+
+    public Anchor getAnchor(int index) {
+        return anchors.get(index);
     }
 }

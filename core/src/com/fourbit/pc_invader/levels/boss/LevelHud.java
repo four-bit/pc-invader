@@ -16,7 +16,6 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
 
         if (super.debug) {
             super.debugInfoLabels.put("playerHealth", new Label("playerHealth", skin));
-            super.debugInfoLabels.put("playerShield", new Label("playerShield", skin));
             super.debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
             super.debugInfoLabels.put("playerAmmo", new Label("playerAmmo", skin));
             super.debugInfoLabels.put("playerPosition", new Label("playerPosition", skin));
@@ -39,8 +38,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
         if (super.debug) {
             Vector2 mouseVector = InputProcessor.getMouseVector();
 
-            this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + this.level.player.getHealthPoints());
-            this.debugInfoLabels.get("playerShield").setText("[#ffffff]Player shield: [YELLOW]" + this.level.player.getShieldPoints() + (this.level.player.hasShield() ? "[GREEN] ENABLED" : "[RED] DISABLED"));
+            this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + this.level.player.getHp());
             this.debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + this.level.player.getSpeed());
             this.debugInfoLabels.get("playerAmmo").setText("[]Player ammo: [YELLOW]" + this.level.player.getAmmo());
             this.debugInfoLabels.get("playerPosition").setText("[]Player position: X:[YELLOW]" + this.level.player.getPosition().x + " []Y:[YELLOW]" + this.level.player.getPosition().y);

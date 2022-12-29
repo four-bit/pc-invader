@@ -24,7 +24,7 @@ public class Boss implements GameComponent, Disposable {
         this.initPosition = new Vector2(x, y);
         this.main.getBody().setLinearVelocity(-Math.abs(this.main.getPosition().x - initPosition.x) * 0.25f,0);
 
-        this.config = new BossConfig("entities/boss/boss.json");
+        this.config = new BossConfig();
     }
 
 
