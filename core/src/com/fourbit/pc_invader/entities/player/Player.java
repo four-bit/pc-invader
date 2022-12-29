@@ -24,6 +24,7 @@ import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
+import static com.fourbit.pc_invader.utils.Globals.PAS;
 
 
 public class Player extends PhysicsEntity {
@@ -55,6 +56,9 @@ public class Player extends PhysicsEntity {
         this.exhaustTextureAtlas.addRegion("exhaust_particle", new TextureRegion(new Texture("entities/player/exhaust_particle.png")));
         this.exhaustEffect = new ParticleEffect();
         this.exhaustEffect.load(Gdx.files.internal("entities/player/exhaust.p"), exhaustTextureAtlas);
+        ParticleEmitter emitter = this.exhaustEffect.getEmitters().first();
+        emitter.getXScale().setHigh(PAS);
+        emitter.getXScale().setLow(PAS);
         this.exhaustEffect.start();
 
         this.config = new PlayerConfig();
