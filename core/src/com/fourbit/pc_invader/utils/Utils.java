@@ -170,7 +170,7 @@ public class Utils {
         bearing3D.x = entity.getPosition().x;
         bearing3D.y = entity.getPosition().y;
         bearing3D.z = 0;
-        cam.unproject(bearing3D);
+        cam.project(bearing3D);
         bearing2D.x = bearing3D.x;
         bearing2D.y = bearing3D.y;
 
