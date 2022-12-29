@@ -13,16 +13,23 @@ public class CollisionListener  implements ContactListener {
     Boss boss;
     Player player;
 
+    public CollisionListener(Player player, Boss boss){
+        this.player = player;
+        this.boss = boss;
+    }
     @Override
     public void beginContact(Contact contact) {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
         Object classA = contact.getFixtureA().getBody().getUserData().getClass();
         Object classB = contact.getFixtureB().getBody().getUserData().getClass();
-        if (classA == player){
-            player.dispose();
+        if (fa.getUserData() == player && fb.getUserData() == boss){
+            try {
+                player.setHp(player.getHp() - 1);
+            } catch (Option.InvalidValueException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println("A collision happen");
     }
 
 

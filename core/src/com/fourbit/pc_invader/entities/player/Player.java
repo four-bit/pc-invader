@@ -44,7 +44,7 @@ public class Player extends PhysicsEntity {
             float x, float y, float angle,
             int maxHealth
     ) {
-        super(world, BodyDef.BodyType.KinematicBody, "entities/player/sprite.png", x, y, angle, 0.0f);
+        super(world, BodyDef.BodyType.DynamicBody, "entities/player/sprite.png", x, y, angle, 0.0f);
 
         new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(super.body, "body", super.fixtureDef, Utils.toMeters(super.getWidth()));
         super.body.createFixture(fixtureDef);

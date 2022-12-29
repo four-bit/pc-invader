@@ -36,7 +36,6 @@ public class Level implements GameComponent, Disposable {
         this.background = new Texture(backgroundPath);
 
         this.physicsWorld = new World(new Vector2(0, 0), true);
-        this.physicsWorld.setContactListener(new CollisionListener());
         this.physicsBodies = new Array<>();
 
         this.viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
