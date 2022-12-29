@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
+
 import com.fourbit.pc_invader.utils.GameComponent;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -13,6 +14,7 @@ public class Boss implements GameComponent, Disposable {
     private boolean initPhase;
     private final Vector2 initPosition;
     private final Main main;
+    private final BossConfig config;
 
     public Boss(World world, float x, float y) {
         this.main = new Main(world, 0, 0, 20.0f);
@@ -21,6 +23,8 @@ public class Boss implements GameComponent, Disposable {
         this.initPhase = true;
         this.initPosition = new Vector2(x, y);
         this.main.getBody().setLinearVelocity(-Math.abs(this.main.getPosition().x - initPosition.x) * 0.25f,0);
+
+        this.config = new BossConfig("entities/boss/boss.json");
     }
 
 
