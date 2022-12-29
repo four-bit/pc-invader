@@ -155,7 +155,7 @@ public class Player extends Entity {
         }
         this.body.setTransform(
                 this.body.getPosition().add(Utils.toMeters(movement)),
-                (float) Math.PI - Utils.getAngleToMouse(this).angleRad()  // Aiming
+                (float) Math.PI + Utils.getAngleToMouse(this).angleRad()  // Aiming
         );
         this.position.set(Utils.toPixels(this.body.getPosition()));
 

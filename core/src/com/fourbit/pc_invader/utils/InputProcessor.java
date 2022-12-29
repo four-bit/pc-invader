@@ -19,7 +19,7 @@ public class InputProcessor {
         mouseCoords3D.x = Gdx.input.getX();
         mouseCoords3D.y = GAME_HEIGHT - Gdx.input.getY();
         mouseCoords3D.z = 0;
-        cam.unproject(mouseCoords3D);
+        cam.project(mouseCoords3D);
         mouseCoords2D.x = mouseCoords3D.x;
         mouseCoords2D.y = mouseCoords3D.y;
 
