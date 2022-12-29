@@ -17,14 +17,14 @@ public class Boss implements GameComponent, Disposable {
     private final BossConfig config;
 
     public Boss(World world, float x, float y) {
-        this.main = new Main(world, 0, 0, 20.0f);
+        this.config = new BossConfig();
+
+        this.main = new Main(world, 0, 0, 20.0f, this.config);
 
         this.main.setPosition(GAME_WIDTH + this.main.getWidth(), y);
         this.initPhase = true;
         this.initPosition = new Vector2(x, y);
         this.main.getBody().setLinearVelocity(-Math.abs(this.main.getPosition().x - initPosition.x) * 0.25f,0);
-
-        this.config = new BossConfig();
     }
 
 
@@ -35,6 +35,11 @@ public class Boss implements GameComponent, Disposable {
     public boolean isInitPhase() {
         return initPhase;
     }
+
+    public Main getMain() {
+        return main;
+    }
+
 
     @Override
     public void update() {

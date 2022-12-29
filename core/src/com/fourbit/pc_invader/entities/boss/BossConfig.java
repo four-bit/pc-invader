@@ -1,5 +1,6 @@
 package com.fourbit.pc_invader.entities.boss;
 
+
 import com.badlogic.gdx.utils.JsonValue;
 import com.fourbit.pc_invader.entities.EntityConfig;
 import com.fourbit.pc_invader.utils.Anchor;
@@ -23,7 +24,8 @@ public class BossConfig extends EntityConfig {
             this.anchors.add(new Anchor(
                     anchor.getFloat("x"),
                     anchor.getFloat("y"),
-                    anchor.getFloat("homingSpeed")
+                    anchor.getFloat("homingSpeed"),
+                    anchor.getLong("delayMs")
             ));
         }
     }
@@ -39,5 +41,9 @@ public class BossConfig extends EntityConfig {
 
     public Anchor getAnchor(int index) {
         return anchors.get(index);
+    }
+
+    public int getAnchorsCount() {
+        return anchors.size();
     }
 }

@@ -10,12 +10,14 @@ public class Anchor {
     private final float x;  // 0.0 <= x <= 1.0, where 0.0 is the left of the screen and 1.0 is the right of the screen
     private final float y;  // 0.0 <= y <= 1.0, where 0.0 is the bottom of the screen and 1.0 is the top of the screen
     private final float homingSpeed;
+    private final long delay;
 
 
-    public Anchor(float x, float y, float homingSpeed) {
+    public Anchor(float x, float y, float homingSpeed, long delay) {
         this.x = x;
         this.y = y;
         this.homingSpeed = homingSpeed;
+        this.delay = delay;
     }
 
 
@@ -29,5 +31,9 @@ public class Anchor {
 
     public float getHomingSpeed() {
         return homingSpeed;
+    }
+
+    public long getDelay() {
+        return delay;
     }
 }
