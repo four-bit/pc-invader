@@ -116,7 +116,7 @@ public class Player extends PhysicsEntity {
         }
         super.body.setTransform(
                 super.body.getPosition().add(super.movement),
-                (float) Math.PI - Utils.getAngleToMouse(this).angleRad()  // Aiming
+                (float) (Utils.getAngleToMouse(this).angleRad() + Math.PI) // Aiming
         );
         super.position.set(Utils.toPixels(super.body.getPosition()));
 
