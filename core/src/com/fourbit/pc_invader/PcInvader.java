@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import com.fourbit.pc_invader.entities.EnemyManager;
 import com.fourbit.pc_invader.levels.boss.Level;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
@@ -22,6 +23,8 @@ public class PcInvader extends ApplicationAdapter {
     private FrameBuffer sceneFrameBuffer;
     private com.fourbit.pc_invader.levels.Level level;
 
+    private EnemyManager enemyManager;
+
 
     @Override
     public void create() {
@@ -32,10 +35,12 @@ public class PcInvader extends ApplicationAdapter {
         this.sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         this.level = new Level(this.debug);
+        enemyManager = new EnemyManager(new Texture("entities/player/sprite.png"));
     }
 
     public void update() {
         this.level.update();
+        enemyManager.update();
     }
 
     @Override
@@ -54,6 +59,8 @@ public class PcInvader extends ApplicationAdapter {
         this.batch.begin();
         {
             level.draw(batch);
+            enemyManager.draw(batch);
+
         }
         this.batch.end();
         this.sceneFrameBuffer.end();
