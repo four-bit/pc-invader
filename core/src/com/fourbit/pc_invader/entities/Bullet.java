@@ -54,6 +54,9 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
         this.alive = true;
     }
 
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
 
     @Override
     public void update() {

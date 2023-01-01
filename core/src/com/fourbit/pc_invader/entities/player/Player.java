@@ -31,7 +31,7 @@ public class Player extends PhysicsEntity {
     private final TextureAtlas exhaustTextureAtlas;
     private final ParticleEffect exhaustEffect;
     private final Array<Bullet> activeBullets;
-    private final Pool<Bullet> bulletPool;
+    private Pool<Bullet> bulletPool;
     private int hp;
     private int ammo;
     private float lastShot, lastAmmoRegen;
@@ -67,13 +67,7 @@ public class Player extends PhysicsEntity {
         this.ammo = this.config.getAmmo();
 
         this.activeBullets = new Array<>();
-        final float bulletSpeed = this.config.getBulletSpeed();
-        this.bulletPool = new Pool<Bullet>() {
-            @Override
-            protected Bullet newObject() {
-                return new Bullet(body.getWorld(), bulletSpeed);
-            }
-        };
+
         this.lastShot = System.nanoTime();
         this.lastAmmoRegen = System.nanoTime();
     }
@@ -105,8 +99,14 @@ public class Player extends PhysicsEntity {
 
     @Override
     public void update() {
+        final float bulletSpeed = this.config.getBulletSpeed();
+        this.bulletPool = new Pool<Bullet>() {
+            @Override
+            protected Bullet newObject() {
+                return new Bullet(body.getWorld(), bulletSpeed);
+            }
+        };
         super.update();
-
         // Calculate movement vector based on user input and add that vector to player's position
         super.movement.setZero();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {

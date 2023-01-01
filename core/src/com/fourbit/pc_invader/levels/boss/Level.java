@@ -38,10 +38,10 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
     @Override
     public void update() {
         super.update();
+        this.collisionListener.update();
         this.player.update();
         this.boss.update();
         this.levelHud.update();
-
     }
 
     @Override
