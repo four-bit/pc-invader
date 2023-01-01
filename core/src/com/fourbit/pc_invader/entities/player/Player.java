@@ -95,6 +95,13 @@ public class Player extends PhysicsEntity {
         }
     }
 
+    public Array<Bullet> getActiveBullets() {
+        return activeBullets;
+    }
+
+    public Pool<Bullet> getBulletPool() {
+        return bulletPool;
+    }
 
     @Override
     public void update() {

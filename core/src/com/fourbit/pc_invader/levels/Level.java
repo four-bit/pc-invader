@@ -61,7 +61,7 @@ public class Level implements GameComponent, Disposable {
 
     @Override
     public void update() {
-        this.physicsWorld.step(1 / 60f, 6, 2);
+        this.physicsWorld.step(1 / 60f, 0, 2);
     }
 
     @Override

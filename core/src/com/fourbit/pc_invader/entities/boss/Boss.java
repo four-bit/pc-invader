@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.sun.tools.javac.main.Option;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
@@ -15,11 +16,14 @@ public class Boss implements GameComponent, Disposable {
     private final Vector2 initPosition;
     private final Main main;
     private final BossConfig config;
+    private int hp;
 
-    public Boss(World world, float x, float y) {
+    public Boss(World world, float x, float y, int maxHealth) {
         this.config = new BossConfig();
 
         this.main = new Main(world, 0, 0, 20.0f, this.config);
+
+        this.hp = maxHealth;
 
         this.main.setPosition(GAME_WIDTH + this.main.getWidth(), y);
         this.initPhase = true;
@@ -40,7 +44,17 @@ public class Boss implements GameComponent, Disposable {
         return main;
     }
 
+    public int getHp() {
+        return this.hp;
+    }
 
+    public void setHp(int val) throws Option.InvalidValueException {
+        if (val >= 0) {
+            this.hp = val;
+        } else {
+            throw new Option.InvalidValueException("val cannot be negative.");
+        }
+    }
     @Override
     public void update() {
         if (this.initPhase) {
