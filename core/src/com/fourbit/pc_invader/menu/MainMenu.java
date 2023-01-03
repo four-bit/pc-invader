@@ -15,7 +15,6 @@ public class MainMenu extends Menu {
     public MainMenu() {
         super("menu/MainMenu.background.png");
 
-
         super.mainRoot.add(new Label("PC INVADER", this.skin)).row();
         this.startBtn = new TextButton("START", this.skin);
         super.mainRoot.add(this.startBtn).row();
