@@ -10,9 +10,8 @@ import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.fourbit.pc_invader.entities.Entity;
-import com.fourbit.pc_invader.entities.player.Player;
-import com.fourbit.pc_invader.utils.CollisionListener;
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.fourbit.pc_invader.utils.Resettable;
 import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -20,8 +19,11 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
-public class Level implements GameComponent, Disposable {
+public class Level implements GameComponent, Disposable, Resettable {
+    public enum State { RUNNING, PLAYER_LOST, PLAYER_WON }
+
     protected final boolean debug;
+    protected State state;
 
     protected World physicsWorld;
     protected Box2DDebugRenderer physicsDebugRenderer;
@@ -32,6 +34,7 @@ public class Level implements GameComponent, Disposable {
 
     public Level(String backgroundPath, boolean debug) {
         this.debug = debug;
+        this.state = State.RUNNING;
 
         this.background = new Texture(backgroundPath);
 
@@ -57,6 +60,16 @@ public class Level implements GameComponent, Disposable {
 
     public boolean isDebug() {
         return debug;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+
+    @Override
+    public void reset() {
+        this.state = State.RUNNING;
     }
 
     @Override

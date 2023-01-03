@@ -18,6 +18,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
         if (super.debug) {
             super.debugInfoLabels.put("gamePAS", new Label("gamePAS", skin));
             super.debugInfoLabels.put("gamePPM", new Label("gamePPM", skin));
+            super.debugInfoLabels.put("levelState", new Label("levelState", skin));
             super.debugInfoLabels.put("playerHealth", new Label("playerHealth", skin));
             super.debugInfoLabels.put("playerSpeed", new Label("playerSpeed", skin));
             super.debugInfoLabels.put("playerAmmo", new Label("playerAmmo", skin));
@@ -45,6 +46,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
 
             this.debugInfoLabels.get("gamePAS").setText("[]Game PAS: [YELLOW]" + Globals.PAS + " " + Globals.GAME_WIDTH / 230);
             this.debugInfoLabels.get("gamePPM").setText("[]Game PPM: [YELLOW]" + Globals.PPM);
+            this.debugInfoLabels.get("levelState").setText("[]Level state: [YELLOW]" + this.level.getState().toString());
             this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + this.level.player.getHp());
             this.debugInfoLabels.get("playerSpeed").setText("[]Player speed: [YELLOW]" + this.level.player.getSpeed());
             this.debugInfoLabels.get("playerAmmo").setText("[]Player ammo: [YELLOW]" + this.level.player.getAmmo());

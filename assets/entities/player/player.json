@@ -1,4 +1,5 @@
 {
+  "health": 4,
   "speed": 0.3,
   "bulletSpeed": 0.5,
   "ammo": 20,
