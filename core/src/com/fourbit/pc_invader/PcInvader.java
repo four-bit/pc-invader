@@ -2,6 +2,8 @@ package com.fourbit.pc_invader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.levels.boss.Level;
 import com.fourbit.pc_invader.menu.GameOverMenu;
 import com.fourbit.pc_invader.menu.MainMenu;
+import com.fourbit.pc_invader.music.music;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -28,7 +31,11 @@ public class PcInvader extends ApplicationAdapter {
     private MainMenu mainMenu;
     private GameOverMenu gameOverMenuLost, gameOverMenuWon;
     private com.fourbit.pc_invader.levels.Level bossLevel;
+    public static Music bgMusic;
+    public static Music bossMusic;
+    public static Music diedMusic;
 
+    public static Sound shootSound;
 
     public static void setState(GameState state) {
         PcInvader.state = state;
@@ -37,6 +44,14 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void create() {
+        this.bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/menu.ogg"));
+        this.bossMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/boss.ogg"));
+        this.diedMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/died.ogg"));
+        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sfx/shoot.mp3"));
+
+        PcInvader.bgMusic.setLooping(true);
+        PcInvader.bossMusic.setLooping(true);
+
         this.debug = true;  // TODO: Change this to false for production
         state = GameState.MAIN_MENU;
 
@@ -48,6 +63,8 @@ public class PcInvader extends ApplicationAdapter {
         this.bossLevel = new Level(this.debug);
         this.gameOverMenuLost = new GameOverMenu("YOU DIED!");
         this.gameOverMenuWon = new GameOverMenu("YOU SURVIVED!");
+
+
     }
 
     public void update() {
@@ -103,9 +120,13 @@ public class PcInvader extends ApplicationAdapter {
                     this.bossLevel.draw(this.batch);
                     break;
                 case GAME_LOST:
+                    PcInvader.bossMusic.stop();
+                    PcInvader.bossMusic.dispose();
+                    PcInvader.diedMusic.play();
                     this.gameOverMenuLost.draw(this.batch);
                     break;
                 case GAME_WON:
+                    PcInvader.bossMusic.stop();
                     this.gameOverMenuWon.draw(this.batch);
                     break;
             }

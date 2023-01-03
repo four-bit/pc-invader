@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.utils.Disposable;
+import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Resettable;
@@ -120,7 +121,7 @@ public class Level implements GameComponent, Disposable, Resettable {
     public void dispose() {
         this.background.dispose();
         this.physicsWorld.dispose();
-
+        PcInvader.bossMusic.dispose();
         if (this.debug) this.physicsDebugRenderer.dispose();
     }
 }

@@ -24,6 +24,9 @@ public class GameOverMenu extends Menu {
         this.replayBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                PcInvader.diedMusic.stop();
+                PcInvader.diedMusic.dispose();
+                PcInvader.bossMusic.play();
                 PcInvader.setState(PcInvader.GameState.BOSS_LEVEL);
             }
         });
@@ -31,6 +34,11 @@ public class GameOverMenu extends Menu {
         this.quitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                PcInvader.bossMusic.stop();
+                PcInvader.bossMusic.dispose();
+                PcInvader.diedMusic.stop();
+                PcInvader.diedMusic.dispose();
+                PcInvader.bgMusic.play();
                 PcInvader.setState(PcInvader.GameState.MAIN_MENU);
             }
         });
