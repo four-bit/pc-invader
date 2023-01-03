@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.GameComponent;
+import com.fourbit.pc_invader.utils.Resettable;
 import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -18,7 +19,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
-public class Level implements GameComponent, Disposable {
+public class Level implements GameComponent, Disposable, Resettable {
     public enum State { RUNNING, PLAYER_LOST, PLAYER_WON }
 
     protected final boolean debug;
@@ -63,6 +64,12 @@ public class Level implements GameComponent, Disposable {
 
     public State getState() {
         return state;
+    }
+
+
+    @Override
+    public void reset() {
+        this.state = State.RUNNING;
     }
 
     @Override

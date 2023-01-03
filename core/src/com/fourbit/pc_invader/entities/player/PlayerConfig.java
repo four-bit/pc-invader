@@ -5,6 +5,7 @@ import com.fourbit.pc_invader.entities.EntityConfig;
 
 
 public class PlayerConfig extends EntityConfig {
+    private final int health;
     private final float speed;
     private final float bulletSpeed;
     private final int ammo;
@@ -15,6 +16,7 @@ public class PlayerConfig extends EntityConfig {
     PlayerConfig() {
         super("entities/player/player.json");
 
+        this.health = super.map.getInt("health");
         this.speed = super.map.getFloat("speed");
         this.bulletSpeed = super.map.getFloat("bulletSpeed");
         this.ammo = super.map.getInt("ammo");
@@ -22,6 +24,10 @@ public class PlayerConfig extends EntityConfig {
         this.AmmoRegenCooldownMs = super.map.getLong("ammoRegenCooldownMs");
     }
 
+
+    public int getHealth() {
+        return health;
+    }
 
     public float getSpeed() {
         return speed;

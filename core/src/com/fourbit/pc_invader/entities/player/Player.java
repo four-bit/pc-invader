@@ -2,7 +2,7 @@ package com.fourbit.pc_invader.entities.player;
 
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.sun.tools.javac.main.Option;
+import com.fourbit.pc_invader.utils.Resettable;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -26,8 +26,11 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 import static com.fourbit.pc_invader.utils.Globals.PAS;
 
+import com.sun.tools.javac.main.Option;
 
-public class Player extends PhysicsEntity {
+
+public class Player extends PhysicsEntity implements Resettable {
+    private final Vector2 initPos;
     private final TextureAtlas exhaustTextureAtlas;
     private final ParticleEffect exhaustEffect;
     private final Array<Bullet> activeBullets;
@@ -41,10 +44,10 @@ public class Player extends PhysicsEntity {
 
     public Player(
             World world,
-            float x, float y, float angle,
-            int maxHealth
+            float x, float y, float angle
     ) {
         super(world, BodyDef.BodyType.DynamicBody, "entities/player/sprite.png", x, y, angle, 0.0f);
+        this.initPos = new Vector2(x, y);
 
         new BodyEditorLoader(Gdx.files.internal("entities/player/body.json")).attachFixture(super.body, "body", super.fixtureDef, Utils.toMeters(super.getWidth()));
         super.body.createFixture(fixtureDef);
@@ -63,7 +66,7 @@ public class Player extends PhysicsEntity {
 
         this.config = new PlayerConfig();
         super.speed = this.config.getSpeed();
-        this.hp = maxHealth;
+        this.hp = this.config.getHealth();
         this.ammo = this.config.getAmmo();
 
         this.activeBullets = new Array<>();
@@ -95,6 +98,17 @@ public class Player extends PhysicsEntity {
 
     public Pool<Bullet> getBulletPool() {
         return this.bulletPool;
+    }
+
+
+    @Override
+    public void reset() {
+        super.speed = this.config.getSpeed();
+        this.hp = this.config.getHealth();
+        this.ammo = this.config.getAmmo();
+        this.lastShot = System.nanoTime();
+        this.lastAmmoRegen = System.nanoTime();
+        super.setPosition(this.initPos);
     }
 
     @Override
@@ -207,7 +221,7 @@ public class Player extends PhysicsEntity {
     public void dispose() {
         this.exhaustEffect.dispose();
         this.exhaustTextureAtlas.dispose();
-        this.bulletPool.freeAll(this.activeBullets);
+//        this.bulletPool.freeAll(this.activeBullets);
         super.dispose();
     }
 }

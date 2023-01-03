@@ -10,8 +10,8 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class Level extends com.fourbit.pc_invader.levels.Level {
-    protected final Player player;
-    protected final Boss boss;
+    protected Player player;
+    protected Boss boss;
     private final LevelHud levelHud;
 
     public Level(boolean debug) {
@@ -20,17 +20,24 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
         this.boss = new Boss(
                 super.physicsWorld,
                 GAME_WIDTH * .7f,
-                GAME_HEIGHT * .5f,
-                50
+                GAME_HEIGHT * .5f
         );
         this.player = new Player(
                 super.physicsWorld,
-                GAME_WIDTH * .25f, GAME_HEIGHT * .5f, 0.0f, 8
+                GAME_WIDTH * .25f, GAME_HEIGHT * .5f, 0.0f
         );
+
         this.levelHud = new LevelHud(this);
         new CollisionListener(this.physicsWorld, this);
     }
 
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.player.reset();
+        this.boss.reset();
+    }
 
     @Override
     public void update() {
@@ -40,6 +47,7 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
         this.levelHud.update();
         if (this.boss.getHp() == 0) super.state = State.PLAYER_WON;
         if (this.player.getHp() == 0) super.state = State.PLAYER_LOST;
+        if (this.state == State.PLAYER_LOST || this.state == State.PLAYER_WON) this.reset();
     }
 
     @Override
