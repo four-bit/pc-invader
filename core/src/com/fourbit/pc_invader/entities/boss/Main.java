@@ -25,9 +25,9 @@ public class Main extends PhysicsEntity {
         super.fixtureDef.density = 1.0f;
         super.fixtureDef.friction = 0.0f;
         super.fixtureDef.restitution = 0.0f;
+        super.fixtureDef.isSensor = true;
         new BodyEditorLoader(Gdx.files.internal("entities/boss/main.body.json")).attachFixture(super.body, "body", super.fixtureDef, Utils.toMeters(super.getWidth()));
         super.body.setAngularVelocity(0);
-
         this.config = bossConfig;
         this.currentAnchorIndex = 0;
         this.stopped = false;

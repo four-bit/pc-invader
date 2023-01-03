@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.fourbit.pc_invader.entities.Entity;
+import com.fourbit.pc_invader.entities.player.Player;
+import com.fourbit.pc_invader.utils.CollisionListener;
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Utils;
 
@@ -35,7 +35,7 @@ public class Level implements GameComponent, Disposable {
 
         this.background = new Texture(backgroundPath);
 
-        this.physicsWorld = new World(new Vector2(0, 0), false);
+        this.physicsWorld = new World(new Vector2(0, 0), true);
         this.physicsBodies = new Array<>();
 
         this.viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
@@ -61,7 +61,7 @@ public class Level implements GameComponent, Disposable {
 
     @Override
     public void update() {
-        this.physicsWorld.step(1 / 60f, 6, 2);
+        this.physicsWorld.step(1 / 60f, 0, 2);
     }
 
     @Override

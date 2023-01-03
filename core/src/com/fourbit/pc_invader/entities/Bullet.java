@@ -16,7 +16,7 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
 
 
     public Bullet(World world, String texturePath, float speed) {
-        super(world, BodyDef.BodyType.KinematicBody, texturePath, speed);
+        super(world, BodyDef.BodyType.DynamicBody, texturePath, speed);
         this.alive = false;
 
         this.collisionBox = new PolygonShape();
@@ -29,6 +29,7 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
         super.fixtureDef.density = 0.5f;
         super.fixtureDef.friction = 0.0f;
         super.fixtureDef.restitution = 1.0f;
+        super.body.createFixture(fixtureDef);
         super.body.setBullet(true);
         super.body.setLinearVelocity(new Vector2().setLength(super.speed).setAngleDeg(super.angle));
     }
@@ -53,6 +54,9 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
         this.alive = true;
     }
 
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
 
     @Override
     public void update() {

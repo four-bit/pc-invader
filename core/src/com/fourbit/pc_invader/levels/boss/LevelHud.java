@@ -28,6 +28,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
             super.debugInfoLabels.put("bossPosition", new Label("bossPosition", skin));
             super.debugInfoLabels.put("bossInitPhase", new Label("bossInitPhase", skin));
             super.debugInfoLabels.put("bossAnchor", new Label("bossAnchor", skin));
+            super.debugInfoLabels.put("bossHealth", new Label("bossHealth", skin));
 
             for (Label label : this.debugInfoLabels.values()) {
                 debugZone.add(label);
@@ -53,6 +54,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
             this.debugInfoLabels.get("mouseVector").setText("[]Mouse vector: X:[YELLOW]" + mouseVector.x + " []Y:[YELLOW]" + mouseVector.y);
             this.debugInfoLabels.get("bossPosition").setText("[]Boss position: X:[YELLOW]" + Math.round(this.level.boss.getPosition().x) + " []Y:[YELLOW]" + Math.round(this.level.boss.getPosition().y));
             this.debugInfoLabels.get("bossInitPhase").setText("[]Boss init phase:" + ((this.level.boss.isInitPhase()) ? "[RED] YES" : "[GREEN] NO"));
+            this.debugInfoLabels.get("bossHealth").setText("[]Boss health: [YELLOW]" + this.level.boss.getHp());
             this.debugInfoLabels.get("bossAnchor")
                     .setText(
                             "[]Boss anchor: X:[YELLOW]" + Math.round(this.level.boss.getMain().getCurrentAnchor().getScreenPos().x) +
