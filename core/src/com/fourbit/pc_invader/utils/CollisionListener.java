@@ -1,16 +1,11 @@
 package com.fourbit.pc_invader.utils;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import com.fourbit.pc_invader.entities.Bullet;
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.player.Player;
-import com.fourbit.pc_invader.levels.Level;
 import com.sun.tools.javac.main.Option;
-
 
 
 public class CollisionListener implements ContactListener {
