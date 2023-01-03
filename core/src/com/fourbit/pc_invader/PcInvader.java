@@ -44,7 +44,7 @@ public class PcInvader extends ApplicationAdapter {
         this.sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         this.sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        this.mainMenu = new MainMenu("menu/MainMenu.background.png");
+        this.mainMenu = new MainMenu();
         this.bossLevel = new Level(this.debug);
         this.gameOverMenuLost = new GameOverMenu("YOU DIED!");
         this.gameOverMenuWon = new GameOverMenu("YOU SURVIVED!");
@@ -101,6 +101,12 @@ public class PcInvader extends ApplicationAdapter {
                     break;
                 case BOSS_LEVEL:
                     this.bossLevel.draw(this.batch);
+                    break;
+                case GAME_LOST:
+                    this.gameOverMenuLost.draw(this.batch);
+                    break;
+                case GAME_WON:
+                    this.gameOverMenuWon.draw(this.batch);
                     break;
             }
         }
