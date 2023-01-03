@@ -1,6 +1,6 @@
 {
-  "mainHp": 1024,
-  "segmentHp": 128,
+  "mainHp": 512,
+  "segmentHp": 32,
   "anchors": [
     {"x": 0.7, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000},
 

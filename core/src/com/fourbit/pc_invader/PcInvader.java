@@ -59,8 +59,10 @@ public class PcInvader extends ApplicationAdapter {
                 if (this.bossLevel.getState() == com.fourbit.pc_invader.levels.Level.State.PLAYER_WON) state = GameState.GAME_WON;
                 break;
             case GAME_LOST:
+                this.bossLevel.reset();
                 break;
             case GAME_WON:
+                this.bossLevel.reset();
                 break;
         }
     }

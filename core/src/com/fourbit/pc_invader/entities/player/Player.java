@@ -103,12 +103,11 @@ public class Player extends PhysicsEntity implements Resettable {
 
     @Override
     public void reset() {
-        super.speed = this.config.getSpeed();
         this.hp = this.config.getHealth();
         this.ammo = this.config.getAmmo();
         this.lastShot = System.nanoTime();
         this.lastAmmoRegen = System.nanoTime();
-        super.setPosition(this.initPos);
+        this.body.setTransform(Utils.toMeters(this.initPos), 0);
     }
 
     @Override

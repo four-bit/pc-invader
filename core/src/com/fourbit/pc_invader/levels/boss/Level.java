@@ -47,7 +47,6 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
         this.levelHud.update();
         if (this.boss.getHp() == 0) super.state = State.PLAYER_WON;
         if (this.player.getHp() == 0) super.state = State.PLAYER_LOST;
-        if (this.state == State.PLAYER_LOST || this.state == State.PLAYER_WON) this.reset();
     }
 
     @Override
