@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import com.fourbit.pc_invader.levels.boss.Level;
+import com.fourbit.pc_invader.menu.GameOverMenu;
 import com.fourbit.pc_invader.menu.MainMenu;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
@@ -17,7 +18,7 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class PcInvader extends ApplicationAdapter {
-    public enum GameState { MAIN_MENU, LEVEL, BOSS_LEVEL, GAME_LOST, GAME_WON }
+    public enum GameState {MAIN_MENU, LEVEL, BOSS_LEVEL, GAME_LOST, GAME_WON}
 
     protected boolean debug;
     private static GameState state;
@@ -25,6 +26,7 @@ public class PcInvader extends ApplicationAdapter {
     private SpriteBatch batch;
     private FrameBuffer sceneFrameBuffer;
     private MainMenu mainMenu;
+    private GameOverMenu gameOverMenuLost, gameOverMenuWon;
     private com.fourbit.pc_invader.levels.Level bossLevel;
 
 
@@ -44,25 +46,34 @@ public class PcInvader extends ApplicationAdapter {
 
         this.mainMenu = new MainMenu("menu/MainMenu.background.png");
         this.bossLevel = new Level(this.debug);
+        this.gameOverMenuLost = new GameOverMenu("YOU DIED!");
+        this.gameOverMenuWon = new GameOverMenu("YOU SURVIVED!");
     }
 
     public void update() {
         switch (state) {
             case MAIN_MENU:
                 this.mainMenu.update();
+                Gdx.input.setInputProcessor(this.mainMenu.getMainStage());
                 break;
             case LEVEL:
                 break;
             case BOSS_LEVEL:
                 this.bossLevel.update();
-                if (this.bossLevel.getState() == com.fourbit.pc_invader.levels.Level.State.PLAYER_LOST) state = GameState.GAME_LOST;
-                if (this.bossLevel.getState() == com.fourbit.pc_invader.levels.Level.State.PLAYER_WON) state = GameState.GAME_WON;
+                if (this.bossLevel.getState() == com.fourbit.pc_invader.levels.Level.State.PLAYER_LOST)
+                    state = GameState.GAME_LOST;
+                if (this.bossLevel.getState() == com.fourbit.pc_invader.levels.Level.State.PLAYER_WON)
+                    state = GameState.GAME_WON;
                 break;
             case GAME_LOST:
                 this.bossLevel.reset();
+                this.gameOverMenuLost.update();
+                Gdx.input.setInputProcessor(this.gameOverMenuLost.getMainStage());
                 break;
             case GAME_WON:
                 this.bossLevel.reset();
+                this.gameOverMenuWon.update();
+                Gdx.input.setInputProcessor(this.gameOverMenuWon.getMainStage());
                 break;
         }
     }
@@ -91,10 +102,6 @@ public class PcInvader extends ApplicationAdapter {
                 case BOSS_LEVEL:
                     this.bossLevel.draw(this.batch);
                     break;
-                case GAME_LOST:
-                    break;
-                case GAME_WON:
-                    break;
             }
         }
         this.batch.end();
@@ -109,7 +116,17 @@ public class PcInvader extends ApplicationAdapter {
         }
         this.batch.end();
 
-        if (state == GameState.MAIN_MENU) this.mainMenu.draw();
+        switch (state) {
+            case MAIN_MENU:
+                this.mainMenu.draw();
+                break;
+            case GAME_LOST:
+                this.gameOverMenuLost.draw();
+                break;
+            case GAME_WON:
+                this.gameOverMenuWon.draw();
+                break;
+        }
     }
 
     @Override
@@ -118,5 +135,7 @@ public class PcInvader extends ApplicationAdapter {
         this.bossLevel.dispose();
         this.batch.dispose();
         this.sceneFrameBuffer.dispose();
+        this.gameOverMenuLost.dispose();
+        this.gameOverMenuWon.dispose();
     }
 }
