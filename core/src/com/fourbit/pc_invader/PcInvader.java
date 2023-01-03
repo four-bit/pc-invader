@@ -36,6 +36,8 @@ public class PcInvader extends ApplicationAdapter {
     public static Music diedMusic;
 
     public static Sound shootSound;
+    public static Sound hitSound;
+    public static Sound crashSound;
 
     public static void setState(GameState state) {
         PcInvader.state = state;
@@ -47,10 +49,14 @@ public class PcInvader extends ApplicationAdapter {
         this.bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/menu.ogg"));
         this.bossMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/boss.ogg"));
         this.diedMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/died.ogg"));
-        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sfx/shoot.mp3"));
+        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sfx/shooting.wav"));
+        this.hitSound = Gdx.audio.newSound(Gdx.files.internal("sfx/hit.wav"));
+        this.crashSound = Gdx.audio.newSound(Gdx.files.internal("sfx/crash.wav"));
 
         PcInvader.bgMusic.setLooping(true);
         PcInvader.bossMusic.setLooping(true);
+
+
 
         this.debug = true;  // TODO: Change this to false for production
         state = GameState.MAIN_MENU;

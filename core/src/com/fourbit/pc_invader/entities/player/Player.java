@@ -187,7 +187,8 @@ public class Player extends PhysicsEntity implements Resettable {
                 this.activeBullets.add(bullet);
                 this.lastShot = currentTime;
                 this.ammo--;
-                PcInvader.shootSound.play();
+                PcInvader.shootSound.play(0.5f);
+
             }
         } else {  // Ammo regeneration
             if (

@@ -2,6 +2,7 @@ package com.fourbit.pc_invader.levels.boss;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+import com.fourbit.pc_invader.PcInvader;
 import com.sun.tools.javac.main.Option;
 
 
@@ -27,6 +28,7 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 if (this.level.player.getHp() > 0) {
                     try {
                         this.level.player.setHp(this.level.player.getHp() - 1);
+                        PcInvader.crashSound.play(1f);
                     } catch (Option.InvalidValueException e) {
                         throw new RuntimeException(e);
                     }
@@ -44,6 +46,7 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 if (this.bossTimer == 1) {
                     try {
                         if (this.level.boss.getHp() > 0) this.level.boss.setHp(this.level.boss.getHp() - 1);
+                        PcInvader.hitSound.play(1f);
                     } catch (Option.InvalidValueException e) {
                         e.printStackTrace();
                     }
