@@ -22,9 +22,7 @@ public class Boss implements GameComponent, Disposable {
         this.config = new BossConfig();
 
         this.main = new Main(world, 0, 0, 20.0f, this.config);
-
-        this.hp = maxHealth;
-
+        this.hp = this.config.getMainHp() + this.config.getSegmentHp();
         this.main.setPosition(GAME_WIDTH + this.main.getWidth(), y);
         this.initPhase = true;
         this.initPosition = new Vector2(x, y);

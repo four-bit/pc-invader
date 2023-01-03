@@ -10,8 +10,6 @@ import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.fourbit.pc_invader.entities.Entity;
-import com.fourbit.pc_invader.entities.player.Player;
-import com.fourbit.pc_invader.utils.CollisionListener;
 import com.fourbit.pc_invader.utils.GameComponent;
 import com.fourbit.pc_invader.utils.Utils;
 

@@ -1,6 +1,8 @@
 package com.fourbit.pc_invader.levels.boss;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.fourbit.pc_invader.entities.player.Bullet;
+
 import com.sun.tools.javac.main.Option;
 
 

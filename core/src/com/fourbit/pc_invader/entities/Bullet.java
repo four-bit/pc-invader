@@ -1,5 +1,6 @@
 package com.fourbit.pc_invader.entities;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -68,6 +69,13 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
                 this.body.getAngle());
         super.position = Utils.toPixels(this.body.getPosition());
         if (Utils.isOutOfScreen(this, super.getWidth())) this.alive = false;
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        if (this.alive) {
+            super.draw(batch);
+        }
     }
 
     @Override
