@@ -42,6 +42,51 @@
     {"x": 0.90, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
     {"x": 0.98, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
     {"x": -0.2, "y": 0.2, "homingSpeed": 128.0, "delayMs": 500},
-    {"x": 0.8, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0}
+    {"x": 0.8, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
+
+    {"x": 0.7, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000},
+    {"x": 0.3, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000},
+
+    {"x": 0.25, "y": 0.7, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.25, "y": 0.3, "homingSpeed": 2.0, "delayMs": 0},
+
+    {"x": 0.25, "y": 0.6, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.25, "y": 0.55, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.25, "y": 0.52, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.28, "y": 0.48, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.35, "y": 0.4, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.4, "y": 0.36, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.47, "y": 0.34, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.5, "y": 0.33, "homingSpeed": 2.0, "delayMs": 4000},
+
+    {"x": 0.16, "y": 0.8, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 0.14, "y": 0.8, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 0.1, "y": 0.8, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 0.02, "y": 0.8, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 1.2, "y": 0.8, "homingSpeed": 128.0, "delayMs": 500},
+    {"x": 0.2, "y": 0.8, "homingSpeed": 0.0, "delayMs": 0},
+
+    {"x": 0.3, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000},
+
+    {"x": 0.25, "y": 0.3, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.25, "y": 0.7, "homingSpeed": 2.0, "delayMs": 0},
+
+    {"x": 0.25, "y": 0.4, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.25, "y": 0.45, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.25, "y": 0.48, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.28, "y": 0.52, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.35, "y": 0.6, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.4, "y": 0.64, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.47, "y": 0.66, "homingSpeed": 2.0, "delayMs": 0},
+    {"x": 0.5, "y": 0.67, "homingSpeed": 2.0, "delayMs": 4000},
+
+    {"x": 0.16, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 0.14, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 0.1, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 0.02, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
+    {"x": 1.2, "y": 0.2, "homingSpeed": 128.0, "delayMs": 500},
+    {"x": 0.2, "y": 0.2, "homingSpeed": 0.0, "delayMs": 0},
+
+    {"x": 0.3, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000}
   ]
 }
