@@ -1,5 +1,6 @@
 package com.fourbit.pc_invader;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.audio.Music;
@@ -14,20 +15,24 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.fourbit.pc_invader.levels.boss.Level;
 import com.fourbit.pc_invader.menu.GameOverMenu;
 import com.fourbit.pc_invader.menu.MainMenu;
+import com.fourbit.pc_invader.menu.SplashScreen;
 import com.fourbit.pc_invader.music.music;
+
+import java.util.concurrent.TimeUnit;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class PcInvader extends ApplicationAdapter {
-    public enum GameState {MAIN_MENU, LEVEL, BOSS_LEVEL, GAME_LOST, GAME_WON}
+    public enum GameState {SPLASH_SCREEN, MAIN_MENU, LEVEL, BOSS_LEVEL, GAME_LOST, GAME_WON}
 
     protected boolean debug;
     private static GameState state;
 
     private SpriteBatch batch;
     private FrameBuffer sceneFrameBuffer;
+    private SplashScreen splashScreen;
     private MainMenu mainMenu;
     private GameOverMenu gameOverMenuLost, gameOverMenuWon;
     private com.fourbit.pc_invader.levels.Level bossLevel;
@@ -39,6 +44,7 @@ public class PcInvader extends ApplicationAdapter {
     public static Sound shootSound;
     public static Sound hitSound;
     public static Sound crashSound;
+    public static long startTime;
 
     public static void setState(GameState state) {
         PcInvader.state = state;
@@ -47,6 +53,7 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void create() {
+        startTime = System.nanoTime();
         this.bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/menu.ogg"));
         this.bossMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/boss.ogg"));
         this.diedMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/died.ogg"));
@@ -61,22 +68,29 @@ public class PcInvader extends ApplicationAdapter {
 
 
         this.debug = true;  // TODO: Change this to false for production
-        state = GameState.MAIN_MENU;
+//        state = GameState.SPLASH_SCREEN;
+        setState(GameState.SPLASH_SCREEN);
 
         this.batch = new SpriteBatch();
         this.sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, GAME_WIDTH, GAME_HEIGHT, false);
         this.sceneFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+        try {
+            this.splashScreen = new SplashScreen();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         this.mainMenu = new MainMenu();
         this.bossLevel = new Level(this.debug);
         this.gameOverMenuLost = new GameOverMenu("YOU DIED!");
         this.gameOverMenuWon = new GameOverMenu("YOU SURVIVED!");
-
-
     }
 
     public void update() {
         switch (state) {
+            case SPLASH_SCREEN:
+                this.splashScreen.update();
+
             case MAIN_MENU:
                 this.mainMenu.update();
                 Gdx.input.setInputProcessor(this.mainMenu.getMainStage());
@@ -119,6 +133,9 @@ public class PcInvader extends ApplicationAdapter {
         this.batch.begin();
         {
             switch (state) {
+                case SPLASH_SCREEN:
+                    this.splashScreen.draw(this.batch);
+                    break;
                 case MAIN_MENU:
                     this.mainMenu.draw(this.batch);
                     break;
@@ -154,6 +171,9 @@ public class PcInvader extends ApplicationAdapter {
         this.batch.end();
 
         switch (state) {
+            case SPLASH_SCREEN:
+                this.splashScreen.draw();
+                break;
             case MAIN_MENU:
                 this.mainMenu.draw();
                 break;
@@ -168,6 +188,7 @@ public class PcInvader extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+        this.splashScreen.dispose();
         this.mainMenu.dispose();
         this.bossLevel.dispose();
         this.batch.dispose();
