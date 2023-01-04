@@ -34,6 +34,7 @@ public class PcInvader extends ApplicationAdapter {
     public static Music bgMusic;
     public static Music bossMusic;
     public static Music diedMusic;
+    public static Music winMusic;
 
     public static Sound shootSound;
     public static Sound hitSound;
@@ -49,6 +50,7 @@ public class PcInvader extends ApplicationAdapter {
         this.bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/menu.ogg"));
         this.bossMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/boss.ogg"));
         this.diedMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/died.ogg"));
+        this.winMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/win.ogg"));
         this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sfx/shooting.wav"));
         this.hitSound = Gdx.audio.newSound(Gdx.files.internal("sfx/hit.wav"));
         this.crashSound = Gdx.audio.newSound(Gdx.files.internal("sfx/crash.wav"));
@@ -133,6 +135,8 @@ public class PcInvader extends ApplicationAdapter {
                     break;
                 case GAME_WON:
                     PcInvader.bossMusic.stop();
+                    PcInvader.bossMusic.dispose();
+                    PcInvader.winMusic.play();
                     this.gameOverMenuWon.draw(this.batch);
                     break;
             }
