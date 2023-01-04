@@ -73,6 +73,8 @@ public class PcInvader extends ApplicationAdapter {
         this.gameOverMenuWon = new GameOverMenu("YOU SURVIVED!");
 
 
+        this.level = new Level(this.debug);
+        enemyManager = new EnemyManager(new Texture("entities/player/sprite.png"));
     }
 
     public void update() {
@@ -101,6 +103,8 @@ public class PcInvader extends ApplicationAdapter {
                 Gdx.input.setInputProcessor(this.gameOverMenuWon.getMainStage());
                 break;
         }
+        this.level.update();
+        enemyManager.update();
     }
 
     @Override
@@ -108,7 +112,7 @@ public class PcInvader extends ApplicationAdapter {
         this.update();
 
         // Graphics configuration
-        this.batch.setProjectionMatrix(bossLevel.getViewportCamera().combined);
+        this.batch.setProjectionMatrix(level.getViewportCamera().combined);
         ScreenUtils.clear(0.0f, 0.0f, 0.0f, 0.0f);
         Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST); // re-enabled each frame because UI changes GL state
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -140,6 +144,9 @@ public class PcInvader extends ApplicationAdapter {
                     this.gameOverMenuWon.draw(this.batch);
                     break;
             }
+            level.draw(batch);
+            enemyManager.draw(batch);
+
         }
         this.batch.end();
         this.sceneFrameBuffer.end();
