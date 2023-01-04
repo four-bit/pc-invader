@@ -2,6 +2,7 @@ package com.fourbit.pc_invader.entities.player;
 
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.utils.Resettable;
 
 import com.badlogic.gdx.utils.Array;
@@ -186,6 +187,8 @@ public class Player extends PhysicsEntity implements Resettable {
                 this.activeBullets.add(bullet);
                 this.lastShot = currentTime;
                 this.ammo--;
+                PcInvader.shootSound.play(0.5f);
+
             }
         } else {  // Ammo regeneration
             if (

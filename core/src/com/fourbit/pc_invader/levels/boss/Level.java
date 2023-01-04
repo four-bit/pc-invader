@@ -2,6 +2,7 @@ package com.fourbit.pc_invader.levels.boss;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.entities.boss.Boss;
 import com.fourbit.pc_invader.entities.player.Player;
 
