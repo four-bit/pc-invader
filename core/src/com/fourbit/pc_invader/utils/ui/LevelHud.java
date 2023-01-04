@@ -59,15 +59,13 @@ public class LevelHud implements UIComponent, Disposable {
     @Override
     public void update() {
         this.mainStage.act();
+        if (this.debug) this.debugStage.act();
     }
 
     @Override
     public void draw() {
         this.mainStage.draw();
-        if (this.debug) {
-            this.debugStage.act();
-            this.debugStage.draw();
-        }
+        if (this.debug) this.debugStage.draw();
     }
 
     @Override

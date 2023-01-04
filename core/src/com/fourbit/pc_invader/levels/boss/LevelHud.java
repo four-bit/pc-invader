@@ -4,16 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.fourbit.pc_invader.entities.player.HealthBar;
 import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.InputProcessor;
 
 
 public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
     private final Level level;
+    private final HealthBar playerHealthBar;
 
     public LevelHud(Level level) {
         super(level);
         this.level = level;
+        this.playerHealthBar = new HealthBar(this.level.player, super.mainStage, 2);
 
         if (super.debug) {
             super.debugInfoLabels.put("gamePAS", new Label("gamePAS", skin));
@@ -41,10 +44,12 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
 
     @Override
     public void update() {
+        this.playerHealthBar.update();
+
         if (super.debug) {
             Vector2 mouseVector = InputProcessor.getMouseVector();
 
-            this.debugInfoLabels.get("gamePAS").setText("[]Game PAS: [YELLOW]" + Globals.PAS + " " + Globals.GAME_WIDTH / 230);
+            this.debugInfoLabels.get("gamePAS").setText("[]Game PAS: [YELLOW]" + Globals.PAS);
             this.debugInfoLabels.get("gamePPM").setText("[]Game PPM: [YELLOW]" + Globals.PPM);
             this.debugInfoLabels.get("levelState").setText("[]Level state: [YELLOW]" + this.level.getState().toString());
             this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + this.level.player.getHp());

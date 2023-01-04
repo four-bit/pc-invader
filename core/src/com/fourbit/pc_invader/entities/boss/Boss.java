@@ -64,6 +64,7 @@ public class Boss implements GameComponent, Disposable, Resettable {
         this.main.setPosition(GAME_WIDTH + this.main.getWidth(), this.initY);
         this.initPhase = true;
         this.main.getBody().setLinearVelocity(-Math.abs(this.main.getPosition().x - initPosition.x) * 0.25f,0);
+        this.main.reset();
     }
 
     @Override

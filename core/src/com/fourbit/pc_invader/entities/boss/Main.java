@@ -9,10 +9,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.fourbit.pc_invader.entities.PhysicsEntity;
 import com.fourbit.pc_invader.utils.Anchor;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
+import com.fourbit.pc_invader.utils.Resettable;
 import com.fourbit.pc_invader.utils.Utils;
 
 
-public class Main extends PhysicsEntity {
+public class Main extends PhysicsEntity implements Resettable {
     private final BossConfig config;
     private int currentAnchorIndex;
     private long lastStop;
@@ -38,6 +39,12 @@ public class Main extends PhysicsEntity {
         return this.config.getAnchor(this.currentAnchorIndex);
     }
 
+
+    @Override
+    public void reset() {
+        this.currentAnchorIndex = 0;
+        this.stopped = false;
+    }
 
     @Override
     public void update() {
