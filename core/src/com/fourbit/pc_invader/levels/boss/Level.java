@@ -2,8 +2,8 @@ package com.fourbit.pc_invader.levels.boss;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.entities.boss.Boss;
+
 import com.fourbit.pc_invader.entities.player.Player;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
@@ -27,7 +27,6 @@ public class Level extends com.fourbit.pc_invader.levels.Level {
                 super.physicsWorld,
                 GAME_WIDTH * .25f, GAME_HEIGHT * .5f, 0.0f
         );
-
         this.levelHud = new LevelHud(this);
         new CollisionListener(this.physicsWorld, this);
     }
