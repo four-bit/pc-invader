@@ -38,7 +38,7 @@ public class Player extends PhysicsEntity implements Resettable {
     private Pool<Bullet> bulletPool;
     private int hp;
     private int ammo;
-    private float lastShot, lastAmmoRegen;
+    private long lastShot, lastAmmoRegen;
 
     private final PlayerConfig config;
 
@@ -117,6 +117,7 @@ public class Player extends PhysicsEntity implements Resettable {
 
     @Override
     public void update() {
+        super.update();
         final float bulletSpeed = this.config.getBulletSpeed();
         this.bulletPool = new Pool<Bullet>() {
             @Override
@@ -124,7 +125,7 @@ public class Player extends PhysicsEntity implements Resettable {
                 return new Bullet(body.getWorld(), bulletSpeed);
             }
         };
-        super.update();
+
         // Calculate movement vector based on user input and add that vector to player's position
         super.movement.setZero();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {

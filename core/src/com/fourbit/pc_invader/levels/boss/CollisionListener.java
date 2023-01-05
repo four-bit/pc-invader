@@ -36,9 +36,10 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 this.playerTimer = 0;
             }
         }
-        for (int i = 0; i < this.level.boss.getMain().getBullets().size; i++) {
-            if ((fb.getBody().getUserData() == this.level.player && fa.getBody().getUserData() == this.level.boss.getMain().getBullets().get(i)) ||
-                    fa.getBody().getUserData() == this.level.player && fb.getBody().getUserData() == this.level.boss.getMain().getBullets().get(i)) {
+
+        for (int i = 0; i < this.level.boss.getMain().getActiveBullets().size; i++) {
+            if ((fb.getBody().getUserData() == this.level.player && fa.getBody().getUserData() == this.level.boss.getMain().getActiveBullets().get(i)) ||
+                    fa.getBody().getUserData() == this.level.player && fb.getBody().getUserData() == this.level.boss.getMain().getActiveBullets().get(i)) {
                 this.bulletTimer++;
                 if (this.bulletTimer == 10) {
                     if (this.level.player.getHp() > 0) {
@@ -51,14 +52,15 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                     }
                     this.bulletTimer = 0;
                 }
+//                this.level.boss.getMain().getBulletPool().free(this.level.boss.getMain().getActiveBullets().get(i));
+//                this.level.boss.getMain().getBulletPool().clear();
             }
         }
+
         for (int i = 0; i < this.level.player.getActiveBullets().size; i++) {
             if ((fb.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fa.getBody().getUserData() == this.level.boss.getMain()) ||
                     fa.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fb.getBody().getUserData() == this.level.boss.getMain()) {
                 this.bossTimer++;
-                this.level.player.getBulletPool().free(this.level.player.getActiveBullets().get(i));
-                this.level.player.getBulletPool().clear();
                 if (this.bossTimer == 1) {
                     try {
                         if (this.level.boss.getHp() > 0) this.level.boss.setHp(this.level.boss.getHp() - 1);
@@ -68,6 +70,8 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                     }
                     this.bossTimer = 0;
                 }
+                this.level.player.getBulletPool().free(this.level.player.getActiveBullets().get(i));
+                this.level.player.getBulletPool().clear();
             }
         }
     }

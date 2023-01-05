@@ -65,7 +65,7 @@ public class PcInvader extends ApplicationAdapter {
 
 
 
-        this.debug = true;  // TODO: Change this to false for production
+        this.debug = false;  // TODO: Change this to false for production
         setState(GameState.SPLASH_SCREEN);
 
         this.batch = new SpriteBatch();
