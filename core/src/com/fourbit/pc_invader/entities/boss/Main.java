@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.fourbit.pc_invader.entities.PhysicsEntity;
 import com.fourbit.pc_invader.utils.Anchor;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
@@ -18,17 +19,17 @@ import java.util.Random;
 
 public class Main extends PhysicsEntity implements Resettable {
     private final BossConfig config;
-    private int currentAnchorIndex;
+    private final Array<Bullet> activeBullets;
+    private Pool<Bullet> bulletPool;
+    private final Random random = new Random();
+
+    private int currentAnchorIndex, bulletCount;
     private long lastStop;
     private boolean stopped;
-    private final Array<Bullet> bullets = new Array<>();
-    private Random random = new Random();
-    private World world;
-    private int timer;
+    private long lastShot;
 
     public Main(World world, float x, float y, float speed, BossConfig bossConfig) {
         super(world, BodyDef.BodyType.KinematicBody, "entities/boss/main.png", x, y, 0.0f, speed);
-        this.world = world;
 
         super.fixtureDef = new FixtureDef();
         super.fixtureDef.density = 1.0f;
@@ -41,6 +42,10 @@ public class Main extends PhysicsEntity implements Resettable {
         this.config = bossConfig;
         this.currentAnchorIndex = 0;
         this.stopped = false;
+
+        this.activeBullets = new Array<>();
+
+        this.lastShot = System.nanoTime();
     }
 
 
@@ -49,18 +54,29 @@ public class Main extends PhysicsEntity implements Resettable {
     }
 
     public Array<Bullet> getBullets() {
-        return bullets;
+        return this.activeBullets;
     }
 
     @Override
     public void reset() {
         this.currentAnchorIndex = 0;
         this.stopped = false;
+        this.bulletPool.freeAll(this.activeBullets);
+        this.bulletPool.clear();
+        this.activeBullets.clear();
     }
 
     @Override
     public void update() {
+        final float bulletSpeed = this.config.getBulletSpeed();
+        this.bulletPool = new Pool<Bullet>() {
+            @Override
+            protected Bullet newObject() {
+                return new Bullet(body.getWorld(), bulletSpeed);
+            }
+        };
 
+        // Movement
         if (!this.stopped) {
             Anchor currentAnchor = this.config.getAnchor(this.currentAnchorIndex);
 
@@ -90,23 +106,46 @@ public class Main extends PhysicsEntity implements Resettable {
                 this.stopped = false;
             }
         }
-        timer++;
-            if (bullets.isEmpty() && timer > 50) {
-                int bulletNum = random.nextInt(30);
-                for (int i = 0; i < bulletNum; i++) {
-                    Bullet bullet = new Bullet(body.getWorld(), this.config.getBulletSpeed());
-                    bullets.add(bullet);
-                    bullets.get(i).init(this.body.getPosition(), (float) 360 / bulletNum * i);
-                }
-                timer = 0;
+
+
+        // Shooting
+        long currentTime = System.nanoTime();
+        if (this.stopped && currentTime - this.lastShot > this.config.getAttackCooldownMs() * 1000000) {
+//            this.bulletCount =
+//                    Math.max(this.config.getAttackBulletCountMin(), this.bulletCount - 2) +
+//                    random.nextInt(
+//                            Math.max(this.config.getAttackBulletCountMin(), this.bulletCount - 2) +
+//                                    Math.min(this.config.getAttackBulletCountMax(), this.bulletCount + 2)
+//                    );
+            this.bulletCount =
+                    this.config.getAttackBulletCountMin() +
+                    random.nextInt(this.config.getAttackBulletCountMin() + this.config.getAttackBulletCountMax());
+
+            for (int j = 0; j < this.bulletCount; j++) {
+                Bullet bullet = this.bulletPool.obtain();
+                bullet.init(super.body.getPosition(), 360f / this.bulletCount * j);
+                this.activeBullets.add(bullet);
+                this.lastShot = currentTime;
             }
-            for (int i = 0; i < bullets.size; i++) {
-                if (bullets.get(i).isAlive()) {
-                    bullets.get(i).update();
-                } else {
-                    bullets.removeIndex(i);
-                }
+        }
+
+        Bullet bullet;
+        for (int i = this.activeBullets.size; --i >= 0;) {
+            bullet = this.activeBullets.get(i);
+            if (bullet.isAlive()) {
+                bullet.update();
+            } else {
+                this.activeBullets.removeIndex(i);
+                this.bulletPool.free(bullet);
             }
+        }
     }
 
+    @Override
+    public void dispose() {
+        this.bulletPool.freeAll(this.activeBullets);
+        this.bulletPool.clear();
+        this.activeBullets.clear();
+        super.dispose();
+    }
 }

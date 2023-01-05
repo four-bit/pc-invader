@@ -2,6 +2,9 @@
   "mainHp": 512,
   "segmentHp": 32,
   "bulletSpeed": 0.2,
+  "attackBulletCountMin": 6,
+  "attackBulletCountMax": 24,
+  "attackCooldownMs": 100,
   "anchors": [
     {"x": 0.7, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000},
 

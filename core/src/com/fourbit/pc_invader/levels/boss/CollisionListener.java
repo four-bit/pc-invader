@@ -36,6 +36,7 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 this.playerTimer = 0;
             }
         }
+
         for (int i = 0; i < this.level.boss.getMain().getBullets().size; i++) {
             if ((fb.getBody().getUserData() == this.level.player && fa.getBody().getUserData() == this.level.boss.getMain().getBullets().get(i)) ||
                     fa.getBody().getUserData() == this.level.player && fb.getBody().getUserData() == this.level.boss.getMain().getBullets().get(i)) {
@@ -53,6 +54,7 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 }
             }
         }
+
         for (int i = 0; i < this.level.player.getActiveBullets().size; i++) {
             if ((fb.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fa.getBody().getUserData() == this.level.boss.getMain()) ||
                     fa.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fb.getBody().getUserData() == this.level.boss.getMain()) {
