@@ -53,8 +53,12 @@ public class Main extends PhysicsEntity implements Resettable {
         return this.config.getAnchor(this.currentAnchorIndex);
     }
 
-    public Array<Bullet> getBullets() {
+    public Array<Bullet> getActiveBullets() {
         return this.activeBullets;
+    }
+
+    public Pool<Bullet> getBulletPool() {
+        return bulletPool;
     }
 
     @Override
