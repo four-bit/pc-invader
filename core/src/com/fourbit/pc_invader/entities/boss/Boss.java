@@ -41,6 +41,10 @@ public class Boss implements GameComponent, Disposable, Resettable {
         return initPhase;
     }
 
+    public BossConfig getConfig() {
+        return config;
+    }
+
     public Main getMain() {
         return main;
     }
