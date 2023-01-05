@@ -1,17 +1,18 @@
 package com.fourbit.pc_invader.levels;
 
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.Disposable;
+import com.fourbit.pc_invader.PcInvader;
 import com.fourbit.pc_invader.entities.Entity;
 import com.fourbit.pc_invader.utils.GameComponent;
-import com.fourbit.pc_invader.utils.Globals;
+import com.fourbit.pc_invader.utils.Resettable;
 import com.fourbit.pc_invader.utils.Utils;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -19,8 +20,11 @@ import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PPM;
 
 
-public class Level implements GameComponent {
+public class Level implements GameComponent, Disposable, Resettable {
+    public enum State { RUNNING, PLAYER_LOST, PLAYER_WON }
+
     protected final boolean debug;
+    protected State state;
 
     protected World physicsWorld;
     protected Box2DDebugRenderer physicsDebugRenderer;
@@ -31,10 +35,11 @@ public class Level implements GameComponent {
 
     public Level(String backgroundPath, boolean debug) {
         this.debug = debug;
+        this.state = State.RUNNING;
 
         this.background = new Texture(backgroundPath);
 
-        this.physicsWorld = new World(new Vector2(0, 0), false);
+        this.physicsWorld = new World(new Vector2(0, 0), true);
         this.physicsBodies = new Array<>();
 
         this.viewportCamera = new OrthographicCamera(GAME_WIDTH, GAME_HEIGHT);
@@ -58,13 +63,25 @@ public class Level implements GameComponent {
         return debug;
     }
 
+    public State getState() {
+        return state;
+    }
+
+
+    @Override
+    public void reset() {
+        this.state = State.RUNNING;
+    }
+
     @Override
     public void update() {
-        this.physicsWorld.step(1 / 60f, 6, 2);
+        this.physicsWorld.step(1 / 60f, 0, 0);
     }
 
     @Override
     public void draw(Batch batch) {
+        float backgroundAspectRatio = (float) this.background.getWidth() / this.background.getHeight();
+        float screenAspectRatio = (float) GAME_WIDTH / GAME_HEIGHT;
         batch.draw(
                 this.background,
                 0,
@@ -73,8 +90,8 @@ public class Level implements GameComponent {
                 0,
                 this.background.getWidth(),
                 this.background.getHeight(),
-                Globals.PIXEL_ART_SCALE,
-                Globals.PIXEL_ART_SCALE,
+                (float) (screenAspectRatio <= backgroundAspectRatio ? GAME_HEIGHT / this.background.getHeight() : GAME_WIDTH / this.background.getWidth()),
+                (float) (screenAspectRatio <= backgroundAspectRatio ? GAME_HEIGHT / this.background.getHeight() : GAME_WIDTH / this.background.getWidth()),
                 0,
                 0,
                 0,
@@ -104,7 +121,7 @@ public class Level implements GameComponent {
     public void dispose() {
         this.background.dispose();
         this.physicsWorld.dispose();
-
+        PcInvader.bossMusic.dispose();
         if (this.debug) this.physicsDebugRenderer.dispose();
     }
 }

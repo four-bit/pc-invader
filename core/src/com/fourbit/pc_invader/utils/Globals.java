@@ -1,13 +1,12 @@
 package com.fourbit.pc_invader.utils;
 
-public class Globals {
-    public static final int GAME_WIDTH = 1920;  // Measured in pixels
-    public static final int GAME_HEIGHT = 1080;  // Measured in pixels
-    public static final int PIXEL_ART_SCALE = 6;
-    public static final float PPM = 32.0f;  // Pixel-per-meter ration
 
-    public static final float PLAYER_BULLET_SPEED = 20.0f;
-    public static final int PLAYER_MAX_AMMO = 20;
-    public static final long PLAYER_SHOOT_COOLDOWN_MS = 100;
-    public static final long PLAYER_AMMO_REGEN_COOLDOWN_MS = 200;
+import com.badlogic.gdx.Gdx;
+
+
+public class Globals {
+    public static final int GAME_WIDTH = Gdx.graphics.getWidth();  // Measured in pixels
+    public static final int GAME_HEIGHT = Gdx.graphics.getHeight();  // Measured in pixels
+    public static int PAS = (float) GAME_WIDTH / GAME_HEIGHT >= 16.0f / 10.0f ? GAME_WIDTH / 320 : GAME_WIDTH / 230;  // Pixel art scale factor
+    public static float PPM = GAME_WIDTH / 60.0f;  // Pixel-per-meter ration
 }
