@@ -65,8 +65,7 @@ public class PcInvader extends ApplicationAdapter {
 
 
 
-        this.debug = false;  // TODO: Change this to false for production
-//        state = GameState.SPLASH_SCREEN;
+        this.debug = true;  // TODO: Change this to false for production
         setState(GameState.SPLASH_SCREEN);
 
         this.batch = new SpriteBatch();
@@ -88,7 +87,6 @@ public class PcInvader extends ApplicationAdapter {
         switch (state) {
             case SPLASH_SCREEN:
                 this.splashScreen.update();
-
             case MAIN_MENU:
                 this.mainMenu.update();
                 Gdx.input.setInputProcessor(this.mainMenu.getMainStage());
