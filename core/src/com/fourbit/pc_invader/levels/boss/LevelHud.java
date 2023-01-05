@@ -4,16 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.fourbit.pc_invader.entities.player.BulletBar;
+import com.fourbit.pc_invader.entities.player.HealthBar;
 import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.InputProcessor;
+
+import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
+import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
 
 
 public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
     private final Level level;
+    private final HealthBar playerHealthBar;
+    private final BulletBar playerBulletBar;
+    private final com.fourbit.pc_invader.entities.boss.HealthBar bossHealthBar;
 
     public LevelHud(Level level) {
         super(level);
         this.level = level;
+        this.playerHealthBar = new HealthBar(0, GAME_HEIGHT, this.level.player, super.mainStage, 2);
+        this.playerBulletBar = new BulletBar(32, GAME_HEIGHT - 54, this.level.player, super.mainStage, 1);
+        this.bossHealthBar = new com.fourbit.pc_invader.entities.boss.HealthBar(0, 0, GAME_WIDTH, this.level.boss, this.mainStage);
 
         if (super.debug) {
             super.debugInfoLabels.put("gamePAS", new Label("gamePAS", skin));
@@ -41,10 +52,14 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
 
     @Override
     public void update() {
+        this.playerHealthBar.update();
+        this.playerBulletBar.update();
+        this.bossHealthBar.update();
+
         if (super.debug) {
             Vector2 mouseVector = InputProcessor.getMouseVector();
 
-            this.debugInfoLabels.get("gamePAS").setText("[]Game PAS: [YELLOW]" + Globals.PAS + " " + Globals.GAME_WIDTH / 230);
+            this.debugInfoLabels.get("gamePAS").setText("[]Game PAS: [YELLOW]" + Globals.PAS);
             this.debugInfoLabels.get("gamePPM").setText("[]Game PPM: [YELLOW]" + Globals.PPM);
             this.debugInfoLabels.get("levelState").setText("[]Level state: [YELLOW]" + this.level.getState().toString());
             this.debugInfoLabels.get("playerHealth").setText("[]Player health: [YELLOW]" + this.level.player.getHp());
@@ -65,5 +80,13 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
                                     " []Delay:[YELLOW]" + this.level.boss.getMain().getCurrentAnchor().getDelay()
                     );
         }
+    }
+
+    @Override
+    public void dispose() {
+        this.playerHealthBar.dispose();
+        this.playerBulletBar.dispose();
+        this.bossHealthBar.dispose();
+        super.dispose();
     }
 }

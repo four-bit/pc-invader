@@ -10,23 +10,26 @@ import com.badlogic.gdx.utils.Array;
 import com.fourbit.pc_invader.entities.PhysicsEntity;
 import com.fourbit.pc_invader.utils.Anchor;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
+import com.fourbit.pc_invader.utils.Resettable;
 import com.fourbit.pc_invader.utils.Utils;
 
 import java.util.Random;
 
 
-public class Main extends PhysicsEntity {
+public class Main extends PhysicsEntity implements Resettable {
     private final BossConfig config;
     private int currentAnchorIndex;
     private long lastStop;
     private boolean stopped;
-    private Array<Bullet> bullets = new Array<>();
+    private final Array<Bullet> bullets = new Array<>();
     private Random random = new Random();
     private World world;
     private int timer;
+
     public Main(World world, float x, float y, float speed, BossConfig bossConfig) {
         super(world, BodyDef.BodyType.KinematicBody, "entities/boss/main.png", x, y, 0.0f, speed);
         this.world = world;
+
         super.fixtureDef = new FixtureDef();
         super.fixtureDef.density = 1.0f;
         super.fixtureDef.friction = 0.0f;
@@ -34,6 +37,7 @@ public class Main extends PhysicsEntity {
         super.fixtureDef.isSensor = true;
         new BodyEditorLoader(Gdx.files.internal("entities/boss/main.body.json")).attachFixture(super.body, "body", super.fixtureDef, Utils.toMeters(super.getWidth()));
         super.body.setAngularVelocity(0);
+
         this.config = bossConfig;
         this.currentAnchorIndex = 0;
         this.stopped = false;
@@ -46,6 +50,12 @@ public class Main extends PhysicsEntity {
 
     public Array<Bullet> getBullets() {
         return bullets;
+    }
+
+    @Override
+    public void reset() {
+        this.currentAnchorIndex = 0;
+        this.stopped = false;
     }
 
     @Override
@@ -84,7 +94,7 @@ public class Main extends PhysicsEntity {
             if (bullets.isEmpty() && timer > 50) {
                 int bulletNum = random.nextInt(30);
                 for (int i = 0; i < bulletNum; i++) {
-                    Bullet bullet = new Bullet(body.getWorld(), speed);
+                    Bullet bullet = new Bullet(body.getWorld(), this.config.getBulletSpeed());
                     bullets.add(bullet);
                     bullets.get(i).init(this.body.getPosition(), (float) 360 / bulletNum * i);
                 }

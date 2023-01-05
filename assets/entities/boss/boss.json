@@ -1,6 +1,7 @@
 {
   "mainHp": 512,
   "segmentHp": 32,
+  "bulletSpeed": 0.2,
   "anchors": [
     {"x": 0.7, "y": 0.5, "homingSpeed": 0.0, "delayMs": 3000},
 

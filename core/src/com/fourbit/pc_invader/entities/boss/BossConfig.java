@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class BossConfig extends EntityConfig {
     private final int mainHp, segmentHp;
+    private final float bulletSpeed;
     private final ArrayList<Anchor> anchors;
 
 
@@ -17,6 +18,7 @@ public class BossConfig extends EntityConfig {
         super("entities/boss/boss.json");
         this.mainHp = super.map.getInt("mainHp");
         this.segmentHp = super.map.getInt("segmentHp");
+        this.bulletSpeed = super.map.getFloat("bulletSpeed");
 
         this.anchors = new ArrayList<>();
         JsonValue anchor = super.map.getChild("anchors");
@@ -37,6 +39,10 @@ public class BossConfig extends EntityConfig {
 
     public int getSegmentHp() {
         return segmentHp;
+    }
+
+    public float getBulletSpeed() {
+        return bulletSpeed;
     }
 
     public Anchor getAnchor(int index) {

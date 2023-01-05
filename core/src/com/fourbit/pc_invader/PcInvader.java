@@ -1,6 +1,5 @@
 package com.fourbit.pc_invader;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.audio.Music;
@@ -16,9 +15,7 @@ import com.fourbit.pc_invader.levels.boss.Level;
 import com.fourbit.pc_invader.menu.GameOverMenu;
 import com.fourbit.pc_invader.menu.MainMenu;
 import com.fourbit.pc_invader.menu.SplashScreen;
-import com.fourbit.pc_invader.music.music;
 
-import java.util.concurrent.TimeUnit;
 
 import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.GAME_WIDTH;
@@ -36,6 +33,7 @@ public class PcInvader extends ApplicationAdapter {
     private MainMenu mainMenu;
     private GameOverMenu gameOverMenuLost, gameOverMenuWon;
     private com.fourbit.pc_invader.levels.Level bossLevel;
+
     public static Music bgMusic;
     public static Music bossMusic;
     public static Music diedMusic;
@@ -54,13 +52,13 @@ public class PcInvader extends ApplicationAdapter {
     @Override
     public void create() {
         startTime = System.nanoTime();
-        this.bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/menu.ogg"));
-        this.bossMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/boss.ogg"));
-        this.diedMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/died.ogg"));
-        this.winMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/win.ogg"));
-        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sfx/shooting.wav"));
-        this.hitSound = Gdx.audio.newSound(Gdx.files.internal("sfx/hit.wav"));
-        this.crashSound = Gdx.audio.newSound(Gdx.files.internal("sfx/crash.wav"));
+        bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/menu.ogg"));
+        bossMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/boss.ogg"));
+        diedMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/died.ogg"));
+        winMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/bgmusic/win.ogg"));
+        shootSound = Gdx.audio.newSound(Gdx.files.internal("sfx/shooting.wav"));
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("sfx/hit.wav"));
+        crashSound = Gdx.audio.newSound(Gdx.files.internal("sfx/crash.wav"));
 
         PcInvader.bgMusic.setLooping(true);
         PcInvader.bossMusic.setLooping(true);
@@ -68,7 +66,6 @@ public class PcInvader extends ApplicationAdapter {
 
 
         this.debug = true;  // TODO: Change this to false for production
-//        state = GameState.SPLASH_SCREEN;
         setState(GameState.SPLASH_SCREEN);
 
         this.batch = new SpriteBatch();
@@ -90,7 +87,6 @@ public class PcInvader extends ApplicationAdapter {
         switch (state) {
             case SPLASH_SCREEN:
                 this.splashScreen.update();
-
             case MAIN_MENU:
                 this.mainMenu.update();
                 Gdx.input.setInputProcessor(this.mainMenu.getMainStage());
