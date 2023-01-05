@@ -4,19 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.fourbit.pc_invader.entities.player.BulletBar;
 import com.fourbit.pc_invader.entities.player.HealthBar;
 import com.fourbit.pc_invader.utils.Globals;
 import com.fourbit.pc_invader.utils.InputProcessor;
+
+import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 
 
 public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
     private final Level level;
     private final HealthBar playerHealthBar;
+    private final BulletBar playerBulletBar;
 
     public LevelHud(Level level) {
         super(level);
         this.level = level;
-        this.playerHealthBar = new HealthBar(this.level.player, super.mainStage, 2);
+        this.playerHealthBar = new HealthBar(0, GAME_HEIGHT, this.level.player, super.mainStage, 2);
+        this.playerBulletBar = new BulletBar(32, GAME_HEIGHT - 54, this.level.player, super.mainStage, 1);
 
         if (super.debug) {
             super.debugInfoLabels.put("gamePAS", new Label("gamePAS", skin));
@@ -45,6 +50,7 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
     @Override
     public void update() {
         this.playerHealthBar.update();
+        this.playerBulletBar.update();
 
         if (super.debug) {
             Vector2 mouseVector = InputProcessor.getMouseVector();
@@ -70,5 +76,12 @@ public class LevelHud extends com.fourbit.pc_invader.utils.ui.LevelHud {
                                     " []Delay:[YELLOW]" + this.level.boss.getMain().getCurrentAnchor().getDelay()
                     );
         }
+    }
+
+    @Override
+    public void dispose() {
+        this.playerHealthBar.dispose();
+        this.playerBulletBar.dispose();
+        super.dispose();
     }
 }

@@ -7,16 +7,15 @@ import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
 
-import static com.fourbit.pc_invader.utils.Globals.GAME_HEIGHT;
 import static com.fourbit.pc_invader.utils.Globals.PAS;
 
 
 public class HealthBar implements Disposable {
     private final Player player;
     private final Texture labelTexture, leftBracketTexture, rightBracketTexture, inactiveSegmentTexture, activeSegmentTexture;
-    private final ArrayList<Image> activeSegments;
+    private final ArrayList<Image> segments;
 
-    public HealthBar(Player player, Stage stage, int padding) {
+    public HealthBar(float x, float y, Player player, Stage stage, int padding) {
         this.player = player;
 
 
@@ -29,8 +28,8 @@ public class HealthBar implements Disposable {
 
         Image label = new Image(this.labelTexture);
         label.setPosition(
-                (this.labelTexture.getWidth() * .5f + padding) * PAS,
-                GAME_HEIGHT - (this.leftBracketTexture.getHeight() + padding - 1) * PAS
+                x + (this.labelTexture.getWidth() * .5f + padding) * PAS,
+                y - (this.leftBracketTexture.getHeight() + padding - 1) * PAS
         );
         label.setScale(PAS);
         stage.addActor(label);
@@ -38,7 +37,7 @@ public class HealthBar implements Disposable {
         Image leftBracket = new Image(this.leftBracketTexture);
         leftBracket.setPosition(
                 label.getX() + (this.labelTexture.getWidth() + padding + this.leftBracketTexture.getWidth()) * PAS,
-                GAME_HEIGHT - (this.leftBracketTexture.getHeight() + padding) * PAS
+                y - (this.leftBracketTexture.getHeight() + padding) * PAS
         );
         leftBracket.setScale(PAS);
         stage.addActor(leftBracket);
@@ -46,7 +45,7 @@ public class HealthBar implements Disposable {
         Image rightBracket = new Image(this.rightBracketTexture);
         rightBracket.setPosition(
                 leftBracket.getX() + (this.rightBracketTexture.getWidth() + this.player.getConfig().getHealth() * (this.inactiveSegmentTexture.getWidth() + padding)) * PAS,
-                GAME_HEIGHT - (this.rightBracketTexture.getHeight() + padding) * PAS
+                y - (this.rightBracketTexture.getHeight() + padding) * PAS
         );
         rightBracket.setScale(PAS);
         stage.addActor(rightBracket);
@@ -56,29 +55,29 @@ public class HealthBar implements Disposable {
             Image inactiveSegment = new Image(this.inactiveSegmentTexture);
             inactiveSegment.setPosition(
                     leftBracket.getX() + (padding + this.leftBracketTexture.getWidth() * .5f + (this.inactiveSegmentTexture.getWidth() + padding) * i) * PAS,
-                    GAME_HEIGHT - (this.inactiveSegmentTexture.getHeight() + padding + 2) * PAS
+                    y - (this.inactiveSegmentTexture.getHeight() + padding + 2) * PAS
             );
             inactiveSegment.setScale(PAS);
             stage.addActor(inactiveSegment);
         }
 
-        this.activeSegments = new ArrayList<>();
+        this.segments = new ArrayList<>();
         for (int i = 0; i < this.player.getConfig().getHealth(); i++) {
             Image activeSegments = new Image(this.activeSegmentTexture);
             activeSegments.setPosition(
                     leftBracket.getX() + (padding + this.leftBracketTexture.getWidth() * .5f + (this.activeSegmentTexture.getWidth() + padding) * i) * PAS,
-                    GAME_HEIGHT - (this.activeSegmentTexture.getHeight() + padding + 2) * PAS
+                    y - (this.activeSegmentTexture.getHeight() + padding + 2) * PAS
             );
             activeSegments.setScale(PAS);
             stage.addActor(activeSegments);
-            this.activeSegments.add(activeSegments);
+            this.segments.add(activeSegments);
         }
     }
 
 
     public void update() {
-        for (int i = 0; i < this.activeSegments.size(); i++) {
-            this.activeSegments.get(i).setVisible(i < this.player.getHp());
+        for (int i = 0; i < this.segments.size(); i++) {
+            this.segments.get(i).setVisible(i < this.player.getHp());
         }
     }
 
