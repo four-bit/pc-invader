@@ -228,7 +228,6 @@ public class Player extends PhysicsEntity implements Resettable {
     public void dispose() {
         this.exhaustEffect.dispose();
         this.exhaustTextureAtlas.dispose();
-        this.bulletPool.freeAll(this.activeBullets);
         this.bulletPool.clear();
         this.activeBullets.clear();
         super.dispose();

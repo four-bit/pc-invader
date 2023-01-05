@@ -147,7 +147,6 @@ public class Main extends PhysicsEntity implements Resettable {
 
     @Override
     public void dispose() {
-        this.bulletPool.freeAll(this.activeBullets);
         this.bulletPool.clear();
         this.activeBullets.clear();
         super.dispose();
