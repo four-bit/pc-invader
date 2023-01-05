@@ -72,6 +72,9 @@ public class Entity implements GameComponent, Disposable {
         this.angle = angle;
     }
 
+    public void setTexture(String texturePath) {
+        this.texture = new Texture(texturePath);
+    }
 
     @Override
     public void update() {}

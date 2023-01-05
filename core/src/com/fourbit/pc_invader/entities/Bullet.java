@@ -26,7 +26,7 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
                 Utils.toMeters(super.getHeight() * 0.5f)
         );
         super.fixtureDef.shape = this.collisionBox;
-        super.fixtureDef.isSensor = false;
+        super.fixtureDef.isSensor = true;
         super.fixtureDef.density = 0.0f;
         super.fixtureDef.friction = 0.0f;
         super.fixtureDef.restitution = 0.0f;
