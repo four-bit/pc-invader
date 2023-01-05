@@ -6,11 +6,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
+import com.badlogic.gdx.utils.Array;
 import com.fourbit.pc_invader.entities.PhysicsEntity;
 import com.fourbit.pc_invader.utils.Anchor;
 import com.fourbit.pc_invader.utils.BodyEditorLoader;
 import com.fourbit.pc_invader.utils.Resettable;
 import com.fourbit.pc_invader.utils.Utils;
+
+import java.util.Random;
 
 
 public class Main extends PhysicsEntity implements Resettable {
@@ -18,10 +21,13 @@ public class Main extends PhysicsEntity implements Resettable {
     private int currentAnchorIndex;
     private long lastStop;
     private boolean stopped;
-
+    private Array<Bullet> bullets = new Array<>();
+    private Random random = new Random();
+    private World world;
+    private int timer;
     public Main(World world, float x, float y, float speed, BossConfig bossConfig) {
         super(world, BodyDef.BodyType.KinematicBody, "entities/boss/main.png", x, y, 0.0f, speed);
-
+        this.world = world;
         super.fixtureDef = new FixtureDef();
         super.fixtureDef.density = 1.0f;
         super.fixtureDef.friction = 0.0f;
@@ -39,6 +45,9 @@ public class Main extends PhysicsEntity implements Resettable {
         return this.config.getAnchor(this.currentAnchorIndex);
     }
 
+    public Array<Bullet> getBullets() {
+        return bullets;
+    }
 
     @Override
     public void reset() {
@@ -48,6 +57,7 @@ public class Main extends PhysicsEntity implements Resettable {
 
     @Override
     public void update() {
+
         if (!this.stopped) {
             Anchor currentAnchor = this.config.getAnchor(this.currentAnchorIndex);
 
@@ -77,5 +87,23 @@ public class Main extends PhysicsEntity implements Resettable {
                 this.stopped = false;
             }
         }
+        timer++;
+            if (bullets.isEmpty() && timer > 50) {
+                int bulletNum = random.nextInt(30);
+                for (int i = 0; i < bulletNum; i++) {
+                    Bullet bullet = new Bullet(body.getWorld(), speed);
+                    bullets.add(bullet);
+                    bullets.get(i).init(this.body.getPosition(), (float) 360 / bulletNum * i);
+                }
+                timer = 0;
+            }
+            for (int i = 0; i < bullets.size; i++) {
+                if (bullets.get(i).isAlive()) {
+                    bullets.get(i).update();
+                } else {
+                    bullets.removeIndex(i);
+                }
+            }
     }
+
 }

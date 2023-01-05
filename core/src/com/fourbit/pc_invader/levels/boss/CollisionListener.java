@@ -10,7 +10,7 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
     Level level;
     int bossTimer;
     int playerTimer;
-
+    int bulletTimer;
     public CollisionListener(World world, Level level) {
         super(world);
         this.level = level;
@@ -36,7 +36,23 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 this.playerTimer = 0;
             }
         }
-
+        for (int i = 0; i < this.level.boss.getMain().getBullets().size; i++) {
+            if ((fb.getBody().getUserData() == this.level.player && fa.getBody().getUserData() == this.level.boss.getMain().getBullets().get(i)) ||
+                    fa.getBody().getUserData() == this.level.player && fb.getBody().getUserData() == this.level.boss.getMain().getBullets().get(i)) {
+                this.bulletTimer++;
+                if (this.bulletTimer == 10) {
+                    if (this.level.player.getHp() > 0) {
+                        try {
+                            this.level.player.setHp(this.level.player.getHp() - 1);
+                            PcInvader.crashSound.play(1f);
+                        } catch (Option.InvalidValueException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    this.bulletTimer = 0;
+                }
+            }
+        }
         for (int i = 0; i < this.level.player.getActiveBullets().size; i++) {
             if ((fb.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fa.getBody().getUserData() == this.level.boss.getMain()) ||
                     fa.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fb.getBody().getUserData() == this.level.boss.getMain()) {

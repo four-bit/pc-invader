@@ -14,22 +14,22 @@ import com.fourbit.pc_invader.utils.Utils;
 public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponent {
     private boolean alive;
     private final PolygonShape collisionBox;
-
+    private World world;
 
     public Bullet(World world, String texturePath, float speed) {
         super(world, BodyDef.BodyType.DynamicBody, texturePath, speed);
         this.alive = false;
-
+        this.world = world;
         this.collisionBox = new PolygonShape();
         this.collisionBox.setAsBox(
                 Utils.toMeters(super.getWidth() * 0.5f),
                 Utils.toMeters(super.getHeight() * 0.5f)
         );
         super.fixtureDef.shape = this.collisionBox;
-        super.fixtureDef.isSensor = true;
-        super.fixtureDef.density = 0.5f;
+        super.fixtureDef.isSensor = false;
+        super.fixtureDef.density = 0.0f;
         super.fixtureDef.friction = 0.0f;
-        super.fixtureDef.restitution = 1.0f;
+        super.fixtureDef.restitution = 0.0f;
         super.body.createFixture(fixtureDef);
         super.body.setBullet(true);
         super.body.setLinearVelocity(new Vector2().setLength(super.speed).setAngleDeg(super.angle));
@@ -68,7 +68,11 @@ public class Bullet extends PhysicsEntity implements Pool.Poolable, GameComponen
                 ),
                 this.body.getAngle());
         super.position = Utils.toPixels(this.body.getPosition());
-        if (Utils.isOutOfScreen(this, super.getWidth())) this.alive = false;
+        if (Utils.isOutOfScreen(this, super.getWidth())) {
+            this.alive = false;
+            world.destroyBody(this.getBody());
+        }
+
     }
 
     @Override
