@@ -53,18 +53,18 @@ public class HealthBar implements Disposable {
 
         this.activeSegments = new Array<>();
         for (int i = 0; i < this.player.getConfig().getHealth(); i++) {
-            Image inactiveSegment = new Image(this.activeSegmentTexture);
-            inactiveSegment.setPosition(
+            Image activeSegments = new Image(this.activeSegmentTexture);
+            activeSegments.setPosition(
                     (this.activeSegmentTexture.getWidth() * i + padding) * PAS,
                     GAME_HEIGHT - (activeSegmentTexture.getHeight() + padding) * PAS
             );
-            inactiveSegment.setScale(PAS);
+            activeSegments.setScale(PAS);
         }
 
         stage.addActor(this.leftBracket);
         stage.addActor(this.rightBracket);
         for (Image inactiveSegment : inactiveSegments) stage.addActor(inactiveSegment);
-        for (Image activeSegment : inactiveSegments) stage.addActor(activeSegment);
+        for (Image activeSegment : activeSegments) stage.addActor(activeSegment);
     }
 
 
