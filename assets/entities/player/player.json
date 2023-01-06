@@ -2,6 +2,7 @@
   "health": 24,
   "speed": 0.3,
   "bulletSpeed": 0.5,
+  "bulletDmg": 1,
   "ammo": 64,
   "attackCooldownMs": 50,
   "ammoRegenCooldownMs": 100

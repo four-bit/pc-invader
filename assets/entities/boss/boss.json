@@ -1,7 +1,9 @@
 {
   "mainHp": 512,
   "segmentHp": 32,
-  "bulletSpeed": 0.2,
+  "contactDmg": 8,
+  "bulletSpeed": 0.3,
+  "bulletDmg": 2,
   "attackBulletCountMin": 6,
   "attackBulletCountMax": 24,
   "attackCooldownMs": 100,
