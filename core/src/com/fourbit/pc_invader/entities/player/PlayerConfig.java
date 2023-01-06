@@ -8,9 +8,9 @@ public class PlayerConfig extends EntityConfig {
     private final int health;
     private final float speed;
     private final float bulletSpeed;
-    private final int ammo;
+    private final int bulletDmg, ammo;
     private final long attackCooldownMs;
-    private final long AmmoRegenCooldownMs;
+    private final long ammoRegenCooldownMs;
 
 
     PlayerConfig() {
@@ -19,33 +19,38 @@ public class PlayerConfig extends EntityConfig {
         this.health = super.map.getInt("health");
         this.speed = super.map.getFloat("speed");
         this.bulletSpeed = super.map.getFloat("bulletSpeed");
+        this.bulletDmg = super.map.getInt("bulletDmg");
         this.ammo = super.map.getInt("ammo");
         this.attackCooldownMs = super.map.getLong("attackCooldownMs");
-        this.AmmoRegenCooldownMs = super.map.getLong("ammoRegenCooldownMs");
+        this.ammoRegenCooldownMs = super.map.getLong("ammoRegenCooldownMs");
     }
 
 
     public int getHealth() {
-        return health;
+        return this.health;
     }
 
     public float getSpeed() {
-        return speed;
+        return this.speed;
     }
 
     public float getBulletSpeed() {
-        return bulletSpeed;
+        return this.bulletSpeed;
+    }
+
+    public int getBulletDmg() {
+        return this.bulletDmg;
     }
 
     public int getAmmo() {
-        return ammo;
+        return this.ammo;
     }
 
     public long getAttackCooldownMs() {
-        return attackCooldownMs;
+        return this.attackCooldownMs;
     }
 
     public long getAmmoRegenCooldownMs() {
-        return AmmoRegenCooldownMs;
+        return this.ammoRegenCooldownMs;
     }
 }

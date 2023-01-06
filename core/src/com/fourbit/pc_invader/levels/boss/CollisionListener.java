@@ -26,9 +26,9 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
             this.playerTimer++;
             this.level.player.setTexture("entities/player/sprite.hit.png");
             if (this.playerTimer == 10) {
-                if (this.level.player.getHp() > 0) {
+                if (this.level.player.getHp() - this.level.boss.getConfig().getContactDmg() >= 0) {
                     try {
-                        this.level.player.setHp(this.level.player.getHp() - 1);
+                        this.level.player.setHp(this.level.player.getHp() - this.level.boss.getConfig().getContactDmg());
                         PcInvader.crashSound.play(1f);
                     } catch (Option.InvalidValueException e) {
                         throw new RuntimeException(e);
@@ -44,9 +44,9 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                 this.bulletTimer++;
                 this.level.player.setTexture("entities/player/sprite.hit.png");
                 if (this.bulletTimer == 10) {
-                    if (this.level.player.getHp() > 0) {
+                    if (this.level.player.getHp() - this.level.boss.getConfig().getBulletDmg() >= 0) {
                         try {
-                            this.level.player.setHp(this.level.player.getHp() - 1);
+                            this.level.player.setHp(this.level.player.getHp() - this.level.boss.getConfig().getBulletDmg());
                             PcInvader.crashSound.play(1f);
                         } catch (Option.InvalidValueException e) {
                             throw new RuntimeException(e);
@@ -54,8 +54,8 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                     }
                     this.bulletTimer = 0;
                 }
-//                this.level.boss.getMain().getBulletPool().free(this.level.boss.getMain().getActiveBullets().get(i));
-//                this.level.boss.getMain().getBulletPool().clear();
+                this.level.boss.getMain().getBulletPool().free(this.level.boss.getMain().getActiveBullets().get(i));
+                this.level.boss.getMain().getBulletPool().clear();
             }
         }
 
@@ -64,11 +64,13 @@ public class CollisionListener extends com.fourbit.pc_invader.utils.CollisionLis
                     fa.getBody().getUserData() == this.level.player.getActiveBullets().get(i) && fb.getBody().getUserData() == this.level.boss.getMain()) {
                 this.bossTimer++;
                 this.level.boss.getMain().setTexture("entities/boss/main.hit.png");
-                try {
-                    if (this.level.boss.getHp() > 0) this.level.boss.setHp(this.level.boss.getHp() - 1);
-                    PcInvader.hitSound.play(1f);
-                } catch (Option.InvalidValueException e) {
-                    e.printStackTrace();
+                if (this.level.boss.getHp() - this.level.player.getConfig().getBulletDmg() >= 0) {
+                    try {
+                        this.level.boss.setHp(this.level.boss.getHp() - this.level.player.getConfig().getBulletDmg());
+                        PcInvader.hitSound.play(1f);
+                    } catch (Option.InvalidValueException e) {
+                        e.printStackTrace();
+                    }
                 }
                 this.level.player.getBulletPool().free(this.level.player.getActiveBullets().get(i));
                 this.level.player.getBulletPool().clear();
