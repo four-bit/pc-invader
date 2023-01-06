@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class BossConfig extends EntityConfig {
-    private final int mainHp, segmentHp, attackBulletCountMin, attackBulletCountMax;
+    private final int mainHp, segmentHp, contactDmg, bulletDmg, attackBulletCountMin, attackBulletCountMax;
     private final float bulletSpeed;
     private final long attackCooldownMs;
     private final ArrayList<Anchor> anchors;
@@ -19,7 +19,9 @@ public class BossConfig extends EntityConfig {
         super("entities/boss/boss.json");
         this.mainHp = super.map.getInt("mainHp");
         this.segmentHp = super.map.getInt("segmentHp");
+        this.contactDmg = super.map.getInt("contactDmg");
         this.bulletSpeed = super.map.getFloat("bulletSpeed");
+        this.bulletDmg = super.map.getInt("bulletDmg");
         this.attackBulletCountMin = super.map.getInt("attackBulletCountMin");
         this.attackBulletCountMax = super.map.getInt("attackBulletCountMax");
         this.attackCooldownMs = super.map.getLong("attackCooldownMs");
@@ -38,34 +40,42 @@ public class BossConfig extends EntityConfig {
 
 
     public int getMainHp() {
-        return mainHp;
+        return this.mainHp;
     }
 
     public int getSegmentHp() {
-        return segmentHp;
+        return this.segmentHp;
+    }
+
+    public int getContactDmg() {
+        return this.contactDmg;
     }
 
     public float getBulletSpeed() {
-        return bulletSpeed;
+        return this.bulletSpeed;
+    }
+
+    public int getBulletDmg() {
+        return this.bulletDmg;
     }
 
     public int getAttackBulletCountMin() {
-        return attackBulletCountMin;
+        return this.attackBulletCountMin;
     }
 
     public int getAttackBulletCountMax() {
-        return attackBulletCountMax;
+        return this.attackBulletCountMax;
     }
 
     public long getAttackCooldownMs() {
-        return attackCooldownMs;
+        return this.attackCooldownMs;
     }
 
     public Anchor getAnchor(int index) {
-        return anchors.get(index);
+        return this.anchors.get(index);
     }
 
     public int getAnchorsCount() {
-        return anchors.size();
+        return this.anchors.size();
     }
 }
