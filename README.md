@@ -1,11 +1,11 @@
 # PC Invader
 
 ## Instruction to download and play the game
-1.
-2.
-3.
-4.
-5.
+1. Access the link [https://github.com/four-bit/pc-invader/releases/tag/alpha-0.0.2]()
+2. Download pc-invader.zip
+3. Extract the file 
+4. Choose the application that has the spaceship icon
+5. Start playing the game
 
 ## Links:
 Demo video:
